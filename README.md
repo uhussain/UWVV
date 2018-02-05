@@ -13,13 +13,14 @@ scram pro -n uwvv CMSSW CMSSW_8_0_[current version]
 cd uwvv/src
 cmsenv
 git cms-init # do before anything else
-git clone --recursive https://github.com/nwoods/UWVV.git # or git@github.com:nwoods/UWVV.git if you prefer that
+git clone --recursive https://github.com/uwcms/UWVV.git # or git@github.com:uwcms/UWVV.git if you prefer that
 cd UWVV
 source recipe/setup.sh # install necessary packages
 pushd ..
 scram b -j 8 # compile
 popd
 ```
+Several fragile dependencies that are used in only some analyses are included only if the `--hzzExtras` or `--met` options are used with `setup.sh`. Modules that depend on the optional packages are saved in `.txt` files which are copied to `.cc` files.
 
 To set up a python virtual environment with Rootpy, a non-bugged IPython, and some other nice things
 
