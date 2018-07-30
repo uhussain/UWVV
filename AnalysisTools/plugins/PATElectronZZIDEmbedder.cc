@@ -196,7 +196,8 @@ bool PATElectronZZIDEmbedder::passBDT(const edm::Ptr<pat::Electron>& elec) const
       else
 	bdtCut = idCutHighPtHighEta;
     }
-
+  //std::cout<<"BDTValue: "<<elec->userFloat(bdtLabel)<<std::endl;
+  //std::cout<<"bdtCut: "<<bdtCut<<std::endl;
   return (elec->userFloat(bdtLabel) > bdtCut);
 }
 
