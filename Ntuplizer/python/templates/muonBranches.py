@@ -34,6 +34,7 @@ muonBranches = cms.PSet(
         ),
     uints = cms.PSet(
         MatchedStations = cms.string('MatchedStations'),
+        NoOfMatches = cms.string('NoOfMatches'),
         BestTrackType = cms.string('BestTrackType'),
         ),
     bools = cms.PSet(

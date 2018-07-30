@@ -662,7 +662,7 @@ namespace
         addTo["MissingHits"] =
           std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
                                {
-                                 return obj->gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+                                 return obj->gsfTrack()->hitPattern().numberOfAllHits(reco::HitPattern::MISSING_INNER_HITS);
                                });
       }
     };
@@ -805,6 +805,9 @@ namespace
 
         addTo["MatchedStations"] =
           std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option){return obj->numberOfMatchedStations();});
+
+        addTo["NoOfMatches"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option){return obj->numberOfMatches();});
       }
     };
 
@@ -1140,6 +1143,19 @@ namespace
                                  for(auto& jet : *uwvv::helpers::getCleanedJetCollection(*obj, option))
                                    {
                                      out.push_back(jet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+                                   }
+
+                                 return out;
+                               });
+        //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
+        addTo["DeepCSV"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
+                               {
+                                 std::vector<float> out;
+
+                                 for(auto& jet : *uwvv::helpers::getCleanedJetCollection(*obj, option))
+                                   {
+                                     out.push_back(jet->bDiscriminator("pfDeepCSVDiscriminatorsJetTags:BvsAll"));
                                    }
 
                                  return out;

@@ -23,11 +23,18 @@ class ZZIso(AnalysisFlowBase):
                 eaLabel = cms.string('EffectiveArea'),
                 isoConeDRMaxE = cms.double(0.3),
                 isoConeDRMaxMu = cms.double(0.3),
-                isoCutE = cms.double(0.35),
+                #In 2017 we move to electron BDT that includes isolation. For now this is implemented in the framework by hacking isoCutE
+                #value to a large number because the UserFloat ZZIsoPass is being used in other modules such as ZZCategoryEmbedder in "leptonSelector".
+                #Need to figure out a smarter way other than having a separate leptonSelector for electrons and muons
+                isoCutE = cms.double(99999),
                 isoCutMu = cms.double(0.35),
                 )
             step.addModule('leptonIsoEmbedding', leptonIsoEmbedding,
                            'e', 'm', e='electrons', m='muons')
+            #The isolation cut is applied after recovered FSR photons are subtracted 
+            #from the isolation cone (see below) only for muons since electron isolation variables are now included in the MVA!.
+            #step.addModule('leptonIsoEmbedding', leptonIsoEmbedding,
+            #               'm', m='muons')
 
         return step
 

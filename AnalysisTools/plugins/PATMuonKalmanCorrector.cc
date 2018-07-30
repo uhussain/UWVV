@@ -82,7 +82,7 @@ PATMuonKalmanCorrector::produce(edm::Event& event, const edm::EventSetup& setup)
 
       out->push_back(*muIn);
 
-      if(muIn->muonBestTrackType() == 1 && pt < maxPt)
+      if(muIn->muonBestTrackType() == 1 && !(muIn->track()->hitPattern().trackerLayersWithMeasurement() <= 5) && pt < maxPt)
         {
           float eta = muIn->eta();
           float phi = muIn->phi();
