@@ -14,14 +14,17 @@ import os
 process = cms.Process("Ntuple")
 
 options = VarParsing.VarParsing('analysis')
-
-options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root',
-'/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root',
-'/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
+#DataFiles to find these 5 events that I am cutting out but HZZ is not
+#options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root','/store/data/Run2017C/DoubleEG/MINIAOD/17Nov2017-v1/70000/4E9E1C78-79E4-E711-8ACB-001E677923E2.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/AA05D9DE-B7D3-E711-A4C8-02163E011B82.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/821C2067-01D6-E711-B347-A4BF0112BC8A.root','/store/data/Run2017F/DoubleEG/MINIAOD/17Nov2017-v1/60000/6AFE90B3-37E1-E711-BABD-0025905C5502.root','/store/data/Run2017B/DoubleMuon/MINIAOD/17Nov2017-v1/50000/E819D0A8-80D4-E711-86FD-FA163E17588A.root','/store/data/Run2017C/DoubleMuon/MINIAOD/17Nov2017-v1/50000/EA3BC5D6-7BD3-E711-AF74-02163E01431D.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/78BD22A9-71D5-E711-BEB5-0242AC130002.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/F4B552AD-69D5-E711-A729-141877410ACD.root','/store/data/Run2017F/DoubleMuon/MINIAOD/17Nov2017-v1/60000/D675115D-73DE-E711-A807-02163E0129DF.root',
+options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
-options.outputFile = 'HZZ_synchronize.root'
-options.maxEvents = -1
+options.outputFile = 'run_test.root'
+options.maxEvents = 1000
 
+#print options.inputFiles
+#options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
+options.register('inputFileList', '', VarParsing.VarParsing.multiplicity.singleton, 
+                 VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
 options.register('channels', "zz",
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
@@ -34,7 +37,7 @@ options.register('isMC', 1,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if simulation, 0 if data")
-options.register('eCalib', 0,
+options.register('eCalib', 1,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if electron energy corrections are desired")
@@ -98,7 +101,11 @@ options.register('datasetName', '',
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "dataset name")
-
+# add a list of strings for events to process
+options.register ('eventsToProcess',  '',
+                 VarParsing.VarParsing.multiplicity.list,
+                 VarParsing.VarParsing.varType.string,
+                 "Events to process")
 options.parseArguments()
 
 genLepChoices =  {"hardProcess" : "isHardProcess()",
@@ -164,14 +171,22 @@ process.schedule = cms.Schedule()
 
 process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
+#Input source
+if len(options.inputFileList) > 0 :
+    with open(options.inputFileList) as f :
+        inputFiles = list((line.strip() for line in f))
+else:
+    inputFiles = cms.untracked.vstring(options.inputFiles)
+
 process.source = cms.Source(
     "PoolSource",
     # Avoid problem with excessive memory use in LHERunInfoProduct
     inputCommands = cms.untracked.vstring('keep *', 'drop LHERunInfoProduct_*_*_*'),
-    fileNames = cms.untracked.vstring(options.inputFiles),
+    fileNames = cms.untracked.vstring(inputFiles),
     skipEvents = cms.untracked.uint32(options.skipEvents),
     # Example of how to select specific lumi/event
-    #eventsToProcess = cms.untracked.VEventRange('283820:801177218'),
+    eventsToProcess = cms.untracked.VEventRange (options.eventsToProcess) 
+    #eventsToProcess=1:7991:767126,1:7992:767206,1:7992:767243,1:7999:767830,1:8062:773914,1:8457:811860,1:8458:811922,1:8463:812434,1:8490:815001,1:8491:815098,1:8750:839949,1:8802:845000,1:8806:845309,1:8824:847022,1:8826:847268,1:8835:848108,1:8837:848340,1:8841:848714,1:8917:855988,1:8919:856166,1:8921:856394,1:8921:856409,1:8925:856773,1:8962:860299,1:8964:860546,1:8965:860566,1:8965:860601,1:9025:866354,1:9029:866730,1:9270:889871,1:9273:890182,1:9431:905303,1:9436:905855,1:9468:908863,1:9746:935619,1:9746:935610,1:9749:935841,1:9949:955034,1:9949:955112,1:9950:955154,1:9952:955345,1:9952:955360,1:9954:955537,1:10004:960363,1:8016:769451,1:8019:769746,1:8021:769949,1:8021:769990,1:8519:817806,1:8570:822678,1:8575:823143,1:8590:824609,1:8604:825937,1:8604:825941,1:8606:826178,1:9017:865609,1:9019:865774,1:9021:866002,1:9467:908754,1:10007:960649,1:200:17762,1:2400:213557,1:2400:213567,1:2401:213620,1:2467:219492,1:2469:219725,1:2490:221582,1:2587:230223,1:2833:252129,1:2834:252185,1:2834:252269,1:2835:252297,1:2916:259440,1:2996:266623,1:2997:266660,1:3017:268437,1:3018:268565,1:3101:275931,1:3104:276297,1:3202:284921,1:3204:285131,1:3511:312402,1:3511:312443,1:3512:312507,1:3886:345832,1:4746:422349,1:471:38465,1:471:38470,1:472:38637,1:608:49773,1:608:49752,1:1318:107775,1:1323:108191,1:1324:108284,1:2247:183794,1:2254:184352
     #lumisToProcess = cms.untracked.VLuminosityBlockRange(':457'),
     )
 
@@ -249,9 +264,9 @@ from UWVV.AnalysisTools.templates.BadMuonFilters import BadMuonFilters
 FlowSteps.append(BadMuonFilters)
 
 # data and MCFM samples never have LHE info
-if not options.isMC or 'mcfm' in options.inputFiles[0].lower() \
-        or 'sherpa' in options.inputFiles[0].lower() \
-        or 'phantom' in options.inputFiles[0].lower():
+if not options.isMC or 'mcfm' in inputFiles[0].lower() \
+        or 'sherpa' in inputFiles[0].lower() \
+        or 'phantom' in inputFiles[0].lower():
     options.lheWeights = 0
 
 # jet energy corrections and basic preselection
@@ -289,7 +304,7 @@ if zz:
 
     if options.hzzExtra:
         # k factors if a gg sample
-        if options.isMC and any('GluGlu' in f for f in options.inputFiles):
+        if options.isMC and any('GluGlu' in f for f in inputFiles):
             from UWVV.AnalysisTools.templates.GGHZZKFactors import GGHZZKFactors
             FlowSteps.append(GGHZZKFactors)
 
@@ -384,8 +399,8 @@ process.metaInfo = cms.EDAnalyzer(
 process.metaTreePath = cms.Path(process.metaInfo)
 process.schedule.append(process.metaTreePath)
 
-is2016H = 'Run2016H' in options.inputFiles[0] or "Run2016H" in options.datasetName
-is2016G = 'Run2016G' in options.inputFiles[0] or "Run2016G" in options.datasetName
+is2016H = 'Run2016H' in inputFiles[0] or "Run2016H" in options.datasetName
+is2016G = 'Run2016G' in inputFiles[0] or "Run2016G" in options.datasetName
 
 if wz:
     from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches

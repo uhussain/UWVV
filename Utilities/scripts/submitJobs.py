@@ -92,6 +92,7 @@ def writeFarmoutCommand(cfg, jobid, dataset, fullDataset,
         '--input-file-list={}'.format(inputListFile),
         '--assume-input-files-exist',
         '--input-dir=/',
+        '--max-usercode-size=150',
         ]
 
     if args.get('extraUsercodeFiles', []):
