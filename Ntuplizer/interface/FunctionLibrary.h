@@ -805,6 +805,9 @@ namespace
 
         addTo["MatchedStations"] =
           std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option){return obj->numberOfMatchedStations();});
+
+        addTo["NoOfMatches"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option){return obj->numberOfMatches();});
       }
     };
 
