@@ -16,19 +16,20 @@ class MuonCalibration(AnalysisFlowBase):
         step = super(MuonCalibration, self).makeAnalysisStep(stepName, **inputs)
 
         if stepName == 'preliminary':
-            if self.isMC:
-                calibType = 'MC_80X_13TeV'
-            else:
-                calibType = 'DATA_80X_13TeV'
-
+            #if self.isMC:
+            #    calibType = 'MC_80X_13TeV'
+            #else:
+            #    calibType = 'DATA_80X_13TeV'
             muCalibrator = cms.EDProducer(
-                "PATMuonKalmanCorrector",
+                "RochesterPATMuonCorrector",
                 src = step.getObjTag('m'),
-                calibType = cms.string(calibType),
+                identifier = cms.string("RoccoR2017v0"),
                 isMC = cms.bool(self.isMC),
                 isSync = cms.bool(self.isSync),
                 maxPt = cms.double(200),
-                closureShift = cms.int32(self.muonClosureShift),
+                #relics of the old KalmanCorrector 
+                #calibType = cms.string(calibType),
+                #closureShift = cms.int32(self.muonClosureShift),
                 )
 
             step.addModule('calibratedPatMuons', muCalibrator, 'm')
