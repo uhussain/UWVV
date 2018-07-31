@@ -4,8 +4,9 @@ campaign: UWVVNtuples_$DATE
 outLFNDirBase: /store/user/$USER/UWVVNtuples_$DATE/
 storageSite: T2_US_Wisconsin
 channels: zz
-eCalib: 1
+eCalib: 0
 muCalib: 1
+RecomputeElectronID: 0
 lheWeights: 0
-mcGlobalTag: 94X_mc2017_realistic_v13
-dataGlobalTag: 94X_dataRun2_v6
+mcGlobalTag: auto:run2_mc 
+dataGlobalTag: 101X_dataRun2_Prompt_v9

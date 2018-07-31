@@ -16,9 +16,15 @@ process = cms.Process("Ntuple")
 options = VarParsing.VarParsing('analysis')
 #DataFiles to find these 5 events that I am cutting out but HZZ is not
 #options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root','/store/data/Run2017C/DoubleEG/MINIAOD/17Nov2017-v1/70000/4E9E1C78-79E4-E711-8ACB-001E677923E2.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/AA05D9DE-B7D3-E711-A4C8-02163E011B82.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/821C2067-01D6-E711-B347-A4BF0112BC8A.root','/store/data/Run2017F/DoubleEG/MINIAOD/17Nov2017-v1/60000/6AFE90B3-37E1-E711-BABD-0025905C5502.root','/store/data/Run2017B/DoubleMuon/MINIAOD/17Nov2017-v1/50000/E819D0A8-80D4-E711-86FD-FA163E17588A.root','/store/data/Run2017C/DoubleMuon/MINIAOD/17Nov2017-v1/50000/EA3BC5D6-7BD3-E711-AF74-02163E01431D.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/78BD22A9-71D5-E711-BEB5-0242AC130002.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/F4B552AD-69D5-E711-A729-141877410ACD.root','/store/data/Run2017F/DoubleMuon/MINIAOD/17Nov2017-v1/60000/D675115D-73DE-E711-A807-02163E0129DF.root',
-options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
+#options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
+
+###Run2018A-v3 DoubleMuon
+#options.inputFiles='/store/data/Run2018A/DoubleMuon/MINIAOD/PromptReco-v3/000/316/569/00000/0CBC961D-6264-E811-B36E-FA163E4C1970.root'
+options.inputFiles='/store/data/Run2018A/EGamma/MINIAOD/PromptReco-v1/000/316/219/00000/F4905DCC-C758-E811-8305-FA163E4EC205.root '
+
+
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
-options.outputFile = 'run_test.root'
+options.outputFile = 'ntuplize_2018EG.root'
 options.maxEvents = 1000
 
 #print options.inputFiles
@@ -33,14 +39,18 @@ options.register('globalTag', "",
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "Global tag. If empty (default), auto tag is chosen based on isMC")
-options.register('isMC', 1,
+options.register('isMC', 0,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if simulation, 0 if data")
-options.register('eCalib', 1,
+options.register('eCalib', 0,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if electron energy corrections are desired")
+options.register('RecomputeElectronID', 0,
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.int,
+                 "1 if electron ID needs to be recomputed, use 1 in 2017 MC")
 options.register('muCalib', 1,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
@@ -163,7 +173,7 @@ if options.globalTag:
 elif options.isMC:
     gt = 'auto:run2_mc'
 else:
-    gt = 'auto:run2_data'
+    gt = '101X_dataRun2_Prompt_v9'
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -252,8 +262,9 @@ if options.muCalib:
     from UWVV.Ntuplizer.templates.muonBranches import muonCalibrationBranches
     extraFinalObjectBranches['m'].append(muonCalibrationBranches)
 
-from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
-FlowSteps.append(RecomputeElectronID)
+if options.RecomputeElectronID:
+    from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
+    FlowSteps.append(RecomputeElectronID)
 
 from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
 FlowSteps.append(MuonScaleFactors)
