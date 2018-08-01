@@ -20,9 +20,14 @@ muonBranches = cms.PSet(
         PFPUIso = cms.string('pfIsolationR03.sumPUPt'),
         TrackIso = cms.string('trackIso()'), 
         
-        PtErr = cms.string('? hasUserFloat("kalmanPtError") ? '
-                           'userFloat("kalmanPtError") : '
+        PtErr = cms.string('? hasUserFloat("correctedPtError") ? '
+                           'userFloat("correctedPtError") : '
                            'bestTrack.ptError'),
+        #RochesterPATMuonCorrector.cc
+        RochesterScaleUnc = cms.string('? hasUserFloat("scale_unc") ? '
+                                    'userFloat("scale_unc") : 1.'),
+        RochesterSmearUnc = cms.string('? hasUserFloat("smear_unc") ? '
+                                    'userFloat("smear_unc") : 1.'),
 
         EffScaleFactor = cms.string('? hasUserFloat("effScaleFactor") ? '
                                     'userFloat("effScaleFactor") : 1.'),
