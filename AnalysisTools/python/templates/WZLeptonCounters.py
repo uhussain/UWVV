@@ -33,8 +33,8 @@ class WZLeptonCounters(AnalysisFlowBase):
                 "CBVIDLooseElec" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDLoosewIP")',
                 "CBVIDVetoElec" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDVetowIP")',
                 "CBVIDVetoElecNoIP" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDVeto")',
-                "CBVIDHLTSafeElec" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDHLTSafewIP")',
-                "CBVIDHLTSafeElecNoIP" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDHLTSafe")',
+                #"CBVIDHLTSafeElec" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDHLTSafewIP")',
+                #"CBVIDHLTSafeElecNoIP" :  'pt() > 10 && abs(eta) < 2.5 && userFloat("IsCBVIDHLTSafe")',
                 "WWLooseCBVIDMedElec" :  'pt() > 10 && abs(eta) < 2.5 && userInt("IsWWLoose") && userFloat("IsCBVIDMediumwIP")',
                 "WWLooseElec" :  'pt() > 10 && abs(eta) < 2.5 && userInt("IsWWLoose")',
             }
