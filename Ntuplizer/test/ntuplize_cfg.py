@@ -15,11 +15,11 @@ process = cms.Process("Ntuple")
 
 options = VarParsing.VarParsing('analysis')
 #DataFiles to find these 5 events that I am cutting out but HZZ is not
-#options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root','/store/data/Run2017C/DoubleEG/MINIAOD/17Nov2017-v1/70000/4E9E1C78-79E4-E711-8ACB-001E677923E2.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/AA05D9DE-B7D3-E711-A4C8-02163E011B82.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/821C2067-01D6-E711-B347-A4BF0112BC8A.root','/store/data/Run2017F/DoubleEG/MINIAOD/17Nov2017-v1/60000/6AFE90B3-37E1-E711-BABD-0025905C5502.root','/store/data/Run2017B/DoubleMuon/MINIAOD/17Nov2017-v1/50000/E819D0A8-80D4-E711-86FD-FA163E17588A.root','/store/data/Run2017C/DoubleMuon/MINIAOD/17Nov2017-v1/50000/EA3BC5D6-7BD3-E711-AF74-02163E01431D.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/78BD22A9-71D5-E711-BEB5-0242AC130002.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/F4B552AD-69D5-E711-A729-141877410ACD.root','/store/data/Run2017F/DoubleMuon/MINIAOD/17Nov2017-v1/60000/D675115D-73DE-E711-A807-02163E0129DF.root',
-options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
-#' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
-options.outputFile = 'run_test.root'
-options.maxEvents = 1000
+options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root','/store/data/Run2017C/DoubleEG/MINIAOD/17Nov2017-v1/70000/4E9E1C78-79E4-E711-8ACB-001E677923E2.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/AA05D9DE-B7D3-E711-A4C8-02163E011B82.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/821C2067-01D6-E711-B347-A4BF0112BC8A.root','/store/data/Run2017F/DoubleEG/MINIAOD/17Nov2017-v1/60000/6AFE90B3-37E1-E711-BABD-0025905C5502.root','/store/data/Run2017B/DoubleMuon/MINIAOD/17Nov2017-v1/50000/E819D0A8-80D4-E711-86FD-FA163E17588A.root','/store/data/Run2017C/DoubleMuon/MINIAOD/17Nov2017-v1/50000/EA3BC5D6-7BD3-E711-AF74-02163E01431D.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/78BD22A9-71D5-E711-BEB5-0242AC130002.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/F4B552AD-69D5-E711-A729-141877410ACD.root','/store/data/Run2017F/DoubleMuon/MINIAOD/17Nov2017-v1/60000/D675115D-73DE-E711-A807-02163E0129DF.root',
+#options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
+#options.inputFiles = '/store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
+options.outputFile = 'ntuplize.root'
+options.maxEvents = 5000
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -399,22 +399,22 @@ process.metaInfo = cms.EDAnalyzer(
 process.metaTreePath = cms.Path(process.metaInfo)
 process.schedule.append(process.metaTreePath)
 
-is2016H = 'Run2016H' in inputFiles[0] or "Run2016H" in options.datasetName
-is2016G = 'Run2016G' in inputFiles[0] or "Run2016G" in options.datasetName
+#is2016H = 'Run2016H' in inputFiles[0] or "Run2016H" in options.datasetName
+#is2016G = 'Run2016G' in inputFiles[0] or "Run2016G" in options.datasetName
 
-if wz:
-    from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
-    trgBranches = verboseTriggerBranches
-else:
-    if is2016G:
-        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016G
-        trgBranches = triggerBranches_2016G
-    elif is2016H:
-        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016H
-        trgBranches = triggerBranches_2016H
-    else:
-        from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
-        trgBranches = verboseTriggerBranches
+#if wz:
+#    from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
+#    trgBranches = verboseTriggerBranches
+#else:
+#    if is2016G:
+#        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016G
+#        trgBranches = triggerBranches_2016G
+#    elif is2016H:
+#        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016H
+#        trgBranches = triggerBranches_2016H
+#    else:
+from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
+trgBranches = verboseTriggerBranches
         #from UWVV.Ntuplizer.templates.triggerBranches import zzCompositeTriggerBranches
         #trgBranches = zzCompositeTriggerBranches
 
