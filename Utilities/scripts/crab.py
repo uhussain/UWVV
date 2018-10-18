@@ -78,12 +78,13 @@ if isMC:
     m = re.match(r".*(_ext[0-9]*)-", conditions)
     if m:
         config.General.requestName += m.groups()[0]
-    config.Data.splitting = 'FileBased'
-    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+    #config.Data.splitting = 'FileBased'
+    #config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
 else:
     # Since a PD will have several eras, add conditions to name to differentiate
     config.General.requestName = '_'.join([campaign_name, primaryDS, conditions])
-    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt'
+    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-324209_13TeV_PromptReco_Collisions18_JSON.txt'
+    #Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt - Jobs submitted on july31
     #Cert_314472-317591_13TeV_PromptReco_Collisions18_JSON.txt# Used by HZZ group for their first look
     #config.Data.lumiMask= 'Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt' July12
     #'/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt'
@@ -93,8 +94,11 @@ else:
     #config.General.requestName = '_'.join([campaign_name, primaryDS, conditions, "resubmit"])
     #config.Data.lumiMask ='crab_%s/results/notFinishedLumis.json' % config.General.requestName 
     
-    config.Data.splitting = 'LumiBased'
-    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+    #config.Data.splitting = 'LumiBased'
+    #config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+config.Data.splitting = 'Automatic'
+config.Data.unitsPerJob = 180
+config.Data.totalUnits = -1
 
 # Max requestName is 100 characters
 if len(config.General.requestName) > 100:

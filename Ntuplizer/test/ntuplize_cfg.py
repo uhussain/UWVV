@@ -19,13 +19,14 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
 
 ###Run2018A-v3 DoubleMuon
-#options.inputFiles='/store/data/Run2018A/DoubleMuon/MINIAOD/PromptReco-v3/000/316/569/00000/0CBC961D-6264-E811-B36E-FA163E4C1970.root'
-options.inputFiles='/store/data/Run2018A/EGamma/MINIAOD/PromptReco-v1/000/316/219/00000/F4905DCC-C758-E811-8305-FA163E4EC205.root '
+options.inputFiles='/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/757/00000/F2C0E5CD-4D98-E811-A8BF-FA163E987883.root'
+#'/store/data/Run2018A/DoubleMuon/MINIAOD/PromptReco-v3/000/316/569/00000/0CBC961D-6264-E811-B36E-FA163E4C1970.root'
+#options.inputFiles='/store/data/Run2018A/EGamma/MINIAOD/PromptReco-v1/000/316/219/00000/F4905DCC-C758-E811-8305-FA163E4EC205.root '
 
 
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
-options.outputFile = 'ntuplize_2018EG.root'
-options.maxEvents = 1000
+options.outputFile = 'ntuplize.root'
+options.maxEvents = 10000
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -173,7 +174,7 @@ if options.globalTag:
 elif options.isMC:
     gt = 'auto:run2_mc'
 else:
-    gt = '101X_dataRun2_Prompt_v9'
+    gt = '102X_dataRun2_Prompt_v11'
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")

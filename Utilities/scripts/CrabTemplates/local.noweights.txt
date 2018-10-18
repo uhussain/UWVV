@@ -9,4 +9,4 @@ muCalib: 1
 RecomputeElectronID: 0
 lheWeights: 0
 mcGlobalTag: auto:run2_mc 
-dataGlobalTag: 101X_dataRun2_Prompt_v9
+dataGlobalTag: 102X_dataRun2_Prompt_v11
