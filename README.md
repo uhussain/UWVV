@@ -6,39 +6,31 @@ UWVV is designed for analyses that use final state particles (typically leptons)
 It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [miniAOD](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD2017) input. Much of the inspiration (and a little bit of the code) comes from [FSA](https://github.com/uwcms/FinalStateAnalysis/). A few tools, like the batch submission scripts, are specific to the computing infrastructure at the University of Wisconsin - Madison.
 
 ## Setup
-Current supported CMSSW release: `CMSSW_9_4_0+`
-_As of right now (28/11/2017), triggers and MET/bad muon filters are turned off on this branch, and it has not been tested on Monte Carlo (because appropriate files are not yet available). It has been tested only minimally on 2017 data, so use with caution._
-
+Current supported CMSSW release: `CMSSW_10_2_0+`
+_As of right now (18/10/20178) this branch is just to be used to run on 2018 data with minimal add-ons, so use with caution.I will update it as things develop for 2018 Data and MC_
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_9_4_[current version]
+scram pro -n uwvv CMSSW CMSSW_10_2_5_patch1
 cd uwvv/src
 cmsenv
-git cms-init # do before anything else
-git clone --recursive https://github.com/uwcms/UWVV.git # or git@github.com:uwcms/UWVV.git if you prefer that
-cd UWVV
-source recipe/setup.sh # install necessary packages
-pushd ..
-scram b -j 8 # compile
-popd
+git cms-init
+git clone -b 2018Data git@github.com:uhussain/UWVV.git
+(To avoid compilation errors although we don’t need this anymore in 2017/2018: https://github.com/CJLST/ZZAnalysis/blob/miniAOD_80X/checkout_10X.csh#L89)
+git clone https://github.com/bachtis/Analysis.git -b KaMuCa_V4 KaMuCa
+scram b -j 12
+cd UWVV/Ntuplizer/test/
+cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=0 muCalib=1 RecomputeElectronID=0
 ```
-Several fragile dependencies that are used in only some analyses are included only if the `--hzzExtras` or `--met` options are used with `setup.sh`. Modules that depend on the optional packages are saved in `.txt` files which are copied to `.cc` files.
-
-To set up a python virtual environment with Rootpy, a non-bugged IPython, and some other nice things
-
-```bash
-source recipe/setupPython.sh
-```
-
-The first time you call `setupPython.sh`, it creates the virtualenv, installs the packages in it, and activates it.
-After that, it just activates it.
-
-
 ## Use
 To make a basic ntuple of four-lepton final state candidates, do
 
 ```bash
-cmsRun Ntuplizer/test/ntuplize_cfg.py channels='zz' isMC=1 inputFiles=file:aNiceMonteCarloFile.root
+cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=0 muCalib=1 RecomputeElectronID=0
 ```
 
 For more on how to build your own analysis, see the `AnalysisTools` directory. For more on making ntuples, see the `Ntuplizer` directory.
+
+For submitting jobs using crab, see the `Utilities` directory.
+```bash
+./crabSubmit.sh /data/uhussain/ZZTo4l/ZZ2018/uwvv/src/UWVV/MetaData/ZZDatasets/ZZ2018Data_MiniAOD.dat | grep "ZZ" | . /dev/stdin
+```
