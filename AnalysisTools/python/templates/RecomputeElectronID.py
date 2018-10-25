@@ -23,9 +23,9 @@ class RecomputeElectronID(AnalysisFlowBase):
         #if not hasattr(self.process, 'egmGsfElectronIDs'):
         switchOnVIDElectronIdProducer(self.process, DataFormat.MiniAOD)
 
-        #setupAllVIDIdsInModule(self.process,
-        #                       'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
-        #                       setupVIDElectronSelection)
+        setupAllVIDIdsInModule(self.process,
+                               'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
+                               setupVIDElectronSelection)
         #setupAllVIDIdsInModule(self.process,
         #                       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff',
         #                       setupVIDElectronSelection)
@@ -44,7 +44,7 @@ class RecomputeElectronID(AnalysisFlowBase):
             "PATElectronValueMapEmbedder",
             src = step.getObjTag('e'),
             floatLabels = cms.untracked.vstring("MVAIsoID"),
-            floatVals = cms.untracked.VInputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2Values"),#2017 Setup 
+            floatVals = cms.untracked.VInputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),#2017 Setup 
             #floatVals = cms.untracked.VInputTag(""),#2018 Setup
             #boolLabels = cms.untracked.vstring("IsCBVIDTight", "IsCBVIDMedium", "IsCBVIDLoose", "IsCBVIDVeto", "IsCBVIDHLTSafe"),
             #boolVals = cms.untracked.VInputTag(

@@ -16,8 +16,8 @@ class ZZID(AnalysisFlowBase):
                 src = step.getObjTag('e'),
                 idLabel = cms.string(self.getZZIDLabel()),
                 vtxSrc = step.getObjTag('v'),
-                bdtLabel=cms.string("ElectronMVAEstimatorRun2Fall17IsoV1Values"),
-                #bdtLabel = cms.string('MVAIsoID'),#2017Setup
+                #bdtLabel=cms.string("ElectronMVAEstimatorRun2Fall17IsoV2Values"),
+                bdtLabel = cms.string('MVAIsoID'),#2017Setup
                 idCutLowPtLowEta = cms.double(0.5739521065342641),
                 idCutLowPtMedEta = cms.double(0.5504628790992929),
                 idCutLowPtHighEta = cms.double(0.5924627534389098),
