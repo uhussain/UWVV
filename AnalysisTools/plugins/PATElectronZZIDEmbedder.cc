@@ -141,8 +141,8 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       out->back().addUserFloat(idLabel_+"NoVtx", float(idResultNoVtx)); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_, float(idResult)); // 1 for true, 0 for false
 
-      std::cout << iEvent.id().run() << ":" << iEvent.id().luminosityBlock() <<":"
-              << iEvent.id().event() << std::endl;
+      //std::cout << iEvent.id().run() << ":" << iEvent.id().luminosityBlock() <<":"
+      //        << iEvent.id().event() << std::endl;
 
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && passBDT(eptr))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && passBDT(eptr))); // 1 for true, 0 for false
@@ -200,8 +200,8 @@ bool PATElectronZZIDEmbedder::passBDT(const edm::Ptr<pat::Electron>& elec) const
 	bdtCut = idCutHighPtHighEta;
     }
 
-  std::cout<<"102X Setup elec Pt: "<<elec->pt()<<std::endl;
-  std::cout<<"102X Setup elec MVAValue: "<<elec->userFloat(bdtLabel)<<std::endl;
+  //std::cout<<"102X Setup elec Pt: "<<elec->pt()<<std::endl;
+  //std::cout<<"102X Setup elec MVAValue: "<<elec->userFloat(bdtLabel)<<std::endl;
   //std::cout<<"bdtCut: "<<bdtCut<<std::endl;
   return (elec->userFloat(bdtLabel) > bdtCut);
 }
