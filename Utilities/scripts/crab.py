@@ -61,6 +61,13 @@ def getUnitsPerJob(ds):
 config = config()
 config.Data.inputDataset = dataset
 config.Data.outputDatasetTag = conditions
+if (isMC):
+    globalTag=(localSettings.get("local", "mcGlobalTag"))
+elif (isPrompt):
+    globalTag=(localSettings.get("local", "PromptdataGlobalTag"))
+else: 
+    globalTag=(localSettings.get("local", "dataGlobalTag"))
+print(globalTag)
 configParams = [
     'isSync=0',
     #'isSync=%i' % (1 if "WZ" in dataset or "DYJets" in dataset else 0),
@@ -71,12 +78,7 @@ configParams = [
     "eCalib=%s" % localSettings.get("local", "eCalib"),
     "muCalib=%s" % localSettings.get("local", "muCalib"),
     "RecomputeElectronID=%s" % localSettings.get("local","RecomputeElectronID"),
-    if (isMC):
-        "globalTag=%s" %  (localSettings.get("local", "mcGlobalTag")),
-    elif (isPrompt):
-        "globalTag=%s" %  (localSettings.get("local", "PromptdataGlobalTag")),
-    else: 
-        "globalTag=%s" %  (localSettings.get("local", "dataGlobalTag")),
+    "globalTag=%s" % globalTag,
 ]
 today = (datetime.date.today()).strftime("%d%b%Y")
 campaign_name = localSettings.get("local", "campaign").replace("$DATE", today)
@@ -128,7 +130,7 @@ config.JobType.numCores = 1
 config.JobType.inputFiles = ["%s/src/UWVV/data" % os.environ["CMSSW_BASE"]]
 
 config.Data.inputDBS = 'global' if 'USER' not in dataset else 'phys03'
-config.Data.allowNonValidInputDataset= True
+config.Data.allowNonValidInputDataset = True
 config.Data.useParent = False
 config.Data.publication = False
 outdir = localSettings.get("local", "outLFNDirBase").replace(
