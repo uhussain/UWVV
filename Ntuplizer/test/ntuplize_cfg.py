@@ -15,7 +15,7 @@ process = cms.Process("Ntuple")
 
 options = VarParsing.VarParsing('analysis')
 #DataFiles to find these 5 events that I am cutting out but HZZ is not
-options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root'
+#options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81533F4-21D3-E711-A594-00259073E544.root'
 #,'/store/data/Run2017C/DoubleEG/MINIAOD/17Nov2017-v1/70000/4E9E1C78-79E4-E711-8ACB-001E677923E2.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/AA05D9DE-B7D3-E711-A4C8-02163E011B82.root','/store/data/Run2017E/DoubleEG/MINIAOD/17Nov2017-v1/40000/821C2067-01D6-E711-B347-A4BF0112BC8A.root','/store/data/Run2017F/DoubleEG/MINIAOD/17Nov2017-v1/60000/6AFE90B3-37E1-E711-BABD-0025905C5502.root','/store/data/Run2017B/DoubleMuon/MINIAOD/17Nov2017-v1/50000/E819D0A8-80D4-E711-86FD-FA163E17588A.root','/store/data/Run2017C/DoubleMuon/MINIAOD/17Nov2017-v1/50000/EA3BC5D6-7BD3-E711-AF74-02163E01431D.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/78BD22A9-71D5-E711-BEB5-0242AC130002.root','/store/data/Run2017E/DoubleMuon/MINIAOD/17Nov2017-v1/30000/F4B552AD-69D5-E711-A729-141877410ACD.root','/store/data/Run2017F/DoubleMuon/MINIAOD/17Nov2017-v1/60000/D675115D-73DE-E711-A807-02163E0129DF.root',
 #options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
 #options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/31Mar2018-v1/00000/000A6D14-8037-E811-A09B-0CC47A5FBDC1.root'
@@ -25,11 +25,14 @@ options.inputFiles='/store/data/Run2017B/DoubleEG/MINIAOD/17Nov2017-v1/50000/A81
 #'/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/757/00000/F2C0E5CD-4D98-E811-A8BF-FA163E987883.root'
 #'/store/data/Run2018A/DoubleMuon/MINIAOD/PromptReco-v3/000/316/569/00000/0CBC961D-6264-E811-B36E-FA163E4C1970.root'
 #options.inputFiles='/store/data/Run2018A/EGamma/MINIAOD/PromptReco-v1/000/316/219/00000/F4905DCC-C758-E811-8305-FA163E4EC205.root '
-
-
+#options.inputFiles='/store/data/Run2018A/DoubleMuon/MINIAOD/17Sep2018-v2/00000/0732276A-A475-8D48-AF54-4C5E7B830F4C.root'
+#options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/D65A4D51-2E80-AD41-B50D-E4083BA2A668.root'
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
-options.outputFile = 'ntuplize_2017DoubleEG.root'
-options.maxEvents = 10000
+#options.inputFiles='/store/mc/RunIISummer16MiniAODv3/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/270000/E8AB22C0-D7C6-E811-8EF9-001A649D4925.root'
+#options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/F4E3EBBD-BA42-E811-8154-0025905B85D8.root'
+options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/E45B6B6A-81B4-3D45-ABCF-FF9C118E755F.root'
+options.outputFile = 'ntuplize.root'
+options.maxEvents = -1
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -175,9 +178,10 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 if options.globalTag:
     gt = options.globalTag
 elif options.isMC:
-    gt = 'auto:run2_mc'
+    gt = '102X_upgrade2018_realistic_v15'
 else:
-    gt = '102X_dataRun2_Prompt_v11'
+    #gt = '102X_dataRun2_Prompt_v11'
+    gt = '102X_dataRun2_Sep2018Rereco_v1'
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
