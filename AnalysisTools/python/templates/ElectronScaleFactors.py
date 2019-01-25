@@ -17,9 +17,9 @@ class ElectronScaleFactors(AnalysisFlowBase):
         if stepName == 'embedding' and self.isMC:
 
             sfFile = path.join(UWVV_BASE_PATH, 'data', 'LeptonScaleFactors',
-                               'eleSelectionSF_HZZ_Moriond17.root')
+                               'egammaEffi.txt_EGM2D_Moriond2018v1.root')
             sfFileGap = path.join(UWVV_BASE_PATH, 'data', 'LeptonScaleFactors',
-                                  'eleSelectionSFGap_HZZ_Moriond17.root')
+                                  'egammaEffi.txt_EGM2D_Moriond2018v1_gap.root')
 
             scaleFactorEmbedder = cms.EDProducer(
                 "PATElectronScaleFactorEmbedder",
