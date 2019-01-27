@@ -44,17 +44,24 @@ pushd $CMSSW_BASE/src
 #Release is based on CMSSW_9_4_0. Scale and resolution corrections are based on the Golden JSON file of 2017 data (17Nov re-reco)
 # /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt
 
- if [ ! -d ./EgammaAnalysis ]; then
-  echo "Setting up electron energy scale corrections"
-  #add the repository with the updated Egamma package
-  git cms-merge-topic cms-egamma:EGM_94X_v1
-  pushd EgammaAnalysis/ElectronTools/data
-  # download the txt files with the corrections
-  git clone https://github.com/ECALELFS/ScalesSmearings.git
-  pushd ScalesSmearings/
-  git checkout Run2017_17Nov2017_v1
-  popd
-fi
+# if [ ! -d ./EgammaAnalysis ]; then
+#  echo "Setting up electron energy scale corrections"
+#  #add the repository with the updated Egamma package
+#  git cms-merge-topic cms-egamma:EGM_94X_v1
+#  pushd EgammaAnalysis/ElectronTools/data
+#  # download the txt files with the corrections
+#  git clone https://github.com/ECALELFS/ScalesSmearings.git
+#  pushd ScalesSmearings/
+#  git checkout Run2017_17Nov2017_v1
+#  popd
+#fi
+git cms-merge-topic cms-egamma:EgammaID_949 #if you want the V2 IDs, otherwise skip
+
+git cms-merge-topic cms-egamma:EgammaPostRecoTools_940 #just adds in an extra file to have a setup function to make things easier
+
+# Get recipes to re-correct MET (also for ECAL noise)
+git cms-merge-topic cms-met:METFixEE2017_949_v2
+
 #in the EgammaAnalysis/ElectronTools/python/calibrationTablesRun2.py file the you have to make sure that the correctionType 
 #is the appropriate for your dataset. For the Run2017_17Nov2017_v1 it has to be:
 # correctionType = "Run2017_17Nov2017_v1"  
@@ -115,10 +122,10 @@ if [ "$HZZ" ]; then
     cp UWVV/AnalysisTools/plugins/ZKinematicFitEmbedderCode.txt UWVV/AnalysisTools/plugins/ZKinematicFitEmbedder.cc
 fi
 
-if [ $MET -ne 0 ] && [ ! -d ./RecoMET ]; then
-    echo -e "\nChecking out MET recipe for Moriond 17"
-    git cms-merge-topic -u cms-met:METRecipe_8020
-fi
+#if [ $MET -ne 0 ] && [ ! -d ./RecoMET ]; then
+#    echo -e "\nChecking out MET recipe for Moriond 17"
+#    git cms-merge-topic -u cms-met:METRecipe_8020
+#fi
 
 
 if [ ! -d ./KaMuCa ]; then

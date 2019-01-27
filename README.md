@@ -11,11 +11,11 @@ _As of right now (28/11/2017), triggers and MET/bad muon filters are turned off 
 
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_9_4_[current version]
+scram pro -n uwvv CMSSW_9_4_10
 cd uwvv/src
 cmsenv
 git cms-init # do before anything else
-git clone --recursive https://github.com/nwoods/UWVV.git # or git@github.com:nwoods/UWVV.git if you prefer that
+git clone -b 9_4_X_dev --recursive git@github.com:uhussain/UWVV.git
 cd UWVV
 source recipe/setup.sh # install necessary packages
 pushd ..
