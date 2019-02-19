@@ -30,8 +30,11 @@ options = VarParsing.VarParsing('analysis')
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
 #options.inputFiles='/store/mc/RunIISummer16MiniAODv3/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/270000/E8AB22C0-D7C6-E811-8EF9-001A649D4925.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/F4E3EBBD-BA42-E811-8154-0025905B85D8.root'
-options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/E45B6B6A-81B4-3D45-ABCF-FF9C118E755F.root'
-options.outputFile = 'ntuplize.root'
+#options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/E45B6B6A-81B4-3D45-ABCF-FF9C118E755F.root'
+#options.inputFiles='/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/917/00000/92B9D22F-D19B-E811-909F-FA163E8F1F8F.root'
+#options.inputFiles=' /store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext2-v2/90000/DF088D7E-E24C-3C46-B83D-F4B359623203.root'
+options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
+options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
 options.maxEvents = -1
 
 #print options.inputFiles
@@ -253,9 +256,9 @@ FlowSteps.append(ElectronBaseFlow)
 from UWVV.AnalysisTools.templates.MuonBaseFlow import MuonBaseFlow
 FlowSteps.append(MuonBaseFlow)
 
-if not wz:
-    from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
-    FlowSteps.append(MuonGhostCleaning)
+#if not wz:
+#from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
+#FlowSteps.append(MuonGhostCleaning)
 
 # Lepton calibrations
 if options.eCalib:
@@ -273,10 +276,13 @@ if options.RecomputeElectronID:
     from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
     FlowSteps.append(RecomputeElectronID)
 
-from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
-FlowSteps.append(MuonScaleFactors)
-from UWVV.AnalysisTools.templates.ElectronScaleFactors import ElectronScaleFactors
-FlowSteps.append(ElectronScaleFactors)
+from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
+FlowSteps.append(MuonGhostCleaning)
+
+#from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
+#FlowSteps.append(MuonScaleFactors)
+#from UWVV.AnalysisTools.templates.ElectronScaleFactors import ElectronScaleFactors
+#FlowSteps.append(ElectronScaleFactors)
 
 from UWVV.AnalysisTools.templates.BadMuonFilters import BadMuonFilters
 FlowSteps.append(BadMuonFilters)
