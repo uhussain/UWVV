@@ -10,7 +10,7 @@ class MuonGhostCleaning(AnalysisFlowBase):
     def makeAnalysisStep(self, stepName, **inputs):
         step = super(MuonGhostCleaning, self).makeAnalysisStep(stepName, **inputs)
         
-        if stepName == 'preselection':
+        if stepName == 'preliminary':
             self.addGhostCleaning(step)
         return step
 
