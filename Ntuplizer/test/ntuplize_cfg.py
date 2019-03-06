@@ -20,9 +20,11 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles = '/store/mc/RunIIFall17MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/40000/205E2EB6-2600-E811-A8D9-A0369FC5E090.root','/store/mc/RunIIFall17MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/00000/E8505BB6-5F07-E811-B009-002590DE6E88.root','/store/mc/RunIIFall17MiniAOD/WminusH_HToZZTo4L_M125_13TeV_powheg2-minlo-HWJ_JHUGenV7011_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v1/10000/80B92986-8501-E811-99BB-002590200900.root'
 #options.inputFiles = '/store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
 #options.inputFiles='/store/mc/RunIISummer16MiniAODv3/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/270000/E8AB22C0-D7C6-E811-8EF9-001A649D4925.root'
-options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/F4E3EBBD-BA42-E811-8154-0025905B85D8.root'
-options.outputFile = 'ntuple2017.root'
-options.maxEvents = 10000
+#options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/F4E3EBBD-BA42-E811-8154-0025905B85D8.root'
+options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZGJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/90000/E84053FC-6414-E911-BF85-0242AC130002.root'
+#options.inputFiles='/store/mc/RunIIFall17MiniAOD/ttZJets_TuneCP5_13TeV_madgraphMLM_pythia8/MINIAODSIM/94X_mc2017_realistic_v10-v2/100000/36A11B13-CA1D-E811-AD51-5065F37D7121.root'
+options.outputFile = 'ntuple.root'
+options.maxEvents = -1
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -239,9 +241,9 @@ FlowSteps.append(ElectronBaseFlow)
 from UWVV.AnalysisTools.templates.MuonBaseFlow import MuonBaseFlow
 FlowSteps.append(MuonBaseFlow)
 
-if not wz:
-    from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
-    FlowSteps.append(MuonGhostCleaning)
+#if not wz:
+#    from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
+#    FlowSteps.append(MuonGhostCleaning)
 
 # Lepton calibrations
 if options.eCalib:
@@ -258,10 +260,13 @@ if options.muCalib:
 from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
 FlowSteps.append(RecomputeElectronID)
 
-from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
-FlowSteps.append(MuonScaleFactors)
-from UWVV.AnalysisTools.templates.ElectronScaleFactors import ElectronScaleFactors
-FlowSteps.append(ElectronScaleFactors)
+#from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
+#FlowSteps.append(MuonScaleFactors)
+#from UWVV.AnalysisTools.templates.ElectronScaleFactors import ElectronScaleFactors
+#FlowSteps.append(ElectronScaleFactors)
+
+from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
+FlowSteps.append(MuonGhostCleaning)
 
 from UWVV.AnalysisTools.templates.BadMuonFilters import BadMuonFilters
 FlowSteps.append(BadMuonFilters)
