@@ -7,8 +7,6 @@ It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [mini
 
 ## Setup
 Current supported CMSSW release: `CMSSW_9_4_0+`
-_As of right now (28/11/2017), triggers and MET/bad muon filters are turned off on this branch, and it has not been tested on Monte Carlo (because appropriate files are not yet available). It has been tested only minimally on 2017 data, so use with caution._
-
 
 ```bash
 scram pro -n uwvv CMSSW_9_4_10
