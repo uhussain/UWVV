@@ -24,16 +24,6 @@ popd
 ```
 Several fragile dependencies that are used in only some analyses are included only if the `--hzzExtras` or `--met` options are used with `setup.sh`. Modules that depend on the optional packages are saved in `.txt` files which are copied to `.cc` files.
 
-To set up a python virtual environment with Rootpy, a non-bugged IPython, and some other nice things
-
-```bash
-source recipe/setupPython.sh
-```
-
-The first time you call `setupPython.sh`, it creates the virtualenv, installs the packages in it, and activates it.
-After that, it just activates it.
-
-
 ## Use
 To make a basic ntuple of four-lepton final state candidates, do
 
