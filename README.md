@@ -26,7 +26,8 @@ Several fragile dependencies that are used in only some analyses are included on
 To make a basic ntuple of four-lepton final state candidates, do
 
 ```bash
-cmsRun Ntuplizer/test/ntuplize_cfg.py channels='zz' isMC=1 inputFiles=file:aNiceMonteCarloFile.root
+./runMC.sh
+./runData.sh
 ```
 
 For more on how to build your own analysis, see the `AnalysisTools` directory. For more on making ntuples, see the `Ntuplizer` directory.
