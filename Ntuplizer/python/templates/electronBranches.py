@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 
 electronBranches = cms.PSet(
     floats = cms.PSet(
-        MVAIDIso = cms.string('userFloat("MVAIsoID")'),
+        MVAIDIso = cms.string('? hasUserFloat("MVAIsoID")?' 'userFloat("MVAIsoID"): 1.'),
         RelPFIsoRho = cms.string('(pfIsolationVariables.sumChargedHadronPt'
                                  '+max(0.0,pfIsolationVariables.sumNeutralHadronEt'
                                  '+pfIsolationVariables.sumPhotonEt'

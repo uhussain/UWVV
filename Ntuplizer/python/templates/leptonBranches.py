@@ -20,8 +20,10 @@ leptonBranches = cms.PSet(
     bools = cms.PSet(
         ZZLooseID = cms.string('? hasUserFloat("ZZIDPass") ? userFloat("ZZIDPass") : 0.'),
         ZZTightID = cms.string('? hasUserFloat("ZZIDPassTight") ? userFloat("ZZIDPassTight") : 0.'),
+        ZZTightIDHZZWP = cms.string('? hasUserFloat("ZZIDPassTightHZZWP") ? userFloat("ZZIDPassTightHZZWP") : 0.'),
         ZZLooseIDNoVtx = cms.string('? hasUserFloat("ZZIDPassNoVtx") ? userFloat("ZZIDPassNoVtx") : 0.'),
         ZZTightIDNoVtx = cms.string('? hasUserFloat("ZZIDPassTightNoVtx") ? userFloat("ZZIDPassTightNoVtx") : 0.'),
+        ZZTightIDNoVtxHZZWP = cms.string('? hasUserFloat("ZZIDPassTightNoVtxHZZWP") ? userFloat("ZZIDPassTightNoVtxHZZWP") : 0.'),
         ZZIsoPass = cms.string('? hasUserFloat("ZZIsoPass") ? userFloat("ZZIsoPass") : 0.'),
         ),
     )

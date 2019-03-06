@@ -1,11 +1,11 @@
 # Copy to local.txt and change
 [local]
 campaign: UWVVNtuples_$DATE
-outLFNDirBase: /store/user/$USER/UWVVNtuples_$DATE/
+outLFNDirBase: /store/user/$USER/UWVVNtuplesZ_$DATE/
 storageSite: T2_US_Wisconsin
-channels: zz
+channels: z
 eCalib: 1
 muCalib: 1
 lheWeights: 0
-mcGlobalTag: 94X_mc2017_realistic_v13
-dataGlobalTag: 94X_dataRun2_v6
+mcGlobalTag: 94X_mc2017_realistic_v17
+dataGlobalTag: 94X_dataRun2_v11

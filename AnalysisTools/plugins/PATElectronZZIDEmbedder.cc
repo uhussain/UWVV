@@ -48,6 +48,7 @@ private:
   bool passVertex(const edm::Ptr<pat::Electron>& elec) const;
   bool passBDT(const edm::Ptr<pat::Electron>& elec) const;
   bool passMissingHits(const edm::Ptr<pat::Electron>& elec) const;
+  bool passHZZWP(const edm::Ptr<pat::Electron>& elec) const;
 
   // Data
   edm::EDGetTokenT<edm::View<pat::Electron> > electronCollectionToken_;
@@ -71,6 +72,7 @@ private:
   const double idCutHighPtMedEta;
   const double idCutHighPtHighEta;
   const std::string bdtLabel;
+  const std::string HZZWP;
   const int missingHitsCut;
   const bool checkMVAID;
 
@@ -106,6 +108,7 @@ PATElectronZZIDEmbedder::PATElectronZZIDEmbedder(const edm::ParameterSet& iConfi
   idCutHighPtMedEta(iConfig.exists("idCutHighPtMedEta") ? iConfig.getParameter<double>("idCutHighPtMedEta") : 0.701),
   idCutHighPtHighEta(iConfig.exists("idCutHighPtHighEta") ? iConfig.getParameter<double>("idCutHighPtHighEta") : 0.350),
   bdtLabel(iConfig.exists("bdtLabel") ? iConfig.getParameter<std::string>("bdtLabel") : "BDTIDNonTrig"),
+  HZZWP(iConfig.exists("HZZWP") ? iConfig.getParameter<std::string>("HZZWP") : "mvaEleID-Fall17-iso-V2-wpHZZ"),
   missingHitsCut(iConfig.exists("missingHitsCut") ? iConfig.getParameter<int>("missingHitsCut") : 1),
   checkMVAID(bdtLabel != ""),
   selector(iConfig.exists("selection") ?
@@ -137,7 +140,7 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       bool missingHitsResult = passMissingHits(eptr);
       bool idResultNoVtx = selector(*eptr) && kinResult && missingHitsResult;
       bool idResult = idResultNoVtx && vtxResult;
-
+      
       out->back().addUserFloat(idLabel_+"NoVtx", float(idResultNoVtx)); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_, float(idResult)); // 1 for true, 0 for false
 
@@ -145,6 +148,12 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       //        << iEvent.id().event() << std::endl;
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && passBDT(eptr))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && passBDT(eptr))); // 1 for true, 0 for false
+      //HZZWP
+      out->back().addUserFloat(idLabel_+"TightNoVtxHZZWP", float(idResultNoVtx && passHZZWP(eptr))); // 1 for true, 0 for false
+      out->back().addUserFloat(idLabel_+"TightHZZWP", float(idResult && passHZZWP(eptr))); // 1 for true, 0 for false
+      //std::cout<<"elec Pt: " <<(*eptr).pt()<<std::endl;
+      //std::cout<<"Passes BDT: "<<passBDT(eptr)<<std::endl;
+      //std::cout<<"Passes HZZWP: "<<passHZZWP(eptr)<<std::endl;
     }
 
   iEvent.put(std::move(out));
@@ -171,6 +180,10 @@ bool PATElectronZZIDEmbedder::passVertex(const edm::Ptr<pat::Electron>& elec) co
 }
 
 
+bool PATElectronZZIDEmbedder::passHZZWP(const edm::Ptr<pat::Electron>& elec) const
+{
+  return (elec->electronID(HZZWP));
+}
 bool PATElectronZZIDEmbedder::passBDT(const edm::Ptr<pat::Electron>& elec) const
 {
   if(!checkMVAID)
