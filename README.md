@@ -6,10 +6,14 @@ UWVV is designed for analyses that use final state particles (typically leptons)
 It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [miniAOD](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD2017) input. Much of the inspiration (and a little bit of the code) comes from [FSA](https://github.com/uwcms/FinalStateAnalysis/). A few tools, like the batch submission scripts, are specific to the computing infrastructure at the University of Wisconsin - Madison.
 
 ## Setup
-Current supported CMSSW release: `CMSSW_9_4_0+`
+Current supported CMSSW release: `CMSSW_9_4_9+`
+
+2017 MiniAOD V2
+data: dataset=/*/Run2017*31Mar2018*/MINIAOD
+MC: dataset=/*/*12Apr2018*/MINIAODSIM
 
 ```bash
-scram pro -n uwvv CMSSW_9_4_10
+scram pro -n uwvv CMSSW_9_4_10/CMSSW_9_4_9_cand2
 cd uwvv/src
 cmsenv
 git cms-init # do before anything else
