@@ -40,38 +40,23 @@ fi
 
 pushd $CMSSW_BASE/src
 
-#ECAL scale and resolution corrections for Moriond18: Run2017_17Nov2017_v1 (time-eta-r9 categories)
-#Release is based on CMSSW_9_4_0. Scale and resolution corrections are based on the Golden JSON file of 2017 data (17Nov re-reco)
-# /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt
+#https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes#2018_Data_MC
+git cms-merge-topic cms-egamma:EgammaPostRecoTools #just adds in an extra file to have a setup function to make things easier
+#From CMSSW_10_2_10, our ID PR has been merged so it is no longer necessary to do "git cms-merge-topic cms-egamma:EgammaID_1023". If you work in CMSSW < 10_2_10, 
+#then you have to merge that PR still
+scram b -j 8
+git clone git@github.com:cms-egamma/EgammaAnalysis-ElectronTools.git EgammaAnalysis/ElectronTools/data
+cd EgammaAnalysis/ElectronTools/data
+git checkout ScalesSmearing2018_Dev
+cd -
+git cms-merge-topic cms-egamma:EgammaPostRecoTools_dev
+scram b -j 8
+##Note this assumes you havnt checked out the EgammaAnalysis/ElectronTools package in CMSSW which is likely. 
+##If you do need this checked out for some reason, just copy the Run2018_Step2Closure_CoarseEtaR9Gain_*.dat files to 
+##EgammaAnalysis/ElectronTools/data/ScalesSmearings manually.
 
- if [ ! -d ./EgammaAnalysis ]; then
-  echo "Setting up electron energy scale corrections"
-  #add the repository with the updated Egamma package
-  git cms-merge-topic cms-egamma:EGM_94X_v1
-  pushd EgammaAnalysis/ElectronTools/data
-  # download the txt files with the corrections
-  git clone https://github.com/ECALELFS/ScalesSmearings.git
-  pushd ScalesSmearings/
-  git checkout Run2017_17Nov2017_v1
-  popd
-fi
-#in the EgammaAnalysis/ElectronTools/python/calibrationTablesRun2.py file the you have to make sure that the correctionType 
-#is the appropriate for your dataset. For the Run2017_17Nov2017_v1 it has to be:
-# correctionType = "Run2017_17Nov2017_v1"  
-# The corrections contained in the repository with tag "Run2017_17Nov2017_v1" include updated numbers for the corrections and 
-#preliminary conservative version of the systematics.
 
-##########################For Moriond17
-# if [ ! -d ./EgammaAnalysis ]; then
-#     echo "Setting up electron energy scale corrections"
-#     git cms-merge-topic rafaellopesdesa:EgammaAnalysis80_EGMSmearer_Moriond17_23Jan
-#
-#     pushd EgammaAnalysis/ElectronTools/data
-#     git clone https://github.com/ECALELFS/ScalesSmearings.git
-#     popd
-# fi
-##############################
-
+####################Not used at the moment
 if [ "$HZZ" ]; then
 
     if [ ! -d ./ZZMatrixElement ]; then
@@ -114,11 +99,7 @@ if [ "$HZZ" ]; then
     cp UWVV/AnalysisTools/plugins/ZZDiscriminantEmbedderCode.txt UWVV/AnalysisTools/plugins/ZZDiscriminantEmbedder.cc
     cp UWVV/AnalysisTools/plugins/ZKinematicFitEmbedderCode.txt UWVV/AnalysisTools/plugins/ZKinematicFitEmbedder.cc
 fi
-
-if [ $MET -ne 0 ] && [ ! -d ./RecoMET ]; then
-    echo -e "\nChecking out MET recipe for Moriond 17"
-    git cms-merge-topic -u cms-met:METRecipe_8020
-fi
+####################Not used at the moment
 
 
 if [ ! -d ./KaMuCa ]; then

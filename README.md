@@ -10,11 +10,14 @@ Current supported CMSSW release: `CMSSW_10_2_0+`
 _As of right now (18/10/20178) this branch is just to be used to run on 2018 data with minimal add-ons, so use with caution.I will update it as things develop for 2018 Data and MC_
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_10_2_5_patch1
+scram pro -n uwvv CMSSW CMSSW_10_2_10
 cd uwvv/src
 cmsenv
 git cms-init
-git clone -b 2018Data git@github.com:uhussain/UWVV.git
+git clone -b 2018Data --recursive git@github.com:uhussain/UWVV.git
+cd UWVV
+source recipe/setup.sh
+pushd ..
 (To avoid compilation errors although we don’t need this anymore in 2017/2018: https://github.com/CJLST/ZZAnalysis/blob/miniAOD_80X/checkout_10X.csh#L89)
 git clone https://github.com/bachtis/Analysis.git -b KaMuCa_V4 KaMuCa
 scram b -j 12
