@@ -100,10 +100,10 @@ RochesterPATMuonCorrector::produce(edm::Event& event, const edm::EventSetup& set
     double scale_factor=1.0;
     double scale_error = 0.;
     double smear_error = 0.;
-    double u1 = rgen_->Rndm();
-    double u2 = rgen_->Rndm();
+    double u = rgen_->Rndm();
+    //double u2 = rgen_->Rndm();
 	
-	 if(isSync) {u1 = 1.; u2 = 1.;}
+	 if(isSync) {u = 0.5;}
 	 
 	  
 
@@ -120,14 +120,14 @@ RochesterPATMuonCorrector::produce(edm::Event& event, const edm::EventSetup& set
 			/// ====== ON MC (correction plus smearing) =====
 			if ( gen_particle != 0)
 			{
-				scale_factor = calibrator->kScaleFromGenMC(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, gen_particle->pt(), u1);
-				smear_error = calibrator->kScaleFromGenMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, gen_particle->pt(), u1);
+				scale_factor = calibrator->kSpreadMC(muIn->charge(), pt, muIn->eta(), muIn->phi(), gen_particle->pt());
+				smear_error = calibrator->kSpreadMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), gen_particle->pt());
 				
 			}
 			else
 			{
-				scale_factor = calibrator->kScaleAndSmearMC(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u1, u2);
-				smear_error = calibrator->kScaleAndSmearMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u1, u2);
+				scale_factor = calibrator->kSmearMC(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u);
+				smear_error = calibrator->kSmearMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u);
 				
 			}
 			
@@ -144,7 +144,7 @@ RochesterPATMuonCorrector::produce(edm::Event& event, const edm::EventSetup& set
 			{
 			  scale_factor = calibrator->kScaleDT(muIn->charge(), pt, muIn->eta(), muIn->phi());
 			  scale_error = calibrator->kScaleDTerror(muIn->charge(), pt, muIn->eta(), muIn->phi());
-			  smear_error = calibrator->kScaleAndSmearMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u1, u2);
+			  smear_error = calibrator->kSmearMCerror(muIn->charge(), pt, muIn->eta(), muIn->phi(), nl, u);
 			}
 			else
 			{

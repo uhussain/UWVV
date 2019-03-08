@@ -23,7 +23,7 @@ class MuonCalibration(AnalysisFlowBase):
             muCalibrator = cms.EDProducer(
                 "RochesterPATMuonCorrector",
                 src = step.getObjTag('m'),
-                identifier = cms.string("RoccoR2017v0"),
+                identifier = cms.string("RoccoR2018"),
                 isMC = cms.bool(self.isMC),
                 isSync = cms.bool(self.isSync),
                 maxPt = cms.double(200),
