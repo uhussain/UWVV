@@ -151,7 +151,7 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       for (auto& id : pogIDNames) {
           if (!eptr->hasUserFloat(id.c_str()))
               continue;
-          out->back().addUserFloat(id+"id", idResult);
+          out->back().addUserFloat(id+"id", float(idResultNoVtx));
       }
     }
 

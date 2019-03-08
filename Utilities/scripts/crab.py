@@ -82,6 +82,7 @@ configParams = [
 ]
 today = (datetime.date.today()).strftime("%d%b%Y")
 campaign_name = localSettings.get("local", "campaign").replace("$DATE", today)
+#campaign_name = localSettings.get("local", "campaign").replace("$DATE", "25Jan2019")
 if isMC:
     config.General.requestName = '_'.join([campaign_name, primaryDS])
     # Check for extension dataset, force unique request name
@@ -135,6 +136,8 @@ config.Data.useParent = False
 config.Data.publication = False
 outdir = localSettings.get("local", "outLFNDirBase").replace(
     "$USER", getUsernameFromSiteDB()).replace("$DATE", today)
+#outdir = localSettings.get("local", "outLFNDirBase").replace(
+#    "$USER", getUsernameFromSiteDB()).replace("$DATE", "25Jan2019")
 # Useful for VBFNLO samples
 #config.Site.whitelist = ['T2_DE_DESY']
 config.Data.outLFNDirBase = outdir 

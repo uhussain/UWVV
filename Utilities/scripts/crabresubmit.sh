@@ -12,7 +12,7 @@ for name in $listOfSamples; do
   for era in $eras; do
     for ver in $versions;do
       echo "=====================" $name "========================"
-      crab resubmit --dir=crab_UWVVNtuples_${Date}_${name}_Run2018${era}-PromptReco-${ver}
+      crab status --dir=crab_UWVVNtuples_${Date}_${name}_Run2018${era}-PromptReco-${ver}
     done
   done
 done

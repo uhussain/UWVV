@@ -46,36 +46,40 @@ zzCompositeTriggerBranches = cms.PSet(
     )
 verboseTriggerBranches = cms.PSet(
     trigNames = cms.vstring(
-         "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",
+         "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",#2018/2017
          "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8",
-         "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL",
-         "HLT_DoubleEle33_CaloIdL_MW",
-         "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",
-         "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",
-         "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",
-         'HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ',
+         "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL",#2018/2017
+         "HLT_DoubleEle25_CaloIdL_MW",#2018
+         "HLT_DoubleEle33_CaloIdL_MW",#2017
+         "HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",#2018/2017
+         "HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",#2018/2017
+         "HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",#2018/2017
+         'HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ',#2018/2017
          "HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL",
          "HLT_Mu8_DiEle12_CaloIdL_TrackIdL",
          "HLT_Mu8_DiEle12_CaloIdL_TrackIdL_DZ",
-         "HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZ",
-         "HLT_TripleMu_12_10_5",
-         "HLT_TripleMu_10_5_5_DZ",
-         "HLT_Ele35_WPTight_Gsf",
-         "HLT_Ele38_WPTight_Gsf",
-         "HLT_Ele40_WPTight_Gsf",
-         "HLT_IsoMu27",
+         "HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZ",#2018/2017
+         "HLT_TripleMu_12_10_5",#2018/2017
+         "HLT_TripleMu_10_5_5_DZ",#2018/2017
+         "HLT_Ele32_WPTight_Gsf",#2018
+         "HLT_Ele35_WPTight_Gsf",#2017
+         "HLT_Ele38_WPTight_Gsf",#2017
+         "HLT_Ele40_WPTight_Gsf",#2017
+         "HLT_IsoMu24",#2018
+         "HLT_IsoMu27",#2017
     ),
     #HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVLPaths = cms.vstring('HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v[0-9]+'),
     #HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVLPaths = cms.vstring('HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v[0-9]+'),
-    HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8Paths = cms.vstring('HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v[0-9]+'),
+    HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8Paths = cms.vstring('HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v[0-9]+'),#2018/2017
     HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8Paths = cms.vstring('HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v[0-9]+'),
-    HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),
+    HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),#2018/2017
     #HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),
-    HLT_DoubleEle33_CaloIdL_MWPaths = cms.vstring('HLT_DoubleEle33_CaloIdL_MW_v[0-9]+'),
-    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),
-    HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),
-    HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),
-    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),
+    HLT_DoubleEle25_CaloIdL_MWPaths = cms.vstring('HLT_DoubleEle25_CaloIdL_MW_v[0-9]+'),#2018
+    HLT_DoubleEle33_CaloIdL_MWPaths = cms.vstring('HLT_DoubleEle33_CaloIdL_MW_v[0-9]+'),#2017
+    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),#2018/2017
+    HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),#2018/2017
+    HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),#2018/2017
+    HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZPaths = cms.vstring('HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),#2018/2017
     #HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZPaths =cms.vstring('HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v[0-9]+'),
     #HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),
     #HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVLPaths = cms.vstring('HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v[0-9]+'),
@@ -83,16 +87,17 @@ verboseTriggerBranches = cms.PSet(
     HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdLPaths = cms.vstring('HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL_v[0-9]+'),
     HLT_Mu8_DiEle12_CaloIdL_TrackIdLPaths = cms.vstring('HLT_Mu8_DiEle12_CaloIdL_TrackIdL_v[0-9]+'),
     HLT_Mu8_DiEle12_CaloIdL_TrackIdL_DZPaths = cms.vstring('HLT_Mu8_DiEle12_CaloIdL_TrackIdL_DZ_v[0-9]+'),
-    HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZPaths = cms.vstring('HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZ_v[0-9]+'),
-    HLT_TripleMu_12_10_5Paths = cms.vstring('HLT_TripleMu_12_10_5_v[0-9]+'),
-    HLT_TripleMu_10_5_5_DZPaths = cms.vstring('HLT_TripleMu_10_5_5_DZ_v[0-9]+'),
-    #HLT_Ele32_WPTightPaths = cms.vstring('HLT_Ele32_WPTight_v[0-9]+'),
-    HLT_Ele35_WPTight_GsfPaths = cms.vstring('HLT_Ele35_WPTight_Gsf_v[0-9]+'),
-    HLT_Ele38_WPTight_GsfPaths = cms.vstring('HLT_Ele38_WPTight_Gsf_v[0-9]+'),
-    HLT_Ele40_WPTight_GsfPaths = cms.vstring('HLT_Ele40_WPTight_Gsf_v[0-9]+'),
+    HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZPaths = cms.vstring('HLT_DiMu9_Ele9_CaloIdL_TrackIdL_DZ_v[0-9]+'),#2018/2017
+    HLT_TripleMu_12_10_5Paths = cms.vstring('HLT_TripleMu_12_10_5_v[0-9]+'),#2018/2017
+    HLT_TripleMu_10_5_5_DZPaths = cms.vstring('HLT_TripleMu_10_5_5_DZ_v[0-9]+'),#2018/2017
+    HLT_Ele32_WPTight_GsfPaths = cms.vstring('HLT_Ele32_WPTight_Gsf_v[0-9]+'),#2018
+    HLT_Ele35_WPTight_GsfPaths = cms.vstring('HLT_Ele35_WPTight_Gsf_v[0-9]+'),#2017
+    HLT_Ele38_WPTight_GsfPaths = cms.vstring('HLT_Ele38_WPTight_Gsf_v[0-9]+'),#2017
+    HLT_Ele40_WPTight_GsfPaths = cms.vstring('HLT_Ele40_WPTight_Gsf_v[0-9]+'),#2017
     #HLT_IsoMu20Paths = cms.vstring('HLT_IsoMu20_v[0-9]+'),
     #HLT_IsoTkMu20Paths = cms.vstring('HLT_IsoTkMu20_v[0-9]+'),
-    HLT_IsoMu27Paths = cms.vstring('HLT_IsoMu27_v[0-9]+'),
+    HLT_IsoMu24Paths = cms.vstring('HLT_IsoMu24_v[0-9]+'),#2018
+    HLT_IsoMu27Paths = cms.vstring('HLT_IsoMu27_v[0-9]+'),#2017
     #HLT_IsoMu24444Paths = cms.vstring('HLT_IsoMu24_v[0-9]+'),
     #HLT_IsoMuTkMu24Paths = cms.vstring('HLT_IsoTkMu24_v[0-9]+'),
     #HLT_IsoTkMu22Paths = cms.vstring('HLT_IsoTkMu22_v[0-9]+'),

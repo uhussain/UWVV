@@ -63,7 +63,7 @@ bool DressedGenParticle::dissociate(const reco::GenParticle& associated) {
 //    return true;
 }
 bool DressedGenParticle::isAssociated(const reco::GenParticle& associated) const{
-    std::vector<reco::GenParticle>::const_iterator begin = associates.begin();
+    //std::vector<reco::GenParticle>::const_iterator begin = associates.begin();
     std::vector<reco::GenParticle>::const_iterator end = associates.end();
     std::vector<reco::GenParticle>::const_iterator entry = std::find_if(
         associates.begin(), associates.end(), 

@@ -44,7 +44,7 @@ class RecomputeElectronID(AnalysisFlowBase):
             "PATElectronValueMapEmbedder",
             src = step.getObjTag('e'),
             floatLabels = cms.untracked.vstring("MVAIsoID"),
-            floatVals = cms.untracked.VInputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2Values"),#2018 Setup 
+            floatVals = cms.untracked.VInputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),#2018 Setup 
             #floatVals = cms.untracked.VInputTag(""),#2018 Setup
             #boolLabels = cms.untracked.vstring("IsCBVIDTight", "IsCBVIDMedium", "IsCBVIDLoose", "IsCBVIDVeto", "IsCBVIDHLTSafe"),
             boolLabels = cms.untracked.vstring("IsFall17isoV2wpHZZ"),
