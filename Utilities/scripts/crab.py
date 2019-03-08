@@ -77,7 +77,6 @@ configParams = [
     "lheWeights=%s" % (localSettings.get("local", "lheWeights") if isMC else "0"),
     "eCalib=%s" % localSettings.get("local", "eCalib"),
     "muCalib=%s" % localSettings.get("local", "muCalib"),
-    "RecomputeElectronID=%s" % localSettings.get("local","RecomputeElectronID"),
     "globalTag=%s" % globalTag,
 ]
 today = (datetime.date.today()).strftime("%d%b%Y")

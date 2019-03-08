@@ -47,7 +47,7 @@ metFilters = cms.PSet(
     Flag_BadChargedCandidateFilterPaths = cms.vstring('Flag_BadChargedCandidateFilter'),
     Flag_BadPFMuonFilterPaths = cms.vstring('Flag_BadPFMuonFilter'),
 
-    trigResultsSrc = cms.InputTag("TriggerResults", "", "RECO"),
+    trigResultsSrc = cms.InputTag("TriggerResults", "", "PAT"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
     checkPrescale = cms.bool(False),
     )
