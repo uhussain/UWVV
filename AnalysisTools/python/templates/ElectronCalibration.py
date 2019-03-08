@@ -35,28 +35,36 @@ class ElectronCalibration(AnalysisFlowBase):
             #eReg.src = step.getObjTag('e')
             #step.addModule('electronRegression', eReg, 'e')
 
-            cutOnSCEta = cms.EDFilter(
-                "PATElectronSelector",
-                src = step.getObjTag('e'),
-                cut = cms.string('pt >= 5. && abs(superCluster.eta) < 2.5'),
-                )
-            step.addModule('selectElectronsBeforeID', cutOnSCEta, 'e')
+            #cutOnSCEta = cms.EDFilter(
+            #    "PATElectronSelector",
+            #    src = step.getObjTag('e'),
+            #    cut = cms.string('pt >= 5. && abs(superCluster.eta) < 2.5'),
+            #    )
+            #step.addModule('selectElectronsBeforeID', cutOnSCEta, 'e')
 
             if not hasattr(self.process, 'RandomNumberGeneratorService'):
                 self.process.RandomNumberGeneratorService = cms.Service(
                     'RandomNumberGeneratorService',
                     )
-            self.process.RandomNumberGeneratorService.calibratedPatElectrons = cms.PSet(
-                initialSeed = cms.untracked.uint32(987),
-                )
+            #self.process.RandomNumberGeneratorService.calibratedPatElectrons = cms.PSet(
+            #    initialSeed = cms.untracked.uint32(987),
+            #    )
             
-            from EgammaAnalysis.ElectronTools.calibratedPatElectronsRun2_cfi import calibratedPatElectrons
-            calibratedPatElectrons.isMC = cms.bool(self.isMC)
-            calibratedPatElectrons.electrons = step.getObjTag('e') 
-            calibratedPatElectrons.isSynchronization = cms.bool(self.isSync)
-            #self.process.calibratedPatElectrons.correctionFile = cms.string(correctionFile),
+            #from RecoEgamma.EgammaTools.calibratedEgammas_cff import calibratedPatElectrons
+            #calibratedPatElectrons.isMC = cms.bool(self.isMC)
+            #calibratedPatElectrons.src = step.getObjTag('e') 
+            #calibratedPatElectrons.isSynchronization = cms.bool(self.isSync)
+            ##self.process.calibratedPatElectrons.correctionFile = cms.string(correctionFile),
 
-            step.addModule('calibratedPatElectrons', calibratedPatElectrons, 'e')
+            #step.addModule('calibratedPatElectrons', calibratedPatElectrons, 'e')
+
+            #https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes
+            #fix a bug in the ECAL-Tracker momentum combination when applying the scale and smearing
+            from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+            setupEgammaPostRecoSeq(self.process,
+                    era='2018-Prompt'
+                    )
+            step.addModule('egammaPostRecoSeq',self.process.egammaPostRecoSeq)
 
             if self.electronScaleShift or self.electronRhoResShift or self.electronPhiResShift:
                 self.process.RandomNumberGeneratorService.electronSystematicShift = cms.PSet(

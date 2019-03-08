@@ -26,9 +26,9 @@ class RecomputeElectronID(AnalysisFlowBase):
         setupAllVIDIdsInModule(self.process,
                                'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V2_cff',
                                setupVIDElectronSelection)
-        setupAllVIDIdsInModule(self.process,
-                               'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
-                               setupVIDElectronSelection)
+        #setupAllVIDIdsInModule(self.process,
+        #                       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff',
+        #                       setupVIDElectronSelection)
         #setupAllVIDIdsInModule(self.process,
         #                       'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronHLTPreselecition_Summer16_V1_cff',
         #                       setupVIDElectronSelection)
@@ -47,9 +47,9 @@ class RecomputeElectronID(AnalysisFlowBase):
             floatVals = cms.untracked.VInputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),#2018 Setup 
             #floatVals = cms.untracked.VInputTag(""),#2018 Setup
             #boolLabels = cms.untracked.vstring("IsCBVIDTight", "IsCBVIDMedium", "IsCBVIDLoose", "IsCBVIDVeto", "IsCBVIDHLTSafe"),
-            boolLabels = cms.untracked.vstring("IsFall17isoV2wpHZZ"),
-            boolVals = cms.untracked.VInputTag(
-                cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpHZZ"),
+            #boolLabels = cms.untracked.vstring("IsFall17isoV2wpHZZ"),
+            #boolVals = cms.untracked.VInputTag(
+            #    cms.InputTag("egmGsfElectronIDs:mvaEleID-Fall17-iso-V2-wpHZZ"),
 
             #boolVals = cms.untracked.VInputTag(
             #    cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
@@ -57,7 +57,7 @@ class RecomputeElectronID(AnalysisFlowBase):
             #    cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose"),
             #    cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"),
             #    cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),
-                )
+               # )
             )
 
         step.addModule('electronIDEmbedding', embedIDs, 'e')
