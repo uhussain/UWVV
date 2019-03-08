@@ -16,14 +16,9 @@ class ZZID(AnalysisFlowBase):
                 src = step.getObjTag('e'),
                 idLabel = cms.string(self.getZZIDLabel()),
                 vtxSrc = step.getObjTag('v'),
-                #bdtLabel=cms.string("ElectronMVAEstimatorRun2Fall17IsoV2Values"),
-                bdtLabel = cms.string('MVAIsoID'),#2017Setup
-                #idCutLowPtLowEta = cms.double(0.5739521065342641),
-                #idCutLowPtMedEta = cms.double(0.5504628790992929),
-                #idCutLowPtHighEta = cms.double(0.5924627534389098),
-                #idCutHighPtLowEta = cms.double(-0.03391387993354392),
-                #idCutHighPtMedEta = cms.double(-0.018451958064666783),
-                #idCutHighPtHighEta = cms.double(-0.38565459150737535),
+                bdtLabel=cms.string("ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),
+                HZZWP = cms.string("mvaEleID-Fall17-iso-V2-wpHZZ"),
+                #bdtLabel = cms.string('MVAIsoID'),#2017Setup
                 #https://github.com/cms-sw/cmssw/blob/master/RecoEgamma/ElectronIdentification/python/Identification/mvaElectronID_Fall17_iso_V2_cff.py#L21
                 idCutLowPtLowEta = cms.double(1.26402092475),
                 idCutLowPtMedEta = cms.double(1.17808089508),

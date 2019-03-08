@@ -63,11 +63,6 @@ electronBranches = cms.PSet(
     bools = cms.PSet(
         IsGap = cms.string('isGap'),
         IsEB = cms.string('isEB'),
-        IsFall17isoV2wpHZZ = cms.string('? hasUserFloat("IsFall17isoV2wpHZZ") ? '
-                                  'userFloat("IsFall17isoV2wpHZZ") : 0'),
-
-        IsFall17isoV2wpHZZid = cms.string('? hasUserFloat("IsFall17isoV2wpHZZid") ? '
-                                  'userFloat("IsFall17isoV2wpHZZid") : 0'),
         IsCBVIDTightNoIP = cms.string('? hasUserFloat("IsCBVIDTight") ? '
                                   'userFloat("IsCBVIDTight") : 0'),
         IsCBVIDTight = cms.string('? hasUserFloat("IsCBVIDTightwIP") ? '

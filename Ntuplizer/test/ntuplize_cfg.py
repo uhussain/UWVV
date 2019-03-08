@@ -34,8 +34,9 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/917/00000/92B9D22F-D19B-E811-909F-FA163E8F1F8F.root'
 #options.inputFiles=' /store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext2-v2/90000/DF088D7E-E24C-3C46-B83D-F4B359623203.root'
 options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
-options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
-options.maxEvents = -1
+#options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
+options.outputFile = 'SyncFile.root'
+options.maxEvents = 5000
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -272,9 +273,9 @@ if options.muCalib:
     from UWVV.Ntuplizer.templates.muonBranches import muonCalibrationBranches
     extraFinalObjectBranches['m'].append(muonCalibrationBranches)
 
-if options.RecomputeElectronID:
-    from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
-    FlowSteps.append(RecomputeElectronID)
+#if options.RecomputeElectronID:
+#    from UWVV.AnalysisTools.templates.RecomputeElectronID import RecomputeElectronID
+#    FlowSteps.append(RecomputeElectronID)
 
 from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
 FlowSteps.append(MuonGhostCleaning)
@@ -441,16 +442,16 @@ else:
         trgBranches = verboseTriggerBranches
         #from UWVV.Ntuplizer.templates.triggerBranches import zzCompositeTriggerBranches
         #trgBranches = zzCompositeTriggerBranches
-
-# Add bad muon filters in addition to met filters for ReMiniAOD
-# Removed for now because they don't seem to be ready in 2017 yet
-# if options.isMC:
-#     from UWVV.Ntuplizer.templates.filterBranches import metFilters
-#     filterBranches = metFilters
-# else:
-#     from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
-#     filterBranches = metAndBadMuonFilters
-filterBranches = trgBranches.clone(trigNames=cms.vstring())
+#This can be used for 2017 & 2018. But I'm missing one filter which is outdated in MiniAOD
+#The recipe is a bit cumbersome/still work in progress so I don't use this filter for now because I'm lazy and I really don't need these filters
+#https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
+if options.isMC:
+     from UWVV.Ntuplizer.templates.filterBranches import metFilters
+     filterBranches = metFilters
+else:
+     from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
+     filterBranches = metAndBadMuonFilters
+#filterBranches = trgBranches.clone(trigNames=cms.vstring())
 
 process.treeSequence = cms.Sequence()
 # then the ntuples

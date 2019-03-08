@@ -48,6 +48,7 @@ private:
   bool passVertex(const edm::Ptr<pat::Electron>& elec) const;
   bool passBDT(const edm::Ptr<pat::Electron>& elec) const;
   bool passMissingHits(const edm::Ptr<pat::Electron>& elec) const;
+  bool passHZZWP(const edm::Ptr<pat::Electron>& elec) const;
 
   // Data
   edm::EDGetTokenT<edm::View<pat::Electron> > electronCollectionToken_;
@@ -71,6 +72,7 @@ private:
   const double idCutHighPtMedEta;
   const double idCutHighPtHighEta;
   const std::string bdtLabel;
+  const std::string HZZWP;
   const int missingHitsCut;
   const bool checkMVAID;
 
@@ -105,7 +107,8 @@ PATElectronZZIDEmbedder::PATElectronZZIDEmbedder(const edm::ParameterSet& iConfi
   idCutHighPtLowEta(iConfig.exists("idCutHighPtLowEta") ? iConfig.getParameter<double>("idCutHighPtLowEta") : 0.652),
   idCutHighPtMedEta(iConfig.exists("idCutHighPtMedEta") ? iConfig.getParameter<double>("idCutHighPtMedEta") : 0.701),
   idCutHighPtHighEta(iConfig.exists("idCutHighPtHighEta") ? iConfig.getParameter<double>("idCutHighPtHighEta") : 0.350),
-  bdtLabel(iConfig.exists("bdtLabel") ? iConfig.getParameter<std::string>("bdtLabel") : "BDTIDNonTrig"),
+  bdtLabel(iConfig.exists("bdtLabel") ? iConfig.getParameter<std::string>("bdtLabel") : "ElectronMVAEstimatorRun2Fall17IsoV2RawValues"),
+  HZZWP(iConfig.exists("HZZWP") ? iConfig.getParameter<std::string>("HZZWP") : "mvaEleID-Fall17-iso-V2-wpHZZ"),
   missingHitsCut(iConfig.exists("missingHitsCut") ? iConfig.getParameter<int>("missingHitsCut") : 1),
   checkMVAID(bdtLabel != ""),
   selector(iConfig.exists("selection") ?
@@ -120,7 +123,6 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
 {
   std::unique_ptr<std::vector<pat::Electron> >out = std::make_unique<std::vector<pat::Electron> >();
 
-  std::vector<std::string> pogIDNames = {"IsFall17isoV2wpHZZ"};
   edm::Handle<edm::View<pat::Electron> > electronsIn;
   iEvent.getByToken(vtxSrcToken_,vertices);
 
@@ -138,21 +140,21 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       bool missingHitsResult = passMissingHits(eptr);
       bool idResultNoVtx = selector(*eptr) && kinResult && missingHitsResult;
       bool idResult = idResultNoVtx && vtxResult;
-
+      
       out->back().addUserFloat(idLabel_+"NoVtx", float(idResultNoVtx)); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_, float(idResult)); // 1 for true, 0 for false
 
       //std::cout << iEvent.id().run() << ":" << iEvent.id().luminosityBlock() <<":"
       //        << iEvent.id().event() << std::endl;
-
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && passBDT(eptr))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && passBDT(eptr))); // 1 for true, 0 for false
-
-      for (auto& id : pogIDNames) {
-          if (!eptr->hasUserFloat(id.c_str()))
-              continue;
-          out->back().addUserFloat(id+"id", float(idResultNoVtx));
-      }
+      //HZZWP
+      out->back().addUserFloat(idLabel_+"TightNoVtxHZZWP", float(idResultNoVtx && passHZZWP(eptr))); // 1 for true, 0 for false
+      out->back().addUserFloat(idLabel_+"TightHZZWP", float(idResult && passHZZWP(eptr))); // 1 for true, 0 for false
+      //std::cout<<"elec Pt: " <<(*eptr).pt()<<std::endl;
+      //std::cout<<"Passes BDT: "<<passBDT(eptr)<<std::endl;
+      //std::cout<<"Passes HZZWP: "<<passHZZWP(eptr)<<std::endl;
+    
     }
 
   iEvent.put(std::move(out));
@@ -179,6 +181,10 @@ bool PATElectronZZIDEmbedder::passVertex(const edm::Ptr<pat::Electron>& elec) co
 }
 
 
+bool PATElectronZZIDEmbedder::passHZZWP(const edm::Ptr<pat::Electron>& elec) const
+{
+  return (elec->electronID(HZZWP));
+}
 bool PATElectronZZIDEmbedder::passBDT(const edm::Ptr<pat::Electron>& elec) const
 {
   if(!checkMVAID)
@@ -206,10 +212,10 @@ bool PATElectronZZIDEmbedder::passBDT(const edm::Ptr<pat::Electron>& elec) const
       else
 	bdtCut = idCutHighPtHighEta;
     }
-
-  //std::cout<<"102X Setup elec Pt: "<<elec->pt()<<std::endl;
-  //std::cout<<"102X Setup elec Eta: "<<eta<<std::endl;
-  //std::cout<<"102X Setup elec MVAValue: "<<elec->userFloat(bdtLabel)<<std::endl;
+  
+  //std::cout<<"2017 Setup elec Pt: "<<elec->pt()<<std::endl;
+  //std::cout<<"2017 Setup elec Eta: "<<eta<<std::endl;
+  //std::cout<<"2017 Setup elec MVAValue: "<<elec->userFloat(bdtLabel)<<std::endl;
   //std::cout<<"bdtCut: "<<bdtCut<<std::endl;
   return (elec->userFloat(bdtLabel) > bdtCut);
 }
