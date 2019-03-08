@@ -7,7 +7,6 @@ It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [mini
 
 ## Setup
 Current supported CMSSW release: `CMSSW_10_2_0+`
-_As of right now (18/10/20178) this branch is just to be used to run on 2018 data with minimal add-ons, so use with caution.I will update it as things develop for 2018 Data and MC_
 
 ```bash
 scram pro -n uwvv CMSSW CMSSW_10_2_10
