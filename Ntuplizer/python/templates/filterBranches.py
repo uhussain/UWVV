@@ -5,14 +5,14 @@ import FWCore.ParameterSet.Config as cms
 # MET filters for Moriond 2017 following: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
 metAndBadMuonFilters = cms.PSet(
     trigNames = cms.vstring(
-        # 'Flag_HBHENoiseFilter',
-        # 'Flag_HBHENoiseIsoFilter',
-        # 'Flag_EcalDeadCellTriggerPrimitiveFilter',
-        # 'Flag_goodVertices',
-        # 'Flag_eeBadScFilter',
-        # 'Flag_globalSuperTightHalo2016Filter',
-        # 'Flag_badMuons',
-        # 'Flag_duplicateMuons',
+         'Flag_HBHENoiseFilter',
+         'Flag_HBHENoiseIsoFilter',
+         'Flag_EcalDeadCellTriggerPrimitiveFilter',
+         'Flag_goodVertices',
+         'Flag_eeBadScFilter',
+         'Flag_globalSuperTightHalo2016Filter',
+         'Flag_BadChargedCandidateFilter',
+         'Flag_BadPFMuonFilter',
     ),
     Flag_HBHENoiseFilterPaths = cms.vstring('Flag_HBHENoiseFilter'),
     Flag_HBHENoiseIsoFilterPaths = cms.vstring('Flag_HBHENoiseIsoFilter'),
@@ -23,7 +23,7 @@ metAndBadMuonFilters = cms.PSet(
     Flag_BadChargedCandidateFilterPaths = cms.vstring('Flag_BadChargedCandidateFilter'),
     Flag_BadPFMuonFilterPaths = cms.vstring('Flag_BadPFMuonFilter'),
 
-    trigResultsSrc = cms.InputTag("TriggerResults", "", "PAT"),
+    trigResultsSrc = cms.InputTag("TriggerResults", "", "RECO"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
     checkPrescale = cms.bool(False),
     )
@@ -31,12 +31,13 @@ metAndBadMuonFilters = cms.PSet(
 # MET filters for Moriond 2017 following: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MissingETOptionalFiltersRun2
 metFilters = cms.PSet(
     trigNames = cms.vstring(
-        # 'Flag_HBHENoiseFilter',
-        # 'Flag_HBHENoiseIsoFilter',
-        # 'Flag_EcalDeadCellTriggerPrimitiveFilter',
-        # 'Flag_goodVertices',
-        # 'Flag_eeBadScFilter',
-        # 'Flag_globalSuperTightHalo2016Filter',
+         'Flag_HBHENoiseFilter',
+         'Flag_HBHENoiseIsoFilter',
+         'Flag_EcalDeadCellTriggerPrimitiveFilter',
+         'Flag_goodVertices',
+         'Flag_globalSuperTightHalo2016Filter',
+         'Flag_BadChargedCandidateFilter',
+         'Flag_BadPFMuonFilter',
     ),
     Flag_HBHENoiseFilterPaths = cms.vstring('Flag_HBHENoiseFilter'),
     Flag_HBHENoiseIsoFilterPaths = cms.vstring('Flag_HBHENoiseIsoFilter'),
@@ -46,7 +47,7 @@ metFilters = cms.PSet(
     Flag_BadChargedCandidateFilterPaths = cms.vstring('Flag_BadChargedCandidateFilter'),
     Flag_BadPFMuonFilterPaths = cms.vstring('Flag_BadPFMuonFilter'),
 
-    trigResultsSrc = cms.InputTag("TriggerResults", "", "PAT"),
+    trigResultsSrc = cms.InputTag("TriggerResults", "", "RECO"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
     checkPrescale = cms.bool(False),
     )

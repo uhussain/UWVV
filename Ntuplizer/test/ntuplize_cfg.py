@@ -25,7 +25,7 @@ options = VarParsing.VarParsing('analysis')
 #'/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/757/00000/F2C0E5CD-4D98-E811-A8BF-FA163E987883.root'
 #'/store/data/Run2018A/DoubleMuon/MINIAOD/PromptReco-v3/000/316/569/00000/0CBC961D-6264-E811-B36E-FA163E4C1970.root'
 #options.inputFiles='/store/data/Run2018A/EGamma/MINIAOD/PromptReco-v1/000/316/219/00000/F4905DCC-C758-E811-8305-FA163E4EC205.root '
-#options.inputFiles='/store/data/Run2018A/DoubleMuon/MINIAOD/17Sep2018-v2/00000/0732276A-A475-8D48-AF54-4C5E7B830F4C.root'
+options.inputFiles='/store/data/Run2018A/DoubleMuon/MINIAOD/17Sep2018-v2/00000/0732276A-A475-8D48-AF54-4C5E7B830F4C.root'
 #options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/80000/D65A4D51-2E80-AD41-B50D-E4083BA2A668.root'
 #' /store/mc/RunIIFall17MiniAOD/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/94X_mc2017_realistic_v10_ext1-v1/00000/005E8ACC-A60A-E811-825F-A0369FC522F0.root'
 #options.inputFiles='/store/mc/RunIISummer16MiniAODv3/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/270000/E8AB22C0-D7C6-E811-8EF9-001A649D4925.root'
@@ -33,9 +33,9 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/E45B6B6A-81B4-3D45-ABCF-FF9C118E755F.root'
 #options.inputFiles='/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/917/00000/92B9D22F-D19B-E811-909F-FA163E8F1F8F.root'
 #options.inputFiles=' /store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext2-v2/90000/DF088D7E-E24C-3C46-B83D-F4B359623203.root'
-options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
+#options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
 #options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
-options.outputFile = 'SyncFile.root'
+options.outputFile = 'ReReco.root'
 options.maxEvents = 5000
 
 #print options.inputFiles
@@ -54,7 +54,7 @@ options.register('isMC', 0,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if simulation, 0 if data")
-options.register('eCalib', 0,
+options.register('eCalib', 1,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if electron energy corrections are desired")
@@ -112,7 +112,7 @@ options.register('mClosureShift', 0,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  'Muon calibration closure shift, in units of sigma.')
-options.register('lheWeights', 1,
+options.register('lheWeights', 0,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  'Add LHE weights from Monte Carlo. Option 1 = scale weights '
