@@ -10,15 +10,15 @@ fi
 scripts_path=$CMSSW_BASE/src/UWVV/Utilities/scripts
 config_path=$scripts_path/CrabTemplates
 config=$config_path/local.noweights.txt
-if [[ $1 == *"AllLHEWeights"* ]]; then
-  config=$config_path/local.allweights.txt
-elif [[ $1 == *"NoLHEWeights"* ]]; then
-  config=$config_path/local.noweights.txt
-elif [[ $1 == *"LHEScaleWeights"* ]]; then
-  config=$config_path/local.onlyscaleweights.txt
-elif [[ $1 == *"Run2016H"* ]]; then
-  config=$config_path/local.noweights.2016h.txt
-fi 
+#if [[ $1 == *"AllLHEWeights"* ]]; then
+#  config=$config_path/local.allweights.txt
+#elif [[ $1 == *"NoLHEWeights"* ]]; then
+#  config=$config_path/local.noweights.txt
+#elif [[ $1 == *"LHEScaleWeights"* ]]; then
+#  config=$config_path/local.onlyscaleweights.txt
+#elif [[ $1 == *"Run2016H"* ]]; then
+#  config=$config_path/local.noweights.2016h.txt
+#fi 
 (>&2 echo "Using config file $config")
 cp $config local.txt
 grep -v -e '^#' -e '^ *$' $1 | while read dataset
