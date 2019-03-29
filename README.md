@@ -13,7 +13,7 @@ data: dataset=/*/Run2017*31Mar2018*/MINIAOD
 MC: dataset=/*/*12Apr2018*/MINIAODSIM
 
 ```bash
-scram pro -n uwvv CMSSW_9_4_10/CMSSW_9_4_9_cand2
+scram pro -n uwvv CMSSW_9_4_13
 cd uwvv/src
 cmsenv
 git cms-init # do before anything else
