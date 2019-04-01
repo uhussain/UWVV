@@ -22,13 +22,15 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIISummer16MiniAODv3/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_94X_mcRun2_asymptotic_v3-v1/270000/E8AB22C0-D7C6-E811-8EF9-001A649D4925.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/F4E3EBBD-BA42-E811-8154-0025905B85D8.root'
 #options.inputFiles='/store/data/Run2017F/DoubleEG/MINIAOD/31Mar2018-v1/90001/F61EA338-8E37-E811-A203-0025905C4262.root'
-options.inputFiles='/store/mc/RunIIFall17MiniAODv2/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/FEFADA2F-8C44-E811-914F-B496910A8618.root'
+#options.inputFiles='/store/mc/RunIIFall17MiniAODv2/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/90000/FEFADA2F-8C44-E811-914F-B496910A8618.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/0671E922-F155-E811-A258-0CC47A4D7674.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/WWZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/20000/00E16BB5-BBF2-E811-8979-0025904C7DFC.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/40000/8C7157F9-3942-E811-865D-002590FD5A4C.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/30000/FC05C875-5B75-E811-AF08-0025905C54FC.root'
-options.outputFile = 'ntuple.root'
-options.maxEvents = -1
+#V2 with correct PU
+options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/70000/FC88B59B-74BB-E811-AD46-44A842BE76F1.root'
+options.outputFile = 'ntupleZZMC.root'
+options.maxEvents = 10000
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -434,15 +436,16 @@ trgBranches = verboseTriggerBranches
         #from UWVV.Ntuplizer.templates.triggerBranches import zzCompositeTriggerBranches
         #trgBranches = zzCompositeTriggerBranches
 
-# Add bad muon filters in addition to met filters for ReMiniAOD
-# Removed for now because they don't seem to be ready in 2017 yet
-# if options.isMC:
-#     from UWVV.Ntuplizer.templates.filterBranches import metFilters
-#     filterBranches = metFilters
-# else:
-#     from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
-#     filterBranches = metAndBadMuonFilters
-filterBranches = trgBranches.clone(trigNames=cms.vstring())
+#This can be used for 2017 & 2018. But I'm missing one filter which is outdated in MiniAOD
+#The recipe is a bit cumbersome/still work in progress so I don't use this filter for now because I'm lazy and I really don't need these filters
+#https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
+if options.isMC:
+    from UWVV.Ntuplizer.templates.filterBranches import metFilters
+    filterBranches = metFilters
+else:
+    from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
+    filterBranches = metAndBadMuonFilters
+#filterBranches = trgBranches.clone(trigNames=cms.vstring())
 
 process.treeSequence = cms.Sequence()
 # then the ntuples
