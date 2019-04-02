@@ -9,7 +9,7 @@ if [ $# -eq 0 ]; then
 fi
 scripts_path=$CMSSW_BASE/src/UWVV/Utilities/scripts
 config_path=$scripts_path/CrabTemplates
-config=$config_path/local.noweights.txt
+config=$config_path/local.allweightsGen.txt
 if [[ $1 == *"AllLHEWeights"* ]]; then
   config=$config_path/local.allweights.txt
 elif [[ $1 == *"NoLHEWeights"* ]]; then

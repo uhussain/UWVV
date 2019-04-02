@@ -29,8 +29,8 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/30000/FC05C875-5B75-E811-AF08-0025905C54FC.root'
 #V2 with correct PU
 options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/70000/FC88B59B-74BB-E811-AD46-44A842BE76F1.root'
-options.outputFile = 'ntupleZZMC.root'
-options.maxEvents = 10000
+options.outputFile = 'ntuple.root'
+options.maxEvents = -1
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -77,11 +77,11 @@ options.register('hzzExtra', 0,
                  VarParsing.VarParsing.varType.int,
                  "1 if extra HZZ quantities like matrix element "
                  "discriminators and Z kinematic refit are desired.")
-options.register('genInfo', 0,
+options.register('genInfo', 1,
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.int,
                  "1 if gen-level ntuples are desired.")
-options.register('genLeptonType', 'hardProcessFS',
+options.register('genLeptonType', 'dressedHPFS',
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "lepton type. Options: dressedHPFS, dressedFS, "
@@ -127,6 +127,7 @@ genLepChoices =  {"hardProcess" : "isHardProcess()",
         "dressedFS" : "status() == 1",
         "dressedPromptFS" : "isPromptFinalState()",
 }
+#print "genLepChoice: ",options.genLeptonType
 if options.genLeptonType not in genLepChoices:
     print "ERROR: Invalid GEN-lepton type %s" % options.genLeptonType
     print "Valid optons and corresponding status flags are"
@@ -487,6 +488,7 @@ if zz and options.isMC and options.genInfo:
     genTrg = trgBranches.clone(trigNames=cms.vstring())
 
     extraInitialStateBranchesGen = [vbsGenBranches]
+    
     if options.lheWeights == 1:
         extraInitialStateBranchesGen.append(lheScaleWeightBranches)
     elif options.lheWeights == 2:
@@ -526,7 +528,7 @@ if zz and options.isMC and options.genInfo:
 
     pGen = genFlow.getPath()
     pGen += process.genTreeSequence
-    process.schedule.append(pGen)
+    #process.schedule.append(pGen)
 
 p = flow.getPath()
 p += process.treeSequence
