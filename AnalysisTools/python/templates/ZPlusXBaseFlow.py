@@ -1,5 +1,5 @@
 from UWVV.AnalysisTools.AnalysisFlowBase import AnalysisFlowBase
-from UWVV.Utilities.helpers import mapObjects, parseChannels
+#from UWVV.Utilities.helpers import mapObjects, parseChannels
 import FWCore.ParameterSet.Config as cms
 
 
@@ -14,8 +14,8 @@ class ZPlusXBaseFlow(AnalysisFlowBase):
             self.addZCreation(step)
 
        #This is added to run cleaned Jet Collection for channels=z  
-        if stepName == 'initialStateEmbedding':
-            self.embedCleanedJets(step)
+       # if stepName == 'initialStateEmbedding':
+       #     self.embedCleanedJets(step)
 
         return step
 
@@ -46,29 +46,29 @@ class ZPlusXBaseFlow(AnalysisFlowBase):
         step.addModule("zMuMuCreation", zMuMuMod, 'mm')
 
     #This is added to run cleaned Jet Collection for channels=z  
-    def embedCleanedJets(self, step):
-        '''
-        Add modules to embed jet collection cleaned leptons 
-        selected in the initial state object
-        '''
-        for chan in parseChannels('z'):
-            try:
-                mod = cms.EDProducer(
-                    'CleanedJetCollectionEmbedder',
-                    src = step.getObjTag(chan),
-                    jetSrc = step.getObjTag('j'),
-                    jesUpJetSrc = step.getObjTag('j_jesUp'),
-                    jesDownJetSrc = step.getObjTag('j_jesDown'),
-                    jerUpJetSrc = step.getObjTag('j_jerUp'),
-                    jerDownJetSrc = step.getObjTag('j_jerDown'),
-                )
-            except KeyError:
-                mod = cms.EDProducer(
-                    'CleanedJetCollectionEmbedder',
-                    src = step.getObjTag(chan),
-                    jetSrc = step.getObjTag('j'),
-                )
-            step.addModule(chan+'CleanedJetsEmbed', mod, chan)
+    #def embedCleanedJets(self, step):
+    #    '''
+    #    Add modules to embed jet collection cleaned leptons 
+    #    selected in the initial state object
+    #    '''
+    #    for chan in parseChannels('z'):
+    #        try:
+    #            mod = cms.EDProducer(
+    #                'CleanedJetCollectionEmbedder',
+    #                src = step.getObjTag(chan),
+    #                jetSrc = step.getObjTag('j'),
+    #                jesUpJetSrc = step.getObjTag('j_jesUp'),
+    #                jesDownJetSrc = step.getObjTag('j_jesDown'),
+    #                jerUpJetSrc = step.getObjTag('j_jerUp'),
+    #                jerDownJetSrc = step.getObjTag('j_jerDown'),
+    #            )
+    #        except KeyError:
+    #            mod = cms.EDProducer(
+    #                'CleanedJetCollectionEmbedder',
+    #                src = step.getObjTag(chan),
+    #                jetSrc = step.getObjTag('j'),
+    #            )
+    #        step.addModule(chan+'CleanedJetsEmbed', mod, chan)
 
     @classmethod
     def getZEECuts(cls):
