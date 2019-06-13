@@ -28,9 +28,11 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/40000/8C7157F9-3942-E811-865D-002590FD5A4C.root'
 #options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/30000/FC05C875-5B75-E811-AF08-0025905C54FC.root'
 #V2 with correct PU
-options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/70000/FC88B59B-74BB-E811-AD46-44A842BE76F1.root'
+#options.inputFiles='/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/70000/FC88B59B-74BB-E811-AD46-44A842BE76F1.root'
+options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/30000/0260451D-6875-E811-9AD5-3417EBE52915.root'
+#options.inputFiles='/store/mc/RunIIFall17MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v1/40000/8C7157F9-3942-E811-865D-002590FD5A4C.root'
 options.outputFile = 'ntuple.root'
-options.maxEvents = -1
+options.maxEvents = 100
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
