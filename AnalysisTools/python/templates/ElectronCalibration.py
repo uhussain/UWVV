@@ -9,6 +9,9 @@ class ElectronCalibration(AnalysisFlowBase):
         if not hasattr(self, 'isSync'):
             self.isSync = self.isMC and kwargs.pop('isSync', False)
 
+        if not hasattr(self, 'year'):
+            self.year = kwargs.pop('year', '2016')
+
         eesShift = kwargs.pop('electronScaleShift', 0) if self.isMC else 0
         eerRhoShift = kwargs.pop('electronRhoResShift', 0) if self.isMC else 0
         eerPhiShift = kwargs.pop('electronPhiResShift', 0) if self.isMC else 0
@@ -25,45 +28,37 @@ class ElectronCalibration(AnalysisFlowBase):
         step = super(ElectronCalibration, self).makeAnalysisStep(stepName, **inputs)
 
         if stepName == 'preliminary':
-            ##For the moment regresion is applied on RECO level so no additional procedure is
-            #needed https://twiki.cern.ch/twiki/bin/view/CMS/Egamma2017DataRecommendations#Overview_of_E_gamma_Energy_Corre
-            #from EgammaAnalysis.ElectronTools.regressionWeights_cfi import regressionWeights
-            #self.process = regressionWeights(self.process)
-
-            #from EgammaAnalysis.ElectronTools.regressionApplication_cff import slimmedElectrons as eReg
-
-            #eReg.src = step.getObjTag('e')
-            #step.addModule('electronRegression', eReg, 'e')
-
-            #cutOnSCEta = cms.EDFilter(
-            #    "PATElectronSelector",
-            #    src = step.getObjTag('e'),
-            #    cut = cms.string('pt >= 5. && abs(superCluster.eta) < 2.5'),
-            #    )
-            #step.addModule('selectElectronsBeforeID', cutOnSCEta, 'e')
 
             if not hasattr(self.process, 'RandomNumberGeneratorService'):
                 self.process.RandomNumberGeneratorService = cms.Service(
                     'RandomNumberGeneratorService',
                     )
-            #self.process.RandomNumberGeneratorService.calibratedPatElectrons = cms.PSet(
-            #    initialSeed = cms.untracked.uint32(987),
-            #    )
-            
-            #from RecoEgamma.EgammaTools.calibratedEgammas_cff import calibratedPatElectrons
-            #calibratedPatElectrons.isMC = cms.bool(self.isMC)
-            #calibratedPatElectrons.src = step.getObjTag('e') 
-            #calibratedPatElectrons.isSynchronization = cms.bool(self.isSync)
-            ##self.process.calibratedPatElectrons.correctionFile = cms.string(correctionFile),
-
-            #step.addModule('calibratedPatElectrons', calibratedPatElectrons, 'e')
-
+            LeptonSetup = cms.string(self.year)
             #https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes
             #fix a bug in the ECAL-Tracker momentum combination when applying the scale and smearing
             from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
-            setupEgammaPostRecoSeq(self.process,
-                    era='2018-Prompt'
-                    )
+            if LeptonSetup=="2016":
+                setupEgammaPostRecoSeq(self.process,
+                        runEnergyCorrections=True,
+                        runVID=True,
+                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Summer16_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
+                        era='2016-Legacy')
+
+            if LeptonSetup=="2017":
+                setupEgammaPostRecoSeq(self.process,
+                        runEnergyCorrections=True,
+                        runVID=True,
+                        era='2017-Nov17ReReco',
+                        )
+
+            if LeptonSetup=="2018":
+                setupEgammaPostRecoSeq(self.process,
+                        runEnergyCorrections=True,
+                        runVID=True,
+                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Autumn18_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
+                        era='2018-Prompt'
+                        )
+            
             step.addModule('egammaPostRecoSeq',self.process.egammaPostRecoSeq)
 
             if self.electronScaleShift or self.electronRhoResShift or self.electronPhiResShift:

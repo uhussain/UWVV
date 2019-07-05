@@ -6,14 +6,14 @@ UWVV is designed for analyses that use final state particles (typically leptons)
 It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [miniAOD](https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookMiniAOD2017) input. Much of the inspiration (and a little bit of the code) comes from [FSA](https://github.com/uwcms/FinalStateAnalysis/). A few tools, like the batch submission scripts, are specific to the computing infrastructure at the University of Wisconsin - Madison.
 
 ## Setup
-Current supported CMSSW release: `CMSSW_10_2_0+`
+Current supported CMSSW release: `CMSSW_10_3_1+`
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_10_2_10
+scram pro -n uwvv CMSSW CMSSW_10_3_1
 cd uwvv/src
 cmsenv
 git cms-init
-git clone -b 2018Data --recursive git@github.com:uhussain/UWVV.git
+git clone -b Run2Legacy --recursive git@github.com:uhussain/UWVV.git
 cd UWVV
 source recipe/setup.sh
 pushd ..
@@ -21,13 +21,13 @@ pushd ..
 git clone https://github.com/bachtis/Analysis.git -b KaMuCa_V4 KaMuCa
 scram b -j 12
 cd UWVV/Ntuplizer/test/
-cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=0 muCalib=1 RecomputeElectronID=0
+./runMC.sh
 ```
 ## Use
 To make a basic ntuple of four-lepton final state candidates, do
 
 ```bash
-cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=0 muCalib=1 RecomputeElectronID=0
+cmsRun ntuplize_cfg.py channels=zz isMC=1 eCalib=1 muCalib=1 year=2018
 ```
 
 For more on how to build your own analysis, see the `AnalysisTools` directory. For more on making ntuples, see the `Ntuplizer` directory.

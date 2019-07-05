@@ -42,69 +42,16 @@ pushd $CMSSW_BASE/src
 
 #https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes#2018_Data_MC
 git cms-merge-topic cms-egamma:EgammaPostRecoTools #just adds in an extra file to have a setup function to make things easier
-#From CMSSW_10_2_10, our ID PR has been merged so it is no longer necessary to do "git cms-merge-topic cms-egamma:EgammaID_1023". If you work in CMSSW < 10_2_10, 
-#then you have to merge that PR still
-scram b -j 8
-git clone git@github.com:cms-egamma/EgammaAnalysis-ElectronTools.git EgammaAnalysis/ElectronTools/data
-cd EgammaAnalysis/ElectronTools/data
-git checkout ScalesSmearing2018_Dev
-cd -
-git cms-merge-topic cms-egamma:EgammaPostRecoTools_dev
-scram b -j 8
-##Note this assumes you havnt checked out the EgammaAnalysis/ElectronTools package in CMSSW which is likely. 
-##If you do need this checked out for some reason, just copy the Run2018_Step2Closure_CoarseEtaR9Gain_*.dat files to 
-##EgammaAnalysis/ElectronTools/data/ScalesSmearings manually.
+git cms-addpkg EgammaAnalysis/ElectronTools
 
+rm -rf EgammaAnalysis/ElectronTools/data
+git clone git@github.com:cms-data/EgammaAnalysis-ElectronTools.git EgammaAnalysis/ElectronTools/data
 
-####################Not used at the moment
-if [ "$HZZ" ]; then
-
-    if [ ! -d ./ZZMatrixElement ]; then
-        echo -e "\nSetting up ZZ matrix element stuff"
-        git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement
-
-        pushd ZZMatrixElement
-        git checkout -b from-v205 v2.0.5
-
-        # Fix their bullshit.
-        # We have to authenticate to the CERN server the MCFM library is stored on with a cookie
-        # If something is going wrong with ZZMatrixElement stuff, it's probably
-        # related to this.
-        MCFM_URL=`cat MELA/data/"$SCRAM_ARCH"/download.url`
-        # Make cookie
-        env -i KRB5CCNAME="$KRB5CCNAME" cern-get-sso-cookie -u "$MCFM_URL" -o MELA/data/"$SCRAM_ARCH"/cookie.txt --krb -r
-        if [ ! -e MELA/data/retrieveBkp.csh ]; then
-            # Backup the library retrieve script if necessary
-            cp MELA/data/retrieve.csh MELA/data/retrieveBkp.csh
-        fi
-        # Edit their wget command to use the cookie
-        sed 's/wget/wget --load-cookies=cookie.txt/' MELA/data/retrieveBkp.csh > MELA/data/retrieve.csh
-
-        # They download the library during their build process.
-        # And with our fix, they actually get it instead of the html for the
-        # CERN login page...
-        source setup.sh -j "$UWVVNTHREADS"
-        popd
-    fi
-
-    # copy libraries dowloaded by MELA to lib so they get packaged and used by CONDOR
-    cp ZZMatrixElement/MELA/data/"$SCRAM_ARCH"/*.so "$CMSSW_BASE"/lib/"$SCRAM_ARCH"
-
-    if [ ! -d ./KinZfitter ]; then
-        echo -e "\nSetting up Z kinematic fit stuff"
-        git clone https://github.com/VBF-HZZ/KinZfitter.git
-    fi
-
-    # generate UWVV's MELA plugin
-    cp UWVV/AnalysisTools/plugins/ZZDiscriminantEmbedderCode.txt UWVV/AnalysisTools/plugins/ZZDiscriminantEmbedder.cc
-    cp UWVV/AnalysisTools/plugins/ZKinematicFitEmbedderCode.txt UWVV/AnalysisTools/plugins/ZKinematicFitEmbedder.cc
-fi
-####################Not used at the moment
-
-
-if [ ! -d ./KaMuCa ]; then
-    echo "Setting up muon calibration"
-    git clone https://github.com/bachtis/analysis.git -b KaMuCa_V4 KaMuCa
-fi
+#To get the electron BDT you have to checkout a package like this:
+git cms-merge-topic mkovac:Electron_XGBoost_MVA_2016_and_2018_CMSSW_10_3_1
 
 popd
+
+# Muon MVA
+git clone https://github.com/mkovac/MuonMVAReader.git MuonMVAReader
+

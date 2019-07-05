@@ -33,10 +33,11 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZZJetsTo4L2Nu_4f_TuneCP5_13TeV_amcatnloFXFX_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/80000/E45B6B6A-81B4-3D45-ABCF-FF9C118E755F.root'
 #options.inputFiles='/store/data/Run2018D/DoubleMuon/MINIAOD/PromptReco-v2/000/320/917/00000/92B9D22F-D19B-E811-909F-FA163E8F1F8F.root'
 #options.inputFiles=' /store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext2-v2/90000/DF088D7E-E24C-3C46-B83D-F4B359623203.root'
-options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
+#options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
 #options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
+
 options.outputFile = 'ntuple.root'
-options.maxEvents = -1
+options.maxEvents = 100
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -122,12 +123,23 @@ options.register('datasetName', '',
                  VarParsing.VarParsing.multiplicity.singleton,
                  VarParsing.VarParsing.varType.string,
                  "dataset name")
+options.register('year', '2016',
+                 VarParsing.VarParsing.multiplicity.singleton,
+                 VarParsing.VarParsing.varType.string,
+                 "Which year are you processing. Options: 2016, 2017, 2018")
 # add a list of strings for events to process
 options.register ('eventsToProcess',  '',
                  VarParsing.VarParsing.multiplicity.list,
                  VarParsing.VarParsing.varType.string,
                  "Events to process")
 options.parseArguments()
+
+if options.year == "2016":
+    options.inputFiles = '/store/mc/RunIISummer16MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV709_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/20000/1A5C54BE-BED3-E711-B0A4-44A84224053C.root'
+if options.year == "2017":
+    options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/3450B123-E8BF-E811-B895-FA163E9604CF.root'
+if options.year == "2018":
+    options.inputFiles = '/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/DCB7927B-269F-3B4B-9DA3-EFE07A37FC9E.root'
 
 genLepChoices =  {"hardProcess" : "isHardProcess()",
         "hardProcessFS" : "fromHardProcessFinalState()",
@@ -182,10 +194,10 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 if options.globalTag:
     gt = options.globalTag
 elif options.isMC:
-    gt = '102X_upgrade2018_realistic_v15'
+    gt = '102X_upgrade2018_realistic_v18'
 else:
     #gt = '102X_dataRun2_Prompt_v11'
-    gt = '102X_dataRun2_Sep2018Rereco_v1'
+    gt = '102X_dataRun2_v4'
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
@@ -400,7 +412,7 @@ if zz or wz:
 flowOpts = {
     'isMC' : bool(options.isMC),
     'isSync' : bool(options.isMC) and bool(options.isSync),
-
+    'year' : options.year,
     'electronScaleShift' : options.eScaleShift,
     'electronRhoResShift' : options.eRhoResShift,
     'electronPhiResShift' : options.ePhiResShift,
