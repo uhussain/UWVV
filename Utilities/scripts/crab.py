@@ -56,7 +56,7 @@ def getUnitsPerJob(ds):
         else:
             return 150
     else:
-        return 10
+        return 80
 
 config = config()
 config.Data.inputDataset = dataset
@@ -104,10 +104,10 @@ else:
     #config.General.requestName = '_'.join([campaign_name, primaryDS, conditions, "resubmit"])
     #config.Data.lumiMask ='crab_%s/results/notFinishedLumis.json' % config.General.requestName 
     
-    #config.Data.splitting = 'LumiBased'
-    #config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
-config.Data.splitting = 'Automatic'
-config.Data.unitsPerJob = 180
+    config.Data.splitting = 'LumiBased'
+    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+#config.Data.splitting = 'Automatic'
+#config.Data.unitsPerJob = 180
 config.Data.totalUnits = -1
 
 # Max requestName is 100 characters
@@ -130,7 +130,7 @@ config.JobType.numCores = 1
 config.JobType.inputFiles = ["%s/src/UWVV/data" % os.environ["CMSSW_BASE"]]
 
 config.Data.inputDBS = 'global' if 'USER' not in dataset else 'phys03'
-config.Data.allowNonValidInputDataset = True
+#config.Data.allowNonValidInputDataset = True
 config.Data.useParent = False
 config.Data.publication = False
 outdir = localSettings.get("local", "outLFNDirBase").replace(
@@ -139,6 +139,7 @@ outdir = localSettings.get("local", "outLFNDirBase").replace(
 #    "$USER", getUsernameFromSiteDB()).replace("$DATE", "25Jan2019")
 # Useful for VBFNLO samples
 #config.Site.whitelist = ['T2_DE_DESY']
+config.Site.blacklist = ['T2_ES_IFCA']
 config.Data.outLFNDirBase = outdir 
 config.Data.ignoreLocality = False
 
