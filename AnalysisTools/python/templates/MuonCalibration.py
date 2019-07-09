@@ -8,6 +8,8 @@ class MuonCalibration(AnalysisFlowBase):
             self.isMC = kwargs.pop('isMC', True)
         if not hasattr(self, 'isSync'):
             self.isSync = self.isMC and kwargs.pop('isSync', False)
+        if not hasattr(self, 'year'):
+            self.year = kwargs.pop('year', '2016')
         if not hasattr(self, 'muonClosureShift'):
             self.muonClosureShift = kwargs.pop('muonClosureShift', 0) if self.isMC else 0
         super(MuonCalibration, self).__init__(*args, **kwargs)
@@ -20,6 +22,7 @@ class MuonCalibration(AnalysisFlowBase):
             #    calibType = 'MC_80X_13TeV'
             #else:
             #    calibType = 'DATA_80X_13TeV'
+            LeptonSetup = cms.string(self.year)
             muCalibrator = cms.EDProducer(
                 "RochesterPATMuonCorrector",
                 src = step.getObjTag('m'),

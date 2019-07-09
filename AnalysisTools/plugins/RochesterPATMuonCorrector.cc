@@ -160,8 +160,10 @@ RochesterPATMuonCorrector::produce(edm::Event& event, const edm::EventSetup& set
       //std::vector::back returns a direct reference to the last element in the vector
       out->back().setP4(reco::Particle::PolarLorentzVector(pt, eta, phi, muIn->mass()));
       out->back().addUserFloat("correctedPtError", ptErr);
-	    out->back().addUserFloat("scale_unc", 1. + scale_error);
-      out->back().addUserFloat("smear_unc", 1. + smear_error);
+	    out->back().addUserFloat("scale_total_up", 1. + scale_error);
+	    out->back().addUserFloat("scale_total_dn", 1. - scale_error);
+      out->back().addUserFloat("sigma_total_up", 1. + smear_error);
+      out->back().addUserFloat("sigma_total_dn", 1. - smear_error);
       out->back().addUserCand("uncorrected", muIn);
       }
     }

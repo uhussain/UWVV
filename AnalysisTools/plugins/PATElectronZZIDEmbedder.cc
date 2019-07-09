@@ -148,13 +148,43 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       //        << iEvent.id().event() << std::endl;
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && passBDT(eptr))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && passBDT(eptr))); // 1 for true, 0 for false
-      //HZZWP
-      //out->back().addUserFloat(idLabel_+"TightNoVtxHZZWP", float(idResultNoVtx && passHZZWP(eptr))); // 1 for true, 0 for false
-      //out->back().addUserFloat(idLabel_+"TightHZZWP", float(idResult && passHZZWP(eptr))); // 1 for true, 0 for false
-      //std::cout<<"elec Pt: " <<(*eptr).pt()<<std::endl;
-      //std::cout<<"Passes BDT: "<<passBDT(eptr)<<std::endl;
-      //std::cout<<"Passes HZZWP: "<<passHZZWP(eptr)<<std::endl;
-    
+      //-- Scale and smearing corrections are now stored in the miniAOD https://twiki.cern.ch/twiki/bin/view/CMS/EgammaMiniAODV2#Energy_Scale_and_Smearing
+      float uncorrected_pt = ei->pt();
+      float corr_factor = ei->userFloat("ecalTrkEnergyPostCorr") / ei->energy();//get scale/smear correction factor directly from miniAOD       
+      //scale and smear electron
+      out->back().setP4(reco::Particle::PolarLorentzVector(uncorrected_pt*corr_factor, ei->eta(), ei->phi(), ei->mass()*corr_factor));
+      out->back().addUserFloat("uncorrected_pt",uncorrected_pt);
+      //get all scale uncertainties and their breakdown
+      float scale_total_up = ei->userFloat("energyScaleUp") / ei->energy();
+      float scale_stat_up = ei->userFloat("energyScaleStatUp") / ei->energy();
+      float scale_syst_up = ei->userFloat("energyScaleSystUp") / ei->energy();
+      float scale_gain_up = ei->userFloat("energyScaleGainUp") / ei->energy();
+      float scale_total_dn = ei->userFloat("energyScaleDown") / ei->energy();
+      float scale_stat_dn = ei->userFloat("energyScaleStatDown") / ei->energy();
+      float scale_syst_dn = ei->userFloat("energyScaleSystDown") / ei->energy();
+      float scale_gain_dn = ei->userFloat("energyScaleGainDown") / ei->energy();
+      //get all smearing uncertainties and their breakdown
+      float sigma_total_up = ei->userFloat("energySigmaUp") / ei->energy();
+      float sigma_rho_up = ei->userFloat("energySigmaRhoUp") / ei->energy();
+      float sigma_phi_up = ei->userFloat("energySigmaPhiUp") / ei->energy();
+      float sigma_total_dn = ei->userFloat("energySigmaDown") / ei->energy();
+      float sigma_rho_dn = ei->userFloat("energySigmaRhoDown") / ei->energy();
+      float sigma_phi_dn = ei->userFloat("energySigmaPhiDown") / ei->energy();
+      
+      out->back().addUserFloat("scale_total_up",scale_total_up);
+      out->back().addUserFloat("scale_stat_up",scale_stat_up);
+      out->back().addUserFloat("scale_syst_up",scale_syst_up);
+      out->back().addUserFloat("scale_gain_up",scale_gain_up);
+      out->back().addUserFloat("scale_total_dn",scale_total_dn);
+      out->back().addUserFloat("scale_stat_dn",scale_stat_dn);
+      out->back().addUserFloat("scale_syst_dn",scale_syst_dn);
+      out->back().addUserFloat("scale_gain_dn",scale_gain_dn);
+      out->back().addUserFloat("sigma_total_up",sigma_total_up);
+      out->back().addUserFloat("sigma_total_dn",sigma_total_dn);
+      out->back().addUserFloat("sigma_rho_up",sigma_rho_up);
+      out->back().addUserFloat("sigma_rho_dn",sigma_rho_dn);
+      out->back().addUserFloat("sigma_phi_up",sigma_phi_up);
+      out->back().addUserFloat("sigma_phi_dn",sigma_phi_dn);
     }
 
   iEvent.put(std::move(out));

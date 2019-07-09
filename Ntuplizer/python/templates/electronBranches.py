@@ -20,6 +20,39 @@ electronBranches = cms.PSet(
         SCEnergy = cms.string('superCluster.energy'),
         SCRawEnergy = cms.string('superCluster.rawEnergy'),
 
+        UnCorrPt = cms.string('? hasUserFloat("uncorrected_pt") ? '
+                           'userFloat("uncorrected_pt") : '
+                           '1.'),
+
+        ScaleTotUp = cms.string('? hasUserFloat("scale_total_up") ? '
+                                    'userFloat("scale_total_up") : 0.'),
+        ScaleSystUp = cms.string('? hasUserFloat("scale_syst_up") ? '
+                                    'userFloat("scale_syst_up") : 0.'),
+        ScaleStatUp = cms.string('? hasUserFloat("scale_stat_up") ? '
+                                    'userFloat("scale_stat_up") : 0.'),
+        ScaleGainUp = cms.string('? hasUserFloat("scale_gain_up") ? '
+                                    'userFloat("scale_gain_up") : 0.'),
+        ScaleTotDn = cms.string('? hasUserFloat("scale_total_dn") ? '
+                                    'userFloat("scale_total_dn") : 0.'),
+        ScaleSystDn = cms.string('? hasUserFloat("scale_syst_dn") ? '
+                                    'userFloat("scale_syst_dn") : 0.'),
+        ScaleStatDn = cms.string('? hasUserFloat("scale_stat_dn") ? '
+                                    'userFloat("scale_stat_dn") : 0.'),
+        ScaleGainDn = cms.string('? hasUserFloat("scale_gain_dn") ? '
+                                    'userFloat("scale_gain_dn") : 0.'),
+
+        SigmaTotUp = cms.string('? hasUserFloat("sigma_total_up") ? '
+                                    'userFloat("sigma_total_up") : 0.'),
+        SigmaRhoUp = cms.string('? hasUserFloat("sigma_rho_up") ? '
+                                    'userFloat("sigma_rho_up") : 0.'),
+        SigmaPhiUp = cms.string('? hasUserFloat("sigma_phi_up") ? '
+                                    'userFloat("sigma_phi_up") : 0.'),
+        SigmaTotDn = cms.string('? hasUserFloat("sigma_total_dn") ? '
+                                    'userFloat("sigma_total_dn") : 0.'),
+        SigmaRhoDn = cms.string('? hasUserFloat("sigma_rho_dn") ? '
+                                    'userFloat("sigma_rho_dn") : 0.'),
+        SigmaPhiDn = cms.string('? hasUserFloat("sigma_phi_dn") ? '
+                                    'userFloat("sigma_phi_dn") : 0.'),
         # apparently there's a bug with multiple ternary operators, so cheat
         EffScaleFactor = cms.string('? hasUserFloat("effScaleFactorGap") && '
                                     '  hasUserFloat("effScaleFactor") && '

@@ -24,13 +24,16 @@ muonBranches = cms.PSet(
                            'userFloat("correctedPtError") : '
                            'bestTrack.ptError'),
         #RochesterPATMuonCorrector.cc
-        RochesterScaleUnc = cms.string('? hasUserFloat("scale_unc") ? '
-                                    'userFloat("scale_unc") : 1.'),
-        RochesterSmearUnc = cms.string('? hasUserFloat("smear_unc") ? '
-                                    'userFloat("smear_unc") : 1.'),
-
+        RochesterScaleUncUp = cms.string('? hasUserFloat("scale_total_up") ? '
+                                    'userFloat("scale_total_up") : 0.'),
+        RochesterScaleUncDn = cms.string('? hasUserFloat("scale_total_dn") ? '
+                                    'userFloat("scale_total_dn") : 0.'),
+        RochesterSmearUncUp = cms.string('? hasUserFloat("sigma_total_up") ? '
+                                    'userFloat("sigma_total_up") : 0.'),
+        RochesterSmearUncDn = cms.string('? hasUserFloat("sigma_total_dn") ? '
+                                    'userFloat("sigma_total_dn") : 0.'),
         EffScaleFactor = cms.string('? hasUserFloat("effScaleFactor") ? '
-                                    'userFloat("effScaleFactor") : 1.'),
+                                    'userFloat("effScaleFactor") : 0.'),
         EffScaleFactorError = cms.string('? hasUserFloat("effScaleFactorError") ? '
                                          'userFloat("effScaleFactorError") : 0.'),
         # TrkRecoEffScaleFactor = cms.string('? hasUserFloat("trkRecoEffScaleFactor") ? '

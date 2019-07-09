@@ -330,7 +330,7 @@ if options.isMC:
     extraFinalObjectBranches['m'].append(matchedGenLeptonBranches)
 
 if not wz:
-    # FSR and ZZ/HZZ stuff
+    # FSR and ZZ/HZZ stuff including IDs
     from UWVV.AnalysisTools.templates.ZZFlow import ZZFlow
     FlowSteps.append(ZZFlow)
 
