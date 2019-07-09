@@ -443,17 +443,16 @@ if wz:
     from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
     trgBranches = verboseTriggerBranches
 else:
-    if is2016G:
-        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016G
-        trgBranches = triggerBranches_2016G
-    elif is2016H:
-        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016H
-        trgBranches = triggerBranches_2016H
-    else:
-        from UWVV.Ntuplizer.templates.triggerBranches import verboseTriggerBranches
-        trgBranches = verboseTriggerBranches
-        #from UWVV.Ntuplizer.templates.triggerBranches import zzCompositeTriggerBranches
-        #trgBranches = zzCompositeTriggerBranches
+    if options.year == "2016":
+        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2016
+        trgBranches = triggerBranches_2016
+    if options.year == "2017":
+        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2017
+        trgBranches = triggerBranches_2017
+    if options.year == "2018":
+        from UWVV.Ntuplizer.templates.triggerBranches import triggerBranches_2018
+        trgBranches = triggerBranches_2018
+
 #This can be used for 2017 & 2018. But I'm missing one filter which is outdated in MiniAOD
 #The recipe is a bit cumbersome/still work in progress so I don't use this filter for now because I'm lazy and I really don't need these filters
 #https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
