@@ -194,10 +194,20 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 if options.globalTag:
     gt = options.globalTag
 elif options.isMC:
-    gt = '102X_upgrade2018_realistic_v18'
+    if options.year == "2016":
+        gt = '94X_mcRun2_asymptotic_v3'
+    if options.year == "2017":
+        gt = '94X_mc2017_realistic_v17'
+    if options.year == "2018":
+        gt = '102X_upgrade2018_realistic_v18'
 else:
-    #gt = '102X_dataRun2_Prompt_v11'
-    gt = '102X_dataRun2_v4'
+    if options.year == "2016":
+        gt = '94X_dataRun2_v10'
+    if options.year == "2017":
+        gt = '94X_dataRun2_v11'
+    if options.year == "2018":
+        gt = '102X_dataRun2_v4'
+
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")

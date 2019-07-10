@@ -23,18 +23,43 @@ class MuonCalibration(AnalysisFlowBase):
             #else:
             #    calibType = 'DATA_80X_13TeV'
             LeptonSetup = cms.string(self.year)
-            muCalibrator = cms.EDProducer(
-                "RochesterPATMuonCorrector",
-                src = step.getObjTag('m'),
-                identifier = cms.string("RoccoR2018"),
-                isMC = cms.bool(self.isMC),
-                isSync = cms.bool(self.isSync),
-                maxPt = cms.double(200),
-                #relics of the old KalmanCorrector 
-                #calibType = cms.string(calibType),
-                #closureShift = cms.int32(self.muonClosureShift),
-                )
 
+            if LeptonSetup=="2016":
+                muCalibrator = cms.EDProducer(
+                    "RochesterPATMuonCorrector",
+                    src = step.getObjTag('m'),
+                    identifier = cms.string("RoccoR2016"),
+                    isMC = cms.bool(self.isMC),
+                    isSync = cms.bool(self.isSync),
+                    maxPt = cms.double(200),
+                    #relics of the old KalmanCorrector 
+                    #calibType = cms.string(calibType),
+                    #closureShift = cms.int32(self.muonClosureShift),
+                    )
+            if LeptonSetup=="2017":
+                muCalibrator = cms.EDProducer(
+                    "RochesterPATMuonCorrector",
+                    src = step.getObjTag('m'),
+                    identifier = cms.string("RoccoR2017"),
+                    isMC = cms.bool(self.isMC),
+                    isSync = cms.bool(self.isSync),
+                    maxPt = cms.double(200),
+                    #relics of the old KalmanCorrector 
+                    #calibType = cms.string(calibType),
+                    #closureShift = cms.int32(self.muonClosureShift),
+                    )
+            if LeptonSetup=="2018":
+                muCalibrator = cms.EDProducer(
+                    "RochesterPATMuonCorrector",
+                    src = step.getObjTag('m'),
+                    identifier = cms.string("RoccoR2018"),
+                    isMC = cms.bool(self.isMC),
+                    isSync = cms.bool(self.isSync),
+                    maxPt = cms.double(200),
+                    #relics of the old KalmanCorrector 
+                    #calibType = cms.string(calibType),
+                    #closureShift = cms.int32(self.muonClosureShift),
+                    )
             step.addModule('calibratedPatMuons', muCalibrator, 'm')
 
             # need to re-sort now that we're calibrated
