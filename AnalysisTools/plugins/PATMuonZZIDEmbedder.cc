@@ -29,7 +29,7 @@
 #include "DataFormats/Common/interface/View.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-
+#include "MuonMVAReader/Reader/interface/MuonGBRForestReader.hpp"
 
 class PATMuonZZIDEmbedder : public edm::stream::EDProducer<>
 {
@@ -46,6 +46,8 @@ private:
   bool passVertex(const edm::Ptr<pat::Muon>& mu) const;
   bool passType(const edm::Ptr<pat::Muon>& mu) const;
   bool passTrackerHighPtID(const edm::Ptr<pat::Muon>& mu) const;
+  bool passBDT(const edm::Ptr<pat::Muon>& mu) const; //Muon MVA for Run 2
+
 
   // Data
   edm::EDGetTokenT<edm::View<pat::Muon> > muonCollectionToken_;
@@ -53,12 +55,18 @@ private:
   const std::string isoLabel_;
   const edm::EDGetTokenT<reco::VertexCollection> vtxSrcToken_; // primary vertex (for veto PV and SIP cuts)
   edm::Handle<reco::VertexCollection> vertices;
+  edm::EDGetTokenT<double> rhoToken_;
+  edm::Handle<double> rhoHandle;
+  const int  setup_;
 
   const double ptCut;
   const double etaCut;
   const double sipCut;
   const double pvDXYCut;
   const double pvDZCut;
+
+  // MVA Reader
+  MuonGBRForestReader *r;
 
 };
 
@@ -78,6 +86,13 @@ PATMuonZZIDEmbedder::PATMuonZZIDEmbedder(const edm::ParameterSet& iConfig):
   vtxSrcToken_(consumes<reco::VertexCollection>(iConfig.exists("vtxSrc") ?
                                                 iConfig.getParameter<edm::InputTag>("vtxSrc") :
                                                 edm::InputTag("selectedPrimaryVertex"))),
+  rhoToken_(consumes<double>(iConfig.exists("rhoSrc") ?
+                                                iConfig.getParameter<edm::InputTag>("rhoSrc") :
+                                                edm::InputTag("fixedGridRhoFastjetAll"))),
+  //Which year lepton setup for MuonGBRForestReader
+  setup_(iConfig.exists("setup") ?
+	   iConfig.getParameter<int>("setup") :
+	   2016),
   ptCut(iConfig.exists("ptCut") ? iConfig.getParameter<double>("ptCut") : 5.),
   etaCut(iConfig.exists("etaCut") ? iConfig.getParameter<double>("etaCut") : 2.4),
   sipCut(iConfig.exists("sipCut") ? iConfig.getParameter<double>("sipCut") : 10.),
@@ -85,6 +100,8 @@ PATMuonZZIDEmbedder::PATMuonZZIDEmbedder(const edm::ParameterSet& iConfig):
   pvDZCut(iConfig.exists("pvDZCut") ? iConfig.getParameter<double>("pvDZCut") : 1.)
 {
   produces<std::vector<pat::Muon> >();
+  
+  r = new MuonGBRForestReader(setup_); //for setup put 2016,2017, or 2018 to select correct training
 }
 
 
@@ -96,7 +113,8 @@ void PATMuonZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup& iSe
   iEvent.getByToken(muonCollectionToken_, muonsIn);
 
   iEvent.getByToken(vtxSrcToken_,vertices);
-
+  
+  iEvent.getByToken(rhoToken_, rhoHandle);
 
   for(edm::View<pat::Muon>::const_iterator mi = muonsIn->begin();
       mi != muonsIn->end(); mi++) // loop over muons
@@ -118,16 +136,96 @@ void PATMuonZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup& iSe
 
       bool trackerHighPtID = passTrackerHighPtID(mptr);
 
+      //Some Indepenent Muon IDs including the PAS2019 version of TightMuonID
       out->back().addUserFloat(idLabel_+"HighPt", float(idResult && trackerHighPtID));
-      out->back().addUserFloat(idLabel_+"Tight", float(idResult && (mi->isPFMuon() || trackerHighPtID)));
+      out->back().addUserFloat(idLabel_+"PASID", float(idResult && (mi->isPFMuon() || trackerHighPtID)));//PAS2019 version of TightMuonID
       out->back().addUserFloat(idLabel_+"HighPtNoVtx", float(idResultNoVtx && trackerHighPtID));
-      out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && (mi->isPFMuon() || trackerHighPtID)));
+      out->back().addUserFloat(idLabel_+"PASIDNoVtx", float(idResultNoVtx && (mi->isPFMuon() || trackerHighPtID)));//PAS2019 version of TightMuonID
+      
+      //Now both electrons and muons have BDT for ZZTightID and thats how its stored in "leptonBranches"
+      out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && (passBDT(mptr) || trackerHighPtID))); // 1 for true, 0 for false
+      out->back().addUserFloat(idLabel_+"Tight", float(idResult && (passBDT(mptr) || trackerHighPtID))); // 1 for true, 0 for false
     }
 
   iEvent.put(std::move(out));
 }
 
+bool PATMuonZZIDEmbedder::passBDT(const edm::Ptr<pat::Muon>& mu) const
+{
+  double rho = *rhoHandle;
+  float PFChargedHadIso   = mu->pfIsolationR03().sumChargedHadronPt;
+  float PFNeutralHadIso   = mu->pfIsolationR03().sumNeutralHadronEt;
+  float PFPhotonIso       = mu->pfIsolationR03().sumPhotonEt;
 
+  float SIP = fabs(mu->dB(pat::Muon::PV3D))/mu->edB(pat::Muon::PV3D);
+
+  float dxy = 999.;
+  float dz = 999.;
+  if (vertices->size()>0) {
+    dxy = fabs(mu->muonBestTrack()->dxy(vertices->at(0).position()));
+    dz = fabs(mu->muonBestTrack()->dz(vertices->at(0).position()));  
+  }
+  // MVA Reader begin
+  float mu_N_hits_, mu_chi_square_, mu_N_pixel_hits_, mu_N_tracker_hits_;
+  bool is_global_mu_  = mu->isGlobalMuon();
+  if ( is_global_mu_ )
+  {
+    // Number of muon chamber hits included in the the global muon track fit
+    mu_N_hits_ = (mu->globalTrack()->hitPattern().numberOfValidMuonHits());
+    // Chi2 of the global track fit
+    mu_chi_square_ = (mu->globalTrack()->normalizedChi2());
+  }
+  else
+  {
+    mu_N_hits_     = -1;
+    mu_chi_square_ = -1;
+  }
+  // Number of hits in the pixel detector
+  bool valid_KF = false;
+  reco::TrackRef myTrackRef = mu->innerTrack();
+  valid_KF = (myTrackRef.isAvailable());
+  valid_KF = (myTrackRef.isNonnull());
+
+  if ( valid_KF )
+  {
+    // Number of pixel hits
+    mu_N_pixel_hits_ = mu->innerTrack()->hitPattern().numberOfValidPixelHits();
+
+    // Number of hits in the tracker layers
+    mu_N_tracker_hits_ = mu->innerTrack()->hitPattern().trackerLayersWithMeasurement();
+  }
+  else
+  {
+    mu_N_pixel_hits_ = -1;
+    mu_N_tracker_hits_ = -1;
+  }
+  float BDT = -99;
+  float pt  = mu->pt();
+  float eta = mu->eta();
+  
+  BDT = r->Get_MVA_value(pt, eta, mu_N_hits_, mu_N_pixel_hits_, mu_N_tracker_hits_, mu_chi_square_, PFPhotonIso, PFChargedHadIso, PFNeutralHadIso, rho, SIP, dxy, dz);
+
+  bool isBDT = false;
+
+  if ( setup_ == 2016 )
+  {
+    isBDT = ((pt <= 10 && BDT > 0.8847169876098633) || (pt > 10  && BDT > -0.19389629721641488));
+  }
+  else if ( setup_ == 2017 )
+  {
+    isBDT = ((pt <= 10 && BDT > 0.883555161952972) || (pt > 10  && BDT > -0.3830992293357821));
+  }
+  else if ( setup_ == 2018 )
+  {
+    isBDT = ((pt <= 10 && BDT > 0.9506129026412962) || (pt > 10  && BDT > -0.3629065185785282));
+  }
+  else
+  {
+    std::cerr << "[ERROR] MuFiller: no MVA setup for: " << setup_ << " year!" << std::endl;
+  }
+  // MVA Reader end
+  return isBDT;
+}
 bool PATMuonZZIDEmbedder::passKinematics(const edm::Ptr<pat::Muon>& mu) const
 {
   bool result = (mu->pt() > ptCut);

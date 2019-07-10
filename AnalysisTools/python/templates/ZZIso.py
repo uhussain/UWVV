@@ -27,7 +27,9 @@ class ZZIso(AnalysisFlowBase):
                 #value to a large number because the UserFloat ZZIsoPass is being used in other modules such as ZZCategoryEmbedder in "leptonSelector".
                 #Need to figure out a smarter way other than having a separate leptonSelector for electrons and muons
                 isoCutE = cms.double(99999),
-                isoCutMu = cms.double(0.35),
+                #Isolation and SIP cuts are no longer needed since these variables are included in the new Muon BDT
+                #But I'm keeping this cut for now in case its needed for HighPtMuons(pt>200) with HighPtTrkID though its unlikely
+                isoCutMu = cms.double(99999),
                 )
             step.addModule('leptonIsoEmbedding', leptonIsoEmbedding,
                            'e', 'm', e='electrons', m='muons')

@@ -208,6 +208,7 @@ else:
     if options.year == "2018":
         gt = '102X_dataRun2_v4'
 
+print "globalTag: ",gt
 process.GlobalTag = GlobalTag(process.GlobalTag, gt)
 
 process.load("FWCore.MessageLogger.MessageLogger_cfi")

@@ -76,6 +76,9 @@ muonBranches = cms.PSet(
                                    'userFloat("ZZIDPassHighPtNoVtx") : 0.'),
         PFIDNoVtx = cms.string('? hasUserFloat("ZZIDPassPFNoVtx") ? '
                                'userFloat("ZZIDPassPFNoVtx") : 0.'),
+        #Tight ID from the SMP-PAS-19-001
+        PASTightID = cms.string('? hasUserFloat("ZZIDPassPASID") ? userFloat("ZZIDPassPASID") : 0.'),
+        PASTightIDNoVtx = cms.string('? hasUserFloat("ZZIDPassPASIDNoVtx") ? userFloat("ZZIDPassPASIDNoVtx") : 0.'),
         ),
     )
 
