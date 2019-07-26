@@ -48,7 +48,7 @@ rm -rf EgammaAnalysis/ElectronTools/data
 git clone git@github.com:cms-data/EgammaAnalysis-ElectronTools.git EgammaAnalysis/ElectronTools/data
 
 #To get the electron BDT you have to checkout a package like this:
-git cms-merge-topic mkovac:Electron_XGBoost_MVA_2016_and_2018_CMSSW_10_3_1
+git cms-merge-topic mkovac:Electron_XGBoost_MVA_2016_and_2018_CMSSW_10_2_15
 
 # Muon MVA
 git clone https://github.com/mkovac/MuonMVAReader.git MuonMVAReader

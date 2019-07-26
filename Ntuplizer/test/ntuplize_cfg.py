@@ -36,8 +36,7 @@ options = VarParsing.VarParsing('analysis')
 #options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/E5E2F122-AA57-5248-8177-594EC87DD494.root','/store/mc/RunIIAutumn18MiniAOD/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/90000/96A5F68D-DCB8-3D4E-8615-919D86D1534F.root','/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/19B6ADC2-4F62-AA4D-9488-F53CE2936856.root'
 #options.outputFile = 'Sync2018/ntuplize_ExtraUsama.root'
 
-options.outputFile = 'ntuple.root'
-options.maxEvents = 100
+options.maxEvents = -1
 
 #print options.inputFiles
 #options.register('inputFiles', '', VarParsing.VarParsing.multiplicity.list,VarParsing.VarParsing.varType.string, 'Manual file list input, will query DAS if empty')
@@ -136,10 +135,13 @@ options.parseArguments()
 
 if options.year == "2016":
     options.inputFiles = '/store/mc/RunIISummer16MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV709_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/20000/1A5C54BE-BED3-E711-B0A4-44A84224053C.root'
+    options.outputFile = 'SyncRun2/ntuple2016.root'
 if options.year == "2017":
     options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/3450B123-E8BF-E811-B895-FA163E9604CF.root'
+    options.outputFile = 'SyncRun2/ntuple2017.root'
 if options.year == "2018":
     options.inputFiles = '/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/DCB7927B-269F-3B4B-9DA3-EFE07A37FC9E.root'
+    options.outputFile = 'SyncRun2/ntuple2018.root'
 
 genLepChoices =  {"hardProcess" : "isHardProcess()",
         "hardProcessFS" : "fromHardProcessFinalState()",
@@ -280,10 +282,6 @@ FlowSteps.append(ElectronBaseFlow)
 from UWVV.AnalysisTools.templates.MuonBaseFlow import MuonBaseFlow
 FlowSteps.append(MuonBaseFlow)
 
-#if not wz:
-#from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
-#FlowSteps.append(MuonGhostCleaning)
-
 # Lepton calibrations
 if options.eCalib:
     from UWVV.AnalysisTools.templates.ElectronCalibration import ElectronCalibration
@@ -303,6 +301,7 @@ if options.muCalib:
 from UWVV.AnalysisTools.templates.MuonGhostCleaning import MuonGhostCleaning
 FlowSteps.append(MuonGhostCleaning)
 
+#Apply Scale Factors downstream with TSelectors after skimming
 #from UWVV.AnalysisTools.templates.MuonScaleFactors import MuonScaleFactors
 #FlowSteps.append(MuonScaleFactors)
 #from UWVV.AnalysisTools.templates.ElectronScaleFactors import ElectronScaleFactors
@@ -468,11 +467,20 @@ else:
 #The recipe is a bit cumbersome/still work in progress so I don't use this filter for now because I'm lazy and I really don't need these filters
 #https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2#How_to_run_ecal_BadCalibReducedM
 if options.isMC:
-     from UWVV.Ntuplizer.templates.filterBranches import metFilters
-     filterBranches = metFilters
+     if options.year=="2016":
+        from UWVV.Ntuplizer.templates.filterBranches import metFilters_2016
+        filterBranches = metFilters_2016
+     else:
+        from UWVV.Ntuplizer.templates.filterBranches import metFilters
+        filterBranches = metFilters
 else:
-     from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
-     filterBranches = metAndBadMuonFilters
+     if options.year=="2016":
+        from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters_2016
+        filterBranches = metAndBadMuonFilters_2016
+     else:
+        from UWVV.Ntuplizer.templates.filterBranches import metAndBadMuonFilters
+        filterBranches = metAndBadMuonFilters
+#I guess if you don't want any extra filters
 #filterBranches = trgBranches.clone(trigNames=cms.vstring())
 
 process.treeSequence = cms.Sequence()
