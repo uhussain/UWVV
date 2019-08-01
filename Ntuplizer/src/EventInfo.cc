@@ -82,6 +82,19 @@ EventInfo::EventInfo(edm::ConsumesCollector cc,
                 config.exists("lheEventInfoExtra") ?
                 config.getParameter<edm::ParameterSet>("lheEventInfoExtra") :
                 edm::ParameterSet()),
+  //l1ECALPrefiring
+  prefweight_(cc, config.getParameter<edm::InputTag>("prefweight"),
+          config.exists("prefweightExtra") ?
+          config.getParameter<edm::ParameterSet>("prefweightExtra") :
+          edm::ParameterSet()),
+  prefweightup_(cc, config.getParameter<edm::InputTag>("prefweightup"),
+          config.exists("prefweightupExtra") ?
+          config.getParameter<edm::ParameterSet>("prefweightupExtra") :
+          edm::ParameterSet()),
+  prefweightdown_(cc, config.getParameter<edm::InputTag>("prefweightdown"),
+          config.exists("prefweightdownExtra") ?
+          config.getParameter<edm::ParameterSet>("prefweightdownExtra") :
+          edm::ParameterSet()),
   genJets_(cc, config.getParameter<edm::InputTag>("genJetSrc"),
            config.exists("genJetExtra") ?
            config.getParameter<edm::ParameterSet>("genJetExtra") :
@@ -115,6 +128,9 @@ void EventInfo::setEvent(const edm::Event& event)
   puInfo_.setEvent(event);
   genEventInfo_.setEvent(event);
   lheEventInfo_.setEvent(event);
+  prefweight_.setEvent(event);
+  prefweightup_.setEvent(event);
+  prefweightdown_.setEvent(event);
   genJets_.setEvent(event);
   genParticles_.setEvent(event);
   initialStates_.setEvent(event);

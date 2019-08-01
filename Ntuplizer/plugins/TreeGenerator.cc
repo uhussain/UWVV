@@ -104,6 +104,7 @@ template<class T> void
 TreeGenerator<T>::analyze(const edm::Event &event,
                           const edm::EventSetup &setup)
 {
+
   edm::Handle<edm::View<Cand> > cands;
   event.getByToken(candToken, cands);
 

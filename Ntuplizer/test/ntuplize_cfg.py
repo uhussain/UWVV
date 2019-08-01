@@ -134,14 +134,15 @@ options.register ('eventsToProcess',  '',
 options.parseArguments()
 
 if options.year == "2016":
-    options.inputFiles = '/store/mc/RunIISummer16MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV709_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/20000/1A5C54BE-BED3-E711-B0A4-44A84224053C.root'
-    options.outputFile = 'SyncRun2/ntuple2016.root'
+    #options.inputFiles = '/store/mc/RunIISummer16MiniAODv2/GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV709_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/20000/1A5C54BE-BED3-E711-B0A4-44A84224053C.root'
+    options.inputFiles='/store/mc/RunIISummer16MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/221CC46F-2FC6-E611-8FFC-0CC47A1E0488.root'
+    options.outputFile = 'ZZPowheg/ntuple2016.root'
 if options.year == "2017":
     options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/3450B123-E8BF-E811-B895-FA163E9604CF.root'
-    options.outputFile = 'SyncRun2/ntuple2017.root'
+    options.outputFile = 'ExtraToniEvents/ntuple2017.root'
 if options.year == "2018":
     options.inputFiles = '/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/DCB7927B-269F-3B4B-9DA3-EFE07A37FC9E.root'
-    options.outputFile = 'SyncRun2/ntuple2018.root'
+    options.outputFile = 'ExtraToniEvents/ntuple2018.root'
 
 genLepChoices =  {"hardProcess" : "isHardProcess()",
         "hardProcessFS" : "fromHardProcessFinalState()",
@@ -271,6 +272,27 @@ FlowSteps = []
 # In addition, a condition is made available in the MET filters,
 # though in this case the event is rejected if a bad primary vertex is found,
 # rather than just filtering out the bad vertex and allowing another to be promoted.
+
+#L1ECALPrefiring module for 2016 and 2017
+if options.isMC and (options.year == "2016" or options.year == "2017"):
+    from PhysicsTools.PatUtils.l1ECALPrefiringWeightProducer_cfi import l1ECALPrefiringWeightProducer
+
+    if options.year == "2016":
+        process.prefiringweight = l1ECALPrefiringWeightProducer.clone(
+                DataEra = cms.string("2016BtoH"), #Use 2016BtoH for 2016
+                UseJetEMPt = cms.bool(False),
+                PrefiringRateSystematicUncty = cms.double(0.2),
+                SkipWarnings = False)
+
+    if options.year == "2017":
+        process.prefiringweight = l1ECALPrefiringWeightProducer.clone(
+                DataEra = cms.string("2017BtoF"), #Use 2016BtoH for 2016
+                UseJetEMPt = cms.bool(False),
+                PrefiringRateSystematicUncty = cms.double(0.2),
+                SkipWarnings = False)
+    process.prefiring = cms.Path(process.prefiringweight)
+    process.schedule.append(process.prefiring)
+
 if not wz:
     from UWVV.AnalysisTools.templates.VertexCleaning import VertexCleaning
     FlowSteps.append(VertexCleaning)
@@ -440,7 +462,7 @@ flow = FlowClass('flow', process, initialstate_chans=channels, **flowOpts)
 # meta info tree first
 process.metaInfo = cms.EDAnalyzer(
     'MetaTreeGenerator',
-    eventParams = makeEventParams(flow.finalTags()),
+    eventParams = makeEventParams(flow.finalTags(),options.year,options.isMC),
     datasetName = cms.string(options.datasetName),
     )
 process.metaTreePath = cms.Path(process.metaInfo)
@@ -492,8 +514,8 @@ for chan in channels:
         branches = makeBranchSet(chan, extraInitialStateBranches,
                                  extraIntermediateStateBranches,
                                  **extraFinalObjectBranches),
-        eventParams = makeEventParams(flow.finalTags(),chan)
-            if not options.isMC else makeEventParams(flow.finalTags(), chan),
+        eventParams = makeEventParams(flow.finalTags(),options.year,options.isMC,chan)
+            if not options.isMC else makeEventParams(flow.finalTags(),options.year,options.isMC,chan),
         triggers = trgBranches,
         filters = filterBranches,
         )
@@ -562,7 +584,6 @@ if zz and options.isMC and options.genInfo:
 
     pGen = genFlow.getPath()
     pGen += process.genTreeSequence
-    process.schedule.append(pGen)
 
 p = flow.getPath()
 p += process.treeSequence

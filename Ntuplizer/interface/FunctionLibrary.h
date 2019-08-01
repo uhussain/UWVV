@@ -184,7 +184,22 @@ namespace
                                {return (evt.puInfo().isValid() && evt.puInfo()->size() > 0 ?
                                         evt.puInfo()->at(1).getTrueNumInteractions() :
                                         -1.);});
+        addTo["L1prefiringWeight"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
+                               {float L1PrefWeight = 1.0;
+                               if (*(evt.prefweight()) >= 0.) {L1PrefWeight = *(evt.prefweight());}
+                               return (L1PrefWeight);});
 
+        addTo["L1prefiringWeightUp"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
+                               {float L1PrefWeightUp = 1.0;
+                               if (*(evt.prefweightup()) >= 0.) {L1PrefWeightUp = *(evt.prefweightup());}
+                               return (L1PrefWeightUp);});
+        addTo["L1prefiringWeightDn"] =
+          std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
+                               {float L1PrefWeightDn = 1.0;
+                               if (*(evt.prefweightdown()) >= 0.) {L1PrefWeightDn = *(evt.prefweightdown());}
+                               return (L1PrefWeightDn);});
         addTo["type1_pfMETEt"] =
           std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
                                {return evt.met().pt();});
@@ -1148,14 +1163,14 @@ namespace
                                  return out;
                                });
         //https://twiki.cern.ch/twiki/bin/viewauth/CMS/BtagRecommendation94X
-        addTo["DeepCSV"] =
+        addTo["jetDeepCSV"] =
           std::function<FType>([](const edm::Ptr<T>& obj, uwvv::EventInfo& evt, const std::string& option)
                                {
                                  std::vector<float> out;
 
                                  for(auto& jet : *uwvv::helpers::getCleanedJetCollection(*obj, option))
                                    {
-                                     out.push_back(jet->bDiscriminator("pfDeepCSVDiscriminatorsJetTags:BvsAll"));
+                                     out.push_back(jet->bDiscriminator("pfDeepCSVJetTags:probb") + jet->bDiscriminator("pfDeepCSVJetTags:probbb"));
                                    }
 
                                  return out;

@@ -12,13 +12,15 @@ eventBranches = cms.PSet(
                 'userFloat("Flag_BadPFMuonFilterPass") : 100'),
         Flag_BadChargedCandidateFilterPass = cms.string('? hasUserFloat("Flag_BadChargedCandidateFilterPass") ? '
                 'userFloat("Flag_BadChargedCandidateFilterPass") : 100'),
+        L1prefiringWeight = cms.string('L1prefiringWeight'),
+        L1prefiringWeightUp = cms.string('L1prefiringWeightUp'),
+        L1prefiringWeightDn = cms.string('L1prefiringWeightDn'),
         ),
     vFloats = cms.PSet(
         jetPt = cms.vstring('jetPt'),
         jetEta = cms.vstring('jetEta'),
         jetPhi = cms.vstring('jetPhi'),
-        jetCSVv2 = cms.vstring('jetCSVv2'),
-        jetCMVAv2 = cms.vstring('jetCMVAv2'),
+        jetDeepCSV = cms.vstring('jetDeepCSV'),
         ),
     vInts = cms.PSet(
         jetPUID = cms.vstring('jetPUID'),

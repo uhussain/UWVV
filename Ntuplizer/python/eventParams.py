@@ -19,9 +19,14 @@ _defaultEventParams = {
     'initialStateSrc'    : '',
     'genInitialStateSrc' : '',
     }
+_l1ECALPrefiringParams = {
+        'prefweight' : 'prefiringweight:nonPrefiringProb',
+        'prefweightup' : 'prefiringweight:nonPrefiringProbUp',
+        'prefweightdown' : 'prefiringweight:nonPrefiringProbDown',
+    }
 
 
-def makeEventParams(flowOutputs, channel='', **newParams):
+def makeEventParams(flowOutputs, year,isMC, channel='', **newParams):
     '''
     Makes a PSet for event info contruction. Defaults above are always there
     unless overridden by something in the flowOutputs (assumed to be in the
@@ -61,6 +66,10 @@ def makeEventParams(flowOutputs, channel='', **newParams):
 
     params.update(extraCollections)
     params.update(newParams)
+
+    #l1ECALPrefiring parameters for 2016&2017 and for MC
+    if isMC and (year=="2016" or year=="2017"):
+        params.update(_l1ECALPrefiringParams)
 
     for p in params:
         if not isinstance(params[p], _ParameterTypeBase):

@@ -125,6 +125,11 @@ namespace uwvv
     const edm::Handle<GenEventInfoProduct>& genEventInfo(const std::string& collection) {return genEventInfo_.get(collection);}
     const edm::Handle<LHEEventProduct>& lheEventInfo() {return lheEventInfo_.get();}
     const edm::Handle<LHEEventProduct>& lheEventInfo(const std::string& collection) {return lheEventInfo_.get(collection);}
+
+    const edm::Handle<double>& prefweight(){return prefweight_.get();};
+    const edm::Handle<double>& prefweightup() {return prefweightup_.get();}
+    const edm::Handle<double>& prefweightdown() {return prefweightdown_.get();}
+
     const edm::Handle<edm::View<reco::GenJet> >& genJets() {return genJets_.get();}
     const edm::Handle<edm::View<reco::GenJet> >& genJets(const std::string& collection) {return genJets_.get(collection);}
     const edm::Handle<edm::View<reco::GenParticle> >& genParticles() {return genParticles_.get();}
@@ -133,7 +138,6 @@ namespace uwvv
     const edm::Handle<edm::View<pat::CompositeCandidate> >& initialStates(const std::string& collection) {return initialStates_.get(collection);}
     const edm::Handle<edm::View<pat::CompositeCandidate> >& genInitialStates() {return genInitialStates_.get();}
     const edm::Handle<edm::View<pat::CompositeCandidate> >& genInitialStates(const std::string& collection) {return genInitialStates_.get(collection);}
-
 
    private:
     const edm::Event* currentEvent_;
@@ -148,6 +152,9 @@ namespace uwvv
     EventInfoHolder<std::vector<PileupSummaryInfo> > puInfo_;
     EventInfoHolder<GenEventInfoProduct> genEventInfo_;
     EventInfoHolder<LHEEventProduct> lheEventInfo_;
+    EventInfoHolder< double > prefweight_;
+    EventInfoHolder< double > prefweightup_;
+    EventInfoHolder< double > prefweightdown_;
     EventInfoHolder<edm::View<reco::GenJet> > genJets_;
     EventInfoHolder<edm::View<reco::GenParticle> > genParticles_;
     EventInfoHolder<edm::View<pat::CompositeCandidate> > initialStates_;
