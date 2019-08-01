@@ -146,7 +146,7 @@ void GenZZCleaner::produce(edm::Event& iEvent,
             }
           else if(pt > l3PtCut)
             nPassl3Pt++;
-
+          std::cout<<"lepEta: "<<daughters.at(d)->eta()<<std::endl;
           passEta &= std::abs(daughters.at(d)->eta()) < etaCut;
           passl4Pt &= pt > l4PtCut;
         }
