@@ -138,11 +138,14 @@ if options.year == "2016":
     options.inputFiles='/store/mc/RunIISummer16MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/221CC46F-2FC6-E611-8FFC-0CC47A1E0488.root'
     options.outputFile = 'ZZPowheg/ntuple2016.root'
 if options.year == "2017":
-    options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/3450B123-E8BF-E811-B895-FA163E9604CF.root'
-    options.outputFile = 'ExtraToniEvents/ntuple2017.root'
+    #options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/VBF_HToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/60000/3450B123-E8BF-E811-B895-FA163E9604CF.root'
+    options.inputFiles = '/store/mc/RunIIFall17MiniAODv2/ZZTo4L_13TeV_powheg_pythia8/MINIAODSIM/PU2017_12Apr2018_94X_mc2017_realistic_v14_ext2-v1/280000/E6CABE1D-2D78-E911-90C6-008CFA1C6458.root'
+    options.outputFile = 'ZZPowheg/ntuple2017.root'
 if options.year == "2018":
-    options.inputFiles = '/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/DCB7927B-269F-3B4B-9DA3-EFE07A37FC9E.root'
-    options.outputFile = 'ExtraToniEvents/ntuple2018.root'
+    #options.inputFiles = '/store/mc/RunIIAutumn18MiniAOD/ttH_HToZZ_4LFilter_M125_13TeV_powheg2_JHUGenV7011_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/60000/DCB7927B-269F-3B4B-9DA3-EFE07A37FC9E.root'
+    #options.inputFiles='/store/mc/RunIIAutumn18MiniAOD/ZZTo4L_TuneCP5_13TeV_powheg_pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15_ext2-v2/90000/F9BD3565-7BA4-604B-B7ED-994931E803B4.root'
+    options.inputFiles='file:ZZPowheg2018MiniAOD.root'
+    options.outputFile = 'ZZPowheg/ntuple2018.root'
 
 genLepChoices =  {"hardProcess" : "isHardProcess()",
         "hardProcessFS" : "fromHardProcessFinalState()",
@@ -275,6 +278,10 @@ FlowSteps = []
 
 #L1ECALPrefiring module for 2016 and 2017
 if options.isMC and (options.year == "2016" or options.year == "2017"):
+
+    from UWVV.Ntuplizer.templates.eventBranches import L1ECALPrefiringBranches  
+    extraInitialStateBranches.append(L1ECALPrefiringBranches)
+    
     from PhysicsTools.PatUtils.l1ECALPrefiringWeightProducer_cfi import l1ECALPrefiringWeightProducer
 
     if options.year == "2016":
@@ -285,6 +292,7 @@ if options.isMC and (options.year == "2016" or options.year == "2017"):
                 SkipWarnings = False)
 
     if options.year == "2017":
+        print "2017 L1Prefiring"
         process.prefiringweight = l1ECALPrefiringWeightProducer.clone(
                 DataEra = cms.string("2017BtoF"), #Use 2016BtoH for 2016
                 UseJetEMPt = cms.bool(False),
@@ -462,7 +470,7 @@ flow = FlowClass('flow', process, initialstate_chans=channels, **flowOpts)
 # meta info tree first
 process.metaInfo = cms.EDAnalyzer(
     'MetaTreeGenerator',
-    eventParams = makeEventParams(flow.finalTags(),options.year,options.isMC),
+    eventParams = makeEventParams(flow.finalTags()),
     datasetName = cms.string(options.datasetName),
     )
 process.metaTreePath = cms.Path(process.metaInfo)
@@ -514,8 +522,8 @@ for chan in channels:
         branches = makeBranchSet(chan, extraInitialStateBranches,
                                  extraIntermediateStateBranches,
                                  **extraFinalObjectBranches),
-        eventParams = makeEventParams(flow.finalTags(),options.year,options.isMC,chan)
-            if not options.isMC else makeEventParams(flow.finalTags(),options.year,options.isMC,chan),
+        eventParams = makeEventParams(flow.finalTags(),chan)
+            if not options.isMC else makeEventParams(flow.finalTags(),chan),
         triggers = trgBranches,
         filters = filterBranches,
         )

@@ -26,7 +26,7 @@ _l1ECALPrefiringParams = {
     }
 
 
-def makeEventParams(flowOutputs, year,isMC, channel='', **newParams):
+def makeEventParams(flowOutputs,channel='', **newParams):
     '''
     Makes a PSet for event info contruction. Defaults above are always there
     unless overridden by something in the flowOutputs (assumed to be in the
@@ -66,10 +66,9 @@ def makeEventParams(flowOutputs, year,isMC, channel='', **newParams):
 
     params.update(extraCollections)
     params.update(newParams)
-
-    #l1ECALPrefiring parameters for 2016&2017 and for MC
-    if isMC and (year=="2016" or year=="2017"):
-        params.update(_l1ECALPrefiringParams)
+    
+    #l1ECALPrefiring Params
+    params.update(_l1ECALPrefiringParams)
 
     for p in params:
         if not isinstance(params[p], _ParameterTypeBase):
