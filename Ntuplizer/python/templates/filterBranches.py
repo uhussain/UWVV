@@ -8,7 +8,7 @@ metAndBadMuonFilters = cms.PSet(
          'Flag_HBHENoiseIsoFilter',
          'Flag_EcalDeadCellTriggerPrimitiveFilter',
          'Flag_goodVertices',
-         'Flag_eeBadScFilter',
+         #'Flag_eeBadScFilter',
          'Flag_globalSuperTightHalo2016Filter',
          #'Flag_BadChargedCandidateFilter',#not recommended,under review
          'Flag_BadPFMuonFilter',
@@ -17,7 +17,7 @@ metAndBadMuonFilters = cms.PSet(
     Flag_HBHENoiseIsoFilterPaths = cms.vstring('Flag_HBHENoiseIsoFilter'),
     Flag_EcalDeadCellTriggerPrimitiveFilterPaths = cms.vstring('Flag_EcalDeadCellTriggerPrimitiveFilter'),
     Flag_goodVerticesPaths = cms.vstring('Flag_goodVertices'),
-    Flag_eeBadScFilterPaths = cms.vstring('Flag_eeBadScFilter'),
+    #Flag_eeBadScFilterPaths = cms.vstring('Flag_eeBadScFilter'),
     Flag_globalSuperTightHalo2016FilterPaths = cms.vstring('Flag_globalSuperTightHalo2016Filter'),
     #Flag_BadChargedCandidateFilterPaths = cms.vstring('Flag_BadChargedCandidateFilter'),
     Flag_BadPFMuonFilterPaths = cms.vstring('Flag_BadPFMuonFilter'),
@@ -58,7 +58,7 @@ metAndBadMuonFilters_2016 = cms.PSet(
          'Flag_HBHENoiseIsoFilter',
          'Flag_EcalDeadCellTriggerPrimitiveFilter',
          'Flag_goodVertices',
-         'Flag_eeBadScFilter',
+         #'Flag_eeBadScFilter',
          'Flag_globalSuperTightHalo2016Filter',
          #'Flag_BadChargedCandidateFilter',#not recommended,under review
          #'Flag_BadPFMuonFilter',#not available in 2016 miniAOD directly?
@@ -67,7 +67,7 @@ metAndBadMuonFilters_2016 = cms.PSet(
     Flag_HBHENoiseIsoFilterPaths = cms.vstring('Flag_HBHENoiseIsoFilter'),
     Flag_EcalDeadCellTriggerPrimitiveFilterPaths = cms.vstring('Flag_EcalDeadCellTriggerPrimitiveFilter'),
     Flag_goodVerticesPaths = cms.vstring('Flag_goodVertices'),
-    Flag_eeBadScFilterPaths = cms.vstring('Flag_eeBadScFilter'),
+    #Flag_eeBadScFilterPaths = cms.vstring('Flag_eeBadScFilter'),
     Flag_globalSuperTightHalo2016FilterPaths = cms.vstring('Flag_globalSuperTightHalo2016Filter'),
     #Flag_BadChargedCandidateFilterPaths = cms.vstring('Flag_BadChargedCandidateFilter'),
     #Flag_BadPFMuonFilterPaths = cms.vstring('Flag_BadPFMuonFilter'),#not available in 2016 miniAOD directly
