@@ -7,10 +7,14 @@ class JetBaseFlow(AnalysisFlowBase):
     def __init__(self, *args, **kwargs):
         if not hasattr(self, 'isMC'):
             self.isMC = kwargs.pop('isMC', True)
+        if not hasattr(self, 'year'):
+            self.year = kwargs.pop('year', '2016')
         super(JetBaseFlow, self).__init__(*args, **kwargs)
 
     def makeAnalysisStep(self, stepName, **inputs):
         step = super(JetBaseFlow, self).makeAnalysisStep(stepName, **inputs)
+        
+        LeptonSetup = cms.string(self.year)
 
         if stepName == 'preliminary':
             # Pileup veto
@@ -61,6 +65,7 @@ class JetBaseFlow(AnalysisFlowBase):
             jetIDEmbedding = cms.EDProducer(
                 "PATJetIDEmbedder",
                 src = step.getObjTag('j'),
+                setup = cms.int32(int(self.year)),
                 )
             step.addModule('jetIDEmbedding', jetIDEmbedding, 'j')
 
@@ -68,11 +73,13 @@ class JetBaseFlow(AnalysisFlowBase):
                 jetIDEmbedding_jesUp = cms.EDProducer(
                     "PATJetIDEmbedder",
                     src = step.getObjTag('j_jesUp'),
+                    setup = cms.int32(int(self.year)),
                     )
                 step.addModule('jetIDEmbeddingJESUp', jetIDEmbedding_jesUp, 'j_jesUp')
                 jetIDEmbedding_jesDown = cms.EDProducer(
                     "PATJetIDEmbedder",
                     src = step.getObjTag('j_jesDown'),
+                    setup = cms.int32(int(self.year)),
                     )
                 step.addModule('jetIDEmbeddingJESDown', jetIDEmbedding_jesDown, 'j_jesDown')
 
@@ -134,7 +141,7 @@ class JetBaseFlow(AnalysisFlowBase):
             # For now, we're not using the PU ID, but we'll store it in the
             # ntuples later
             selectionString = ('pt > 30. && abs(eta) < 4.7 && '
-                               'userFloat("idLoose") > 0.5')
+                               'userFloat("idTight") > 0.5')
 
             # # use medium PU ID
             # # PU IDs are stored as a userInt where the first three digits are
