@@ -1,2 +1,8 @@
-cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=1 muCalib=1 globalTag=102X_dataRun2_Prompt_v11
-#cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=1 muCalib=1 globalTag=102X_dataRun2_Sep2018Rereco_v1  
+echo "Running 2016 test data"
+cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=1 muCalib=1 isSync=0 year=2016
+
+#echo "Running 2017 signal MC"
+#cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=1 muCalib=1 isSync=0 year=2017
+
+#echo "Running 2018 signal MC"
+#cmsRun ntuplize_cfg.py channels=zz isMC=0 eCalib=1 muCalib=1 isSync=0 year=2018 
