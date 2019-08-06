@@ -9,7 +9,7 @@ It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [mini
 Current supported CMSSW release: `CMSSW_10_2_X`
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_10_2_15
+scram pro -n uwvv CMSSW CMSSW_10_2_13
 cd uwvv/src
 cmsenv
 git cms-init
