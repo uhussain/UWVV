@@ -9,15 +9,17 @@ if [ $# -eq 0 ]; then
 fi
 scripts_path=$CMSSW_BASE/src/UWVV/Utilities/scripts
 config_path=$scripts_path/CrabTemplates
-config=$config_path/local.noweights.txt
-if [[ $1 == *"AllLHEWeights"* ]]; then
-  config=$config_path/local.allweights.txt
+#config=$config_path/local.allweights2016.txt
+if [[ $1 == *"2016"* ]]; then
+  config=$config_path/local.allweights2016.txt
+elif [[ $1 == *"2017"* ]]; then
+  config=$config_path/local.allweights2017.txt 
+elif [[ $1 == *"2018"* ]]; then
+  config=$config_path/local.allweights2018.txt 
 elif [[ $1 == *"NoLHEWeights"* ]]; then
   config=$config_path/local.noweights.txt
 elif [[ $1 == *"LHEScaleWeights"* ]]; then
   config=$config_path/local.onlyscaleweights.txt
-elif [[ $1 == *"Run2016H"* ]]; then
-  config=$config_path/local.noweights.2016h.txt
 fi 
 (>&2 echo "Using config file $config")
 cp $config local.txt

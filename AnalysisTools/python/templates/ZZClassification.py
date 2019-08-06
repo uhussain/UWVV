@@ -5,11 +5,16 @@ import FWCore.ParameterSet.Config as cms
 
 class ZZClassification(JetQuarkGluonTagging):
     def __init__(self, *args, **kwargs):
+        if not hasattr(self, 'year'):
+            self.year = kwargs.pop('year', '2016')
+
         super(ZZClassification, self).__init__(*args, **kwargs)
 
     def makeAnalysisStep(self, stepName, **inputs):
         step = super(ZZClassification, self).makeAnalysisStep(stepName, **inputs)
 
+        LeptonSetup = cms.string(self.year)
+        
         if stepName == 'initialStateEmbedding':
             meEmbedding4e = cms.EDProducer(
                 "ZZDiscriminantEmbedderEEEE",
@@ -49,7 +54,15 @@ class ZZClassification(JetQuarkGluonTagging):
                     ),
                 )
             step.addModule('meEmbedding4m', meEmbedding4m, 'mmmm')
-                
+            
+             
+            if LeptonSetup=="2016":
+                btagWP = cms.double(0.6321);
+            if LeptonSetup=="2018":
+                btagWP = cms.double(0.4941);
+            if LeptonSetup=="2018":
+                btagWP = cms.double(0.4184);
+
             categoryEmbedding4e = cms.EDProducer(
                 'ZZCategoryEmbedder',
                 src = step.getObjTag('eeee'),
@@ -57,8 +70,8 @@ class ZZClassification(JetQuarkGluonTagging):
                 muonSrc = step.getObjTag('m'),
                 jetSrc = step.getObjTag('j'),
                 leptonSelection = cms.string('userFloat("{}Tight") > 0.5 && userFloat("{}") > 0.5'.format(self.getZZIDLabel(), self.getZZIsoLabel())),
-                bDiscriminator = cms.string('pfCombinedInclusiveSecondaryVertexV2BJetTags'),
-                bDiscriminatorCut = cms.double(0.800),
+                bDiscriminator = cms.string('pfDeepCSVJetTags:probb'),# + pfDeepCSVJetTags:probbb'),
+                bDiscriminatorCut = cms.double(btagWP),
                 )
             step.addModule('categoryEmbedding4e', categoryEmbedding4e, 'eeee')
 
@@ -69,8 +82,8 @@ class ZZClassification(JetQuarkGluonTagging):
                 muonSrc = step.getObjTag('m'),
                 jetSrc = step.getObjTag('j'),
                 leptonSelection = cms.string('userFloat("{}Tight") > 0.5 && userFloat("{}") > 0.5'.format(self.getZZIDLabel(), self.getZZIsoLabel())),
-                bDiscriminator = cms.string('pfCombinedInclusiveSecondaryVertexV2BJetTags'),
-                bDiscriminatorCut = cms.double(0.800),
+                bDiscriminator = cms.string('pfDeepCSVJetTags:probb'),#+ pfDeepCSVJetTags:probbb'),
+                bDiscriminatorCut = cms.double(btagWP),
                 )
             step.addModule('categoryEmbedding2e2m', categoryEmbedding2e2m, 'eemm')
 
@@ -81,8 +94,8 @@ class ZZClassification(JetQuarkGluonTagging):
                 muonSrc = step.getObjTag('m'),
                 jetSrc = step.getObjTag('j'),
                 leptonSelection = cms.string('userFloat("{}Tight") > 0.5 && userFloat("{}") > 0.5'.format(self.getZZIDLabel(), self.getZZIsoLabel())),
-                bDiscriminator = cms.string('pfCombinedInclusiveSecondaryVertexV2BJetTags'),
-                bDiscriminatorCut = cms.double(0.800),
+                bDiscriminator = cms.string('pfDeepCSVJetTags:probb'),# + pfDeepCSVJetTags:probbb'),
+                bDiscriminatorCut = cms.double(btagWP),
                 )
             step.addModule('categoryEmbedding4m', categoryEmbedding4m, 'mmmm')
 

@@ -73,6 +73,7 @@ configParams = [
     #'isSync=%i' % (1 if "WZ" in dataset or "DYJets" in dataset else 0),
     'isMC=%d' % isMC,
     'datasetName=%s' % dataset,
+    "year=%s" % localSettings.get("local", "year"),
     "channels=%s" % localSettings.get("local", "channels"),
     "lheWeights=%s" % (localSettings.get("local", "lheWeights") if isMC else "0"),
     "eCalib=%s" % localSettings.get("local", "eCalib"),
@@ -93,7 +94,9 @@ if isMC:
 else:
     # Since a PD will have several eras, add conditions to name to differentiate
     config.General.requestName = '_'.join([campaign_name, primaryDS, conditions])
-    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
+    #config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
+    #2016 JSON
+    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_ReReco_07Aug2017_Collisions16_JSON.txt'
     #Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt - Jobs submitted on july31
     #Cert_314472-317591_13TeV_PromptReco_Collisions18_JSON.txt# Used by HZZ group for their first look
     #config.Data.lumiMask= 'Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt' July12
@@ -104,10 +107,10 @@ else:
     #config.General.requestName = '_'.join([campaign_name, primaryDS, conditions, "resubmit"])
     #config.Data.lumiMask ='crab_%s/results/notFinishedLumis.json' % config.General.requestName 
     
-    config.Data.splitting = 'LumiBased'
-    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
-#config.Data.splitting = 'Automatic'
-#config.Data.unitsPerJob = 180
+    #config.Data.splitting = 'LumiBased'
+    #config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+config.Data.splitting = 'Automatic'
+config.Data.unitsPerJob = 180
 config.Data.totalUnits = -1
 
 # Max requestName is 100 characters
@@ -139,7 +142,7 @@ outdir = localSettings.get("local", "outLFNDirBase").replace(
 #    "$USER", getUsernameFromSiteDB()).replace("$DATE", "25Jan2019")
 # Useful for VBFNLO samples
 #config.Site.whitelist = ['T2_DE_DESY']
-config.Site.blacklist = ['T2_ES_IFCA']
+#config.Site.blacklist = ['T2_ES_IFCA']
 config.Data.outLFNDirBase = outdir 
 config.Data.ignoreLocality = False
 
