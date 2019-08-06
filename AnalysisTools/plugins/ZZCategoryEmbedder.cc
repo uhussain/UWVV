@@ -129,7 +129,7 @@ void ZZCategoryEmbedder::produce(edm::Event& iEvent, const edm::EventSetup& iSet
   unsigned nBJets = 0;
   for(size_t j = 0; j < nJets; ++j)
     {
-      if(jets->at(j).bDiscriminator(bDiscrimLabel) > bDiscrimCut)
+      if((jets->at(j).bDiscriminator(bDiscrimLabel) + jets->at(j).bDiscriminator(bDiscrimLabel+"b"))  > bDiscrimCut)
         ++nBJets;
     }
 

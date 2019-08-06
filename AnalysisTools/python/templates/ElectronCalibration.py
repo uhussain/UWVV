@@ -41,7 +41,7 @@ class ElectronCalibration(AnalysisFlowBase):
                 setupEgammaPostRecoSeq(self.process,
                         runEnergyCorrections=True,
                         runVID=True,
-                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Summer16_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
+                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff','RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Summer16_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
                         era='2016-Legacy')
 
             if LeptonSetup=="2017":
@@ -55,7 +55,7 @@ class ElectronCalibration(AnalysisFlowBase):
                 setupEgammaPostRecoSeq(self.process,
                         runEnergyCorrections=True,
                         runVID=True,
-                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Autumn18_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
+                        eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff','RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Autumn18_ID_ISO_cff','RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff'],
                         era='2018-Prompt'
                         )
             

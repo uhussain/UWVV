@@ -59,6 +59,7 @@ triggerBranches_2016 = cms.PSet(
     HLT_IsoTkMu22Paths = cms.vstring('HLT_IsoTkMu22_v[0-9]+'),#2016SingleMu
     HLT_IsoMu24Paths = cms.vstring('HLT_IsoMu24_v[0-9]+'),#2016SingleMu
     HLT_IsoTkMu24Paths = cms.vstring('HLT_IsoTkMu24_v[0-9]+'),#2016SingleMu
+    
     trigResultsSrc = cms.InputTag("TriggerResults", "", "HLT"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
 
@@ -104,6 +105,7 @@ triggerBranches_2017 = cms.PSet(
     HLT_Ele38_WPTight_GsfPaths = cms.vstring('HLT_Ele38_WPTight_Gsf_v[0-9]+'),#2017SingleEle
     HLT_Ele40_WPTight_GsfPaths = cms.vstring('HLT_Ele40_WPTight_Gsf_v[0-9]+'),#2017SingleEle
     HLT_IsoMu27Paths = cms.vstring('HLT_IsoMu27_v[0-9]+'),#2017SingleMu
+    
     trigResultsSrc = cms.InputTag("TriggerResults", "", "HLT"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
 
@@ -140,6 +142,7 @@ triggerBranches_2018 = cms.PSet(
     HLT_TripleMu_12_10_5Paths = cms.vstring('HLT_TripleMu_12_10_5_v[0-9]+'),#2018triMu
     HLT_Ele32_WPTight_GsfPaths = cms.vstring('HLT_Ele32_WPTight_Gsf_v[0-9]+'),#2018SingleEle
     HLT_IsoMu24Paths = cms.vstring('HLT_IsoMu24_v[0-9]+'),#2018SingleMu
+    
     trigResultsSrc = cms.InputTag("TriggerResults", "", "HLT"),
     trigPrescaleSrc = cms.InputTag("patTrigger"),
 

@@ -114,6 +114,8 @@ void PATMuonZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup& iSe
 
   iEvent.getByToken(vtxSrcToken_,vertices);
   
+  const reco::Vertex& pv = *vertices->begin();
+  
   iEvent.getByToken(rhoToken_, rhoHandle);
 
   for(edm::View<pat::Muon>::const_iterator mi = muonsIn->begin();
@@ -145,6 +147,22 @@ void PATMuonZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup& iSe
       //Now both electrons and muons have BDT for ZZTightID and thats how its stored in "leptonBranches"
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && (passBDT(mptr) || trackerHighPtID))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && (passBDT(mptr) || trackerHighPtID))); // 1 for true, 0 for false
+      //Some cut-based IDs for validation with other frameworks if needed 
+      out->back().addUserInt("isTightMuon",mi->isTightMuon(pv));
+      out->back().addUserInt("CutBasedIdLoose",mi->passed(reco::Muon::CutBasedIdLoose));
+      out->back().addUserInt("CutBasedIdMedium",mi->passed(reco::Muon::CutBasedIdMedium));
+      //out->back().addUserInt("CutBasedIdMediumPrompt",mi->passed(reco::Muon::CutBasedIdMediumPrompt));
+      out->back().addUserInt("CutBasedIdTight",mi->passed(reco::Muon::CutBasedIdTight));
+      //out->back().addUserInt("CutBasedIdGlobalHighPt",mi->passed(reco::Muon::CutBasedIdGlobalHighPt));
+      //out->back().addUserInt("CutBasedIdTrkHighPt",mi->passed(reco::Muon::CutBasedIdTrkHighPt));
+      //out->back().addUserInt("PFIsoVeryLoose",mi->passed(reco::Muon::PFIsoVeryLoose));
+      out->back().addUserInt("PFIsoLoose",mi->passed(reco::Muon::PFIsoLoose));
+      out->back().addUserInt("PFIsoMedium",mi->passed(reco::Muon::PFIsoMedium));
+      out->back().addUserInt("PFIsoTight",mi->passed(reco::Muon::PFIsoTight));
+      out->back().addUserInt("PFIsoVeryTight",mi->passed(reco::Muon::PFIsoVeryTight));
+      //out->back().addUserInt("TkIsoLoose",mi->passed(reco::Muon::TkIsoLoose));
+      //out->back().addUserInt("TkIsoTight",mi->passed(reco::Muon::TkIsoTight));
+      //out->back().addUserInt("SoftCutBasedId",mi->passed(reco::Muon::SoftCutBasedId));
     }
 
   iEvent.put(std::move(out));

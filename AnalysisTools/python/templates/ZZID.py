@@ -30,7 +30,7 @@ class ZZID(AnalysisFlowBase):
                     idCutHighPtMedEta = cms.double(0.35871320305),
                     idCutHighPtHighEta = cms.double(-0.57451499543),
                     missingHitsCut = cms.int32(999),
-                    ptCut = cms.double(7.), 
+                    ptCut = cms.double(5.), 
                 )
             if LeptonSetup=="2017":
                 eIDEmbedder = cms.EDProducer(
@@ -46,7 +46,7 @@ class ZZID(AnalysisFlowBase):
                     idCutHighPtMedEta = cms.double(0.96919224579),
                     idCutHighPtHighEta = cms.double(0.79349796445),
                     missingHitsCut = cms.int32(999),
-                    ptCut = cms.double(7.), 
+                    ptCut = cms.double(5.), 
                 )
             if LeptonSetup=="2018":
                 print "LeptonSetup:",LeptonSetup
@@ -63,7 +63,7 @@ class ZZID(AnalysisFlowBase):
                     idCutHighPtMedEta = cms.double(0.0047338429),
                     idCutHighPtHighEta = cms.double(-0.60423293572),
                     missingHitsCut = cms.int32(999),
-                    ptCut = cms.double(7.), 
+                    ptCut = cms.double(5.), 
                 )
                 #HZZWP = cms.string("mvaEleID-Fall17-iso-V2-wpHZZ"),#2018 version
 
@@ -73,7 +73,7 @@ class ZZID(AnalysisFlowBase):
                 vtxSrc = step.getObjTag('v'),
                 rhoSrc = cms.InputTag("fixedGridRhoFastjetAll"),
                 setup = cms.int32(int(self.year)),
-                ptCut = cms.double(5.),
+                ptCut = cms.double(3.),
                 idLabel = cms.string(self.getZZIDLabel()),
                 )
 

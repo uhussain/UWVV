@@ -148,6 +148,12 @@ void PATElectronZZIDEmbedder::produce(edm::Event& iEvent, const edm::EventSetup&
       //        << iEvent.id().event() << std::endl;
       out->back().addUserFloat(idLabel_+"TightNoVtx", float(idResultNoVtx && passBDT(eptr))); // 1 for true, 0 for false
       out->back().addUserFloat(idLabel_+"Tight", float(idResult && passBDT(eptr))); // 1 for true, 0 for false
+
+      //Also add some cut-based Run2 electron IDs for validation
+      out->back().addUserFloat("Loose",float(ei->electronID("cutBasedElectronID-Fall17-94X-V2-loose")));
+      out->back().addUserFloat("Medium",float(ei->electronID("cutBasedElectronID-Fall17-94X-V2-medium")));
+      out->back().addUserFloat("Tight",float(ei->electronID("cutBasedElectronID-Fall17-94X-V2-tight")));
+      out->back().addUserFloat("Veto",float(ei->electronID("cutBasedElectronID-Fall17-94X-V2-veto")));
       //-- Scale and smearing corrections are now stored in the miniAOD https://twiki.cern.ch/twiki/bin/view/CMS/EgammaMiniAODV2#Energy_Scale_and_Smearing
       float uncorrected_pt = ei->pt();
       float corr_factor = ei->userFloat("ecalTrkEnergyPostCorr") / ei->energy();//get scale/smear correction factor directly from miniAOD       
