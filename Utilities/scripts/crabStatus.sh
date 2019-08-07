@@ -1,5 +1,5 @@
 #!/bin/bash
-Date=25Jan2019
+Date=06Aug2019
 
 echo "Checking status of crab jobs"
 

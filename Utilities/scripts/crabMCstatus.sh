@@ -1,7 +1,7 @@
 #!/bin/bash
-Date=09Mar2019
+Date=06Aug2019
 
-echo "Status of ZZ4l 2018 Signal crab jobs"
+echo "Status of ZZ4l 2016 crab jobs"
 
 source /cvmfs/cms.cern.ch/crab3/crab.sh
 
