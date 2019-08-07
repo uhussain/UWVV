@@ -126,8 +126,10 @@ config.JobType.pyCfgParams = configParams
 config.General.workArea = '.'
 config.General.transferOutputs = True
 config.General.transferLogs = True
+config.General.instance = 'preprod'
 
 config.JobType.pluginName = 'ANALYSIS'
+config.JobType.allowUndistributedCMSSW = True 
 config.JobType.psetName = '%s/src/UWVV/Ntuplizer/test/ntuplize_cfg.py' % os.environ["CMSSW_BASE"]
 config.JobType.numCores = 1
 config.JobType.inputFiles = ["%s/src/UWVV/data" % os.environ["CMSSW_BASE"]]
