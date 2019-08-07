@@ -9,11 +9,11 @@ It uses the [CMSSW framework](https://github.com/cms-sw/cmssw) and expects [mini
 Current supported CMSSW release: `CMSSW_10_2_X`
 
 ```bash
-scram pro -n uwvv CMSSW CMSSW_10_2_13
+scram pro -n uwvv CMSSW CMSSW_10_2_15
 cd uwvv/src
 cmsenv
 git cms-init
-git clone -b Run2Legacy --recursive git@github.com:uhussain/UWVV.git
+git clone --recursive git@github.com:uhussain/UWVV.git
 cd UWVV
 source recipe/setup.sh
 pushd ..
