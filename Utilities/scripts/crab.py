@@ -95,13 +95,21 @@ else:
     # Since a PD will have several eras, add conditions to name to differentiate
     config.General.requestName = '_'.join([campaign_name, primaryDS, conditions])
     #config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'
-    #2016 JSON
-    config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_ReReco_07Aug2017_Collisions16_JSON.txt'
-    #Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt - Jobs submitted on july31
-    #Cert_314472-317591_13TeV_PromptReco_Collisions18_JSON.txt# Used by HZZ group for their first look
-    #config.Data.lumiMask= 'Cert_314472-318876_13TeV_PromptReco_Collisions18_JSON.txt' July12
-    #'/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt'
-    #'/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
+    if "Run2016" in conditions:
+        #2016 JSON
+        config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_ReReco_07Aug2017_Collisions16_JSON.txt'
+        print "Golden JSON: Cert_271036-284044_13TeV_ReReco_07Aug2017_Collisions16_JSON.txt",
+    elif "Run2017" in conditions:
+        #2017 JSON
+        config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/ReReco/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt'
+        print "Golden JSON: Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt",
+    elif "Run2018" in conditions:
+        #2018 JSON
+        config.Data.lumiMask = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions18/13TeV/PromptReco/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt' 
+        print "Golden JSON: Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt",
+    else:
+        print "What kind of JSON are you running for?"
+        exit()
     # Comment out in the (hopefully very rare) case where resubmit needs to 
     # be done manually
     #config.General.requestName = '_'.join([campaign_name, primaryDS, conditions, "resubmit"])
@@ -109,8 +117,13 @@ else:
     
     #config.Data.splitting = 'LumiBased'
     #config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
-config.Data.splitting = 'Automatic'
-config.Data.unitsPerJob = 180
+#CRAB server blows up if we run "Automatic splitting" on these DY Datasets so require them to be split "FileBased"
+if "DYJetsToLL_M-50" not in primaryDS:
+    config.Data.splitting = 'Automatic'
+    config.Data.unitsPerJob = 180
+else:
+    config.Data.splitting = 'FileBased'
+    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
 config.Data.totalUnits = -1
 
 # Max requestName is 100 characters
@@ -126,7 +139,9 @@ config.JobType.pyCfgParams = configParams
 config.General.workArea = '.'
 config.General.transferOutputs = True
 config.General.transferLogs = True
-config.General.instance = 'preprod'
+#This is a temporary fix to the problem with Automatic splitting in crab
+if "DYJetsToLL_M-50" not in primaryDS:
+    config.General.instance = 'preprod'
 
 config.JobType.pluginName = 'ANALYSIS'
 config.JobType.allowUndistributedCMSSW = True 
