@@ -68,6 +68,15 @@ elif (isPrompt):
 else: 
     globalTag=(localSettings.get("local", "dataGlobalTag"))
 print(globalTag)
+print ("primaryDS: ",primaryDS.lower())
+if isMC:
+    if (("mcfm" in primaryDS.lower()) or ("phantom" in primaryDS.lower()) or ("sherpa" in primaryDS.lower())):
+        lheWeight=0
+    else:
+        lheWeight=(localSettings.get("local", "lheWeights"))
+else:
+    lheWeight=0
+print("lheWeights: ",lheWeight)
 configParams = [
     'isSync=0',
     #'isSync=%i' % (1 if "WZ" in dataset or "DYJets" in dataset else 0),
@@ -75,7 +84,7 @@ configParams = [
     'datasetName=%s' % dataset,
     "year=%s" % localSettings.get("local", "year"),
     "channels=%s" % localSettings.get("local", "channels"),
-    "lheWeights=%s" % (localSettings.get("local", "lheWeights") if isMC else "0"),
+    "lheWeights=%s" % lheWeight,
     "eCalib=%s" % localSettings.get("local", "eCalib"),
     "muCalib=%s" % localSettings.get("local", "muCalib"),
     "globalTag=%s" % globalTag,
