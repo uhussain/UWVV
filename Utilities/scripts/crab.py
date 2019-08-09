@@ -56,7 +56,7 @@ def getUnitsPerJob(ds):
         else:
             return 150
     else:
-        return 80
+        return 20
 
 config = config()
 config.Data.inputDataset = dataset
@@ -131,8 +131,10 @@ if "DYJetsToLL_M-50" not in primaryDS:
     config.Data.splitting = 'Automatic'
     config.Data.unitsPerJob = 180
 else:
+    print("Its a DYJetsToLL_M-50 dataset")
     config.Data.splitting = 'FileBased'
-    config.Data.unitsPerJob = getUnitsPerJob(primaryDS)
+    config.Data.unitsPerJob = 1
+    
 config.Data.totalUnits = -1
 
 # Max requestName is 100 characters
