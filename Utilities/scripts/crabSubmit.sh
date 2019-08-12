@@ -10,15 +10,21 @@ fi
 scripts_path=$CMSSW_BASE/src/UWVV/Utilities/scripts
 config_path=$scripts_path/CrabTemplates
 #config=$config_path/local.allweights2016.txt
-if [[ $1 == *"2016"* ]]; then
+if [[ $2 == "2016" ]]; then
   config=$config_path/local.allweights2016.txt
-elif [[ $1 == *"2017"* ]]; then
+elif [[ $2 == "2017" ]]; then
   config=$config_path/local.allweights2017.txt 
-elif [[ $1 == *"2018"* ]]; then
-  config=$config_path/local.allweights2018.txt 
-elif [[ $1 == *"NoLHEWeights"* ]]; then
+elif [[ $2 == "2018" ]]; then
+  config=$config_path/local.allweights2018.txt
+elif [[ $2 == "ZL2016" ]]; then
+  config=$config_path/local.ZL2016.txt
+elif [[ $2 == "ZL2017" ]]; then
+  config=$config_path/local.ZL2017.txt 
+elif [[ $2 == "ZL2018" ]]; then
+  config=$config_path/local.ZL2018.txt
+elif [[ $2 == *"NoLHEWeights"* ]]; then
   config=$config_path/local.noweights.txt
-elif [[ $1 == *"LHEScaleWeights"* ]]; then
+elif [[ $2 == *"LHEScaleWeights"* ]]; then
   config=$config_path/local.onlyscaleweights.txt
 fi 
 (>&2 echo "Using config file $config")
