@@ -1,7 +1,8 @@
 from UWVV.AnalysisTools.AnalysisFlowBase import AnalysisFlowBase
-import os
 import FWCore.ParameterSet.Config as cms
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
+from UWVV.Utilities.helpers import UWVV_BASE_PATH
+from os import path
 
 class JetBaseFlow(AnalysisFlowBase):
     def __init__(self, *args, **kwargs):
@@ -9,8 +10,8 @@ class JetBaseFlow(AnalysisFlowBase):
             self.isMC = kwargs.pop('isMC', True)
         if not hasattr(self, 'year'):
             self.year = kwargs.pop('year', '2016')
-        if not hasattr(self, 'runningLocal'):
-            self.runningLocal = kwargs.pop('runningLocal', True)
+        #if not hasattr(self, 'runningLocal'):
+        #    self.runningLocal = kwargs.pop('runningLocal', True)
         super(JetBaseFlow, self).__init__(*args, **kwargs)
 
     def makeAnalysisStep(self, stepName, **inputs):
@@ -34,26 +35,35 @@ class JetBaseFlow(AnalysisFlowBase):
                            'puID', puID='fullId')
             
             if LeptonSetup=="2018":
-                cmsswversion=os.environ['CMSSW_VERSION']
-                sqlitePath = '/{0}/src/UWVV/data/{1}.db'.format(cmsswversion,'Autumn18_V16_MC' if self.isMC else 'Autumn18_RunABCD_V16_DATA')
-                if self.runningLocal:
-                    sqlitePath = '../../data/{0}.db'.format('Autumn18_V16_MC' if self.isMC else 'Autumn18_RunABCD_V16_DATA' )
+                sqlitePath = '{0}.db'.format('Autumn18_V16_MC' if self.isMC else 'Autumn18_RunABCD_V16_DATA')
+                #if self.runningLocal:
+                #sqlitePath = '{0}.db'.format('Autumn18_V16_MC' if self.isMC else 'Autumn18_RunABCD_V16_DATA' )
 
                 JECtag="JetCorrectorParametersCollection_Autumn18_RunABCD_V16_DATA_AK4PFchs"
                 if self.isMC:
                         JECtag="JetCorrectorParametersCollection_Autumn18_V16_MC_AK4PFchs"
+                print "JECtag: ",JECtag
 
-                self.process.jec = cms.ESSource("PoolDBESSource",
-                        DBParameters = cms.PSet(messageLevel = cms.untracked.int32(0)),
-                        timetype = cms.string('runnumber'),
-                        toGet = cms.VPSet(cms.PSet(record = cms.string('JetCorrectionsRecord'),
-                                                    tag    = cms.string(JECtag),
-                                                    label  = cms.untracked.string('AK4PFchs')
-                                                     )
+                self.process.load("CondCore.CondDB.CondDB_cfi")
+                JECDBESSource = cms.ESSource(
+                    "PoolDBESSource",
+                    self.process.CondDB,
+                    toGet = cms.VPSet(cms.PSet(record = cms.string('JetCorrectionsRecord'),
+                                            tag    = cms.string(JECtag),
+                                            label  = cms.untracked.string('AK4PFchs')
+                                             )
                                         ),
-                                 connect = cms.string('sqlite:'+sqlitePath)
-                )
-                self.process.es_prefer_jec = cms.ESPrefer('PoolDBESSource','jec')
+                    )
+
+                # Use this version to get it from a local db file
+                dbPath = 'sqlite_file:' + path.join(UWVV_BASE_PATH, 'data',  
+                                                    sqlitePath)
+                JECDBESSource.connect = cms.string(dbPath)
+
+                step.addModule('JECDBESSource', JECDBESSource)
+
+                self.process.es_prefer_jec = cms.ESPrefer('PoolDBESSource', 'JECDBESSource')
+
 
             # Jet energy corrections
             corrections = ['L1FastJet', 'L2Relative', 'L3Absolute',]
