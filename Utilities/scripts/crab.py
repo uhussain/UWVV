@@ -151,8 +151,8 @@ config.General.workArea = '.'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 #This is a temporary fix to the problem with Automatic splitting in crab
-if "DYJetsToLL_M-50" not in primaryDS:
-    config.General.instance = 'preprod'
+#if "DYJetsToLL_M-50" not in primaryDS:
+#config.General.instance = 'preprod'
 
 config.JobType.pluginName = 'ANALYSIS'
 config.JobType.allowUndistributedCMSSW = True 
